@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>localhost/en/blog/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="localhost/blog/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="localhost/en/blog/"
+                />
+  </url>
+  
+  <url>
+    <loc>localhost/en/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="localhost/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="localhost/en/"
+                />
+  </url>
+  
+  <url>
+    <loc>localhost/en/series/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="localhost/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="localhost/en/series/"
+                />
+  </url>
+  
+  <url>
+    <loc>localhost/en/tags/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="localhost/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="localhost/en/tags/"
+                />
+  </url>
+  
+</urlset>
