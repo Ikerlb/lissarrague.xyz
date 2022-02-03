@@ -17,12 +17,8 @@ defaultContentLanguage = "en"
 
 
   [params.logo]
-    logoText     = "/lissarrague/"
+    logoText     = "/"
     logoHomeLink = "/"
-
-  [[params.social]]
-    name = "twitter"
-    url  = "https://twitter.com/ikerlissarrague"
 
   [[params.social]]
     name = "email"

@@ -5,11 +5,7 @@
     <link>/</link>
     <description>Recent content in about on about me</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>en-us</language><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>my projects</title>
       <link>/projects/</link>
@@ -25,7 +21,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/reading_log/</guid>
-      <description>2021  Designing data intensive applications: can&amp;rsquo;t recomend it enough. Programming Rust: Fast, Safe Systems Development: i love rust and this is a great book but afaik outside of all the (wonderful) cli tooling being built in rust, i see more interesting projects being built with go (if you could point me to some interesting rust projects, i would love to see them!). which led me to the my next book Learning Go: An Idiomatic Approach to Real-World Go Programming: the book is ok but as much as i try i can&amp;rsquo;t seem to get really excited about go.</description>
+      <description>2022  Building Event-Driven Microservices: Leveraging Organizational Data at Scale: Currently reading it. The Man from the Future: Currently reading it. Deep Learning with Python: Currently reading it.  2021  Designing data intensive applications: can&amp;rsquo;t recomend it enough. Programming Rust: Fast, Safe Systems Development: i love rust and this is a great book but afaik outside of all the (wonderful) cli tooling being built in rust, i see more interesting projects being built with go (if you could point me to some interesting rust projects, i would love to see them!</description>
     </item>
     
   </channel>
