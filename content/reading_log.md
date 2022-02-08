@@ -5,9 +5,9 @@ title = "reading log"
 
 ## 2022
 
-- [Building Event-Driven Microservices: Leveraging Organizational Data at Scale](https://www.amazon.com/Building-Event-Driven-Microservices-Leveraging-Organizational/dp/1492057894): Currently reading it.
-- [The Man from the Future](https://www.amazon.com/Man-Future-Visionary-Life-Neumann/dp/1324003995): Currently reading it. 
-- [Deep Learning with Python](https://www.amazon.com/Deep-Learning-Python-Francois-Chollet/dp/1617294438): Currently reading it. 
+- [Building Event-Driven Microservices: Leveraging Organizational Data at Scale](https://www.amazon.com/Building-Event-Driven-Microservices-Leveraging-Organizational/dp/1492057894): currently reading it.
+- [The Man from the Future](https://www.amazon.com/Man-Future-Visionary-Life-Neumann/dp/1324003995): currently reading it. 
+- [Deep Learning with Python](https://www.amazon.com/Deep-Learning-Python-Francois-Chollet/dp/1617294438): currently reading it. 
 
 ## 2021
 

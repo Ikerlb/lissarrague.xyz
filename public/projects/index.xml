@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>my projects on about me</title>
+    <link>/projects/</link>
+    <description>Recent content in my projects on about me</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 08 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="/projects/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mandelrust</title>
+      <link>/projects/mandelrust/</link>
+      <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/mandelrust/</guid>
+      <description>i basically wanted to have a random zoom on an interesting mandelbrot point because:
+ i wanted to try out rust in an aws lambda function i wanted to build that lambda function with cdk i was kinda hyped to use rust after reading about it  what i learned
+ i think i like aws better than gcp. i really really really like rust and will keep using it as much as i can i will never ever find mandelbrot set uninteresting  if you&amp;rsquo;re into it, you can find the source code in here</description>
+    </item>
+    
+  </channel>
+</rss>
