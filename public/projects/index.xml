@@ -13,9 +13,9 @@
       <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>/projects/mandelrust/</guid>
-      <description>i basically wanted to have a random zoom on an interesting mandelbrot point because:
- i wanted to try out rust in an aws lambda function i wanted to build that lambda function with cdk i was kinda hyped to use rust after reading about it  what i learned
- i think i like aws better than gcp. i really really really like rust and will keep using it as much as i can i will never ever find mandelbrot set uninteresting  if you&amp;rsquo;re into it, you can find the source code in here</description>
+      <description>click to see demo! i basically wanted to have a random zoom on an interesting mandelbrot point because:
+ i wanted to try out rust in an aws lambda function i wanted to build that lambda function with cdk (i&amp;rsquo;m kinda procrastinating from learning/using terraform) i was kinda hyped to use rust after reading about it  what i learned
+ i&amp;rsquo;m starting to dig aws hehe. i really really really like rust and will keep using it as much as i can i will never ever find mandelbrot set uninteresting rust lambda startup time is unlike anything i&amp;rsquo;ve ever seen.</description>
     </item>
     
   </channel>
