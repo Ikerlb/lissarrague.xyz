@@ -5,16 +5,19 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="2022  Building Event-Driven Microservices: Leveraging Organizational Data at Scale: currently reading it. The Man from the Future: currently reading it. Deep Learning with Python: currently reading it.  2021  Designing data intensive applications: can&amp;rsquo;t recomend it enough. Programming Rust: Fast, Safe Systems Development: i love rust and this is a great book but afaik outside of all the (wonderful) cli tooling being built in rust, i see more interesting projects being built with go (if you could point me to some interesting rust projects, i would love to see them!" />
+<meta name="description" content="you can find the description here and you can find the code here
+for part one, it is a very straight forward simulation.
+(defn step-part1 [x y cmd i] (cond (= cmd &amp;#34;forward&amp;#34;) [(&#43; x i) y] (= cmd &amp;#34;up&amp;#34;) [x (- y i)] :else [x (&#43; y i)])) part two is very similar but we also need to keep track of the aim
+(defn step-part2 [x y aim cmd i] (cond (= cmd &amp;#34;forward&amp;#34;) [(&#43; x i) (- y (* aim i)) aim] (= cmd &amp;#34;up&amp;#34;) [x y (&#43; aim i)] :else [x y (- aim i)]))	" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
-<link rel="canonical" href="/reading_log/" />
+<link rel="canonical" href="/projects/advent-of-code-2021/day2/" />
 
 
     <title>
         
-            reading log :: about me  — lissarrague.xyz
+            day 2 :: about me  — lissarrague.xyz
         
     </title>
 
@@ -40,21 +43,35 @@
 
 
 
-<meta itemprop="name" content="reading log">
-<meta itemprop="description" content="2022  Building Event-Driven Microservices: Leveraging Organizational Data at Scale: currently reading it. The Man from the Future: currently reading it. Deep Learning with Python: currently reading it.  2021  Designing data intensive applications: can&rsquo;t recomend it enough. Programming Rust: Fast, Safe Systems Development: i love rust and this is a great book but afaik outside of all the (wonderful) cli tooling being built in rust, i see more interesting projects being built with go (if you could point me to some interesting rust projects, i would love to see them!">
-
-<meta itemprop="wordCount" content="213">
+<meta itemprop="name" content="day 2">
+<meta itemprop="description" content="you can find the description here and you can find the code here
+for part one, it is a very straight forward simulation.
+(defn step-part1 [x y cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) y] (= cmd &#34;up&#34;) [x (- y i)] :else [x (&#43; y i)])) part two is very similar but we also need to keep track of the aim
+(defn step-part2 [x y aim cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) (- y (* aim i)) aim] (= cmd &#34;up&#34;) [x y (&#43; aim i)] :else [x y (- aim i)]))	"><meta itemprop="datePublished" content="2021-12-02T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-12-02T00:00:00+00:00" />
+<meta itemprop="wordCount" content="98">
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="reading log"/>
-<meta name="twitter:description" content="2022  Building Event-Driven Microservices: Leveraging Organizational Data at Scale: currently reading it. The Man from the Future: currently reading it. Deep Learning with Python: currently reading it.  2021  Designing data intensive applications: can&rsquo;t recomend it enough. Programming Rust: Fast, Safe Systems Development: i love rust and this is a great book but afaik outside of all the (wonderful) cli tooling being built in rust, i see more interesting projects being built with go (if you could point me to some interesting rust projects, i would love to see them!"/>
+<meta name="twitter:title" content="day 2"/>
+<meta name="twitter:description" content="you can find the description here and you can find the code here
+for part one, it is a very straight forward simulation.
+(defn step-part1 [x y cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) y] (= cmd &#34;up&#34;) [x (- y i)] :else [x (&#43; y i)])) part two is very similar but we also need to keep track of the aim
+(defn step-part2 [x y aim cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) (- y (* aim i)) aim] (= cmd &#34;up&#34;) [x y (&#43; aim i)] :else [x y (- aim i)]))	"/>
 
 
 
 
 
 
+    <meta property="article:section" content="advent-of-code" />
 
+    <meta property="article:section" content="python" />
+
+    <meta property="article:section" content="clojure" />
+
+
+
+    <meta property="article:published_time" content="2021-12-02 00:00:00 &#43;0000 UTC" />
 
 
 
@@ -77,7 +94,7 @@
         <a href="/" style="text-decoration: none;"> <div class="logo">
         
             <span class="logo__text">
-              /reading_log $
+              /projects $
             </span>
             <span class="logo__cursor" style=
                   "
@@ -123,29 +140,28 @@
         </div>
 
         <article>
-            <h2 class="post-title"><a href="/reading_log/">reading log</a></h2>
+            <h2 class="post-title"><a href="/projects/advent-of-code-2021/day2/">day 2</a></h2>
 
             
             
             
 
             <div class="post-content">
-                <h2 id="2022">2022</h2>
-<ul>
-<li><a href="https://www.amazon.com/Building-Event-Driven-Microservices-Leveraging-Organizational/dp/1492057894">Building Event-Driven Microservices: Leveraging Organizational Data at Scale</a>: currently reading it.</li>
-<li><a href="https://www.amazon.com/Man-Future-Visionary-Life-Neumann/dp/1324003995">The Man from the Future</a>: currently reading it.</li>
-<li><a href="https://www.amazon.com/Deep-Learning-Python-Francois-Chollet/dp/1617294438">Deep Learning with Python</a>: currently reading it.</li>
-</ul>
-<h2 id="2021">2021</h2>
-<ul>
-<li><a href="https://www.amazon.com.mx/Designing-Data-Intensive-Applications-Reliable-Maintainable/dp/1449373321/ref=sr_1_1?keywords=data+intensive+applications&amp;qid=1642484281&amp;sprefix=data+intens%2Caps%2C90&amp;sr=8-1">Designing data intensive applications</a>: can&rsquo;t recomend it enough.</li>
-<li><a href="https://www.amazon.com.mx/gp/product/B0979PWD4Z/ref=ppx_yo_dt_b_d_asin_title_o06?ie=UTF8&amp;psc=1">Programming Rust: Fast, Safe Systems Development</a>: i love rust and this is a great book but afaik outside of all the (wonderful) cli tooling being built in rust, i see more interesting projects being built with go (if you could point me to some interesting rust projects, i would love to see them!). which led me to the my next book</li>
-<li><a href="https://www.amazon.com.mx/gp/product/B08XYGCM71/ref=ppx_yo_dt_b_d_asin_title_o05?ie=UTF8&amp;psc=1">Learning Go: An Idiomatic Approach to Real-World Go Programming</a>: the book is ok but as much as i try i can&rsquo;t seem to get really excited about go.</li>
-<li><a href="https://www.amazon.com.mx/Joy-Clojure-Thinking-Way/dp/1935182641/ref=sr_1_1?__mk_es_MX=%C3%85M%C3%85%C5%BD%C3%95%C3%91&amp;crid=39K0SIJDUIEPJ&amp;keywords=the+clojure+way&amp;qid=1642485176&amp;sprefix=the+clojure+way%2Caps%2C106&amp;sr=8-1">The joy of Clojure</a>: i had a really really good time both reading this book and learning clojure overall. there are some very interesting concepts in this languages and it pushed me outside of my comfort zone at first (this was also my first lisp, so yeah&hellip;).</li>
-<li><a href="https://www.amazon.com.mx/Purely-Functional-Data-Structures-English-ebook/dp/B00AKE1V04/ref=tmm_kin_swatch_0?_encoding=UTF8&amp;qid=1642485542&amp;sr=8-1">Purely Functional Data Structures</a>: if only the book was based on haskell&hellip; i have not finished this book but i REALLY want to both finish it and get a little more used to Standard ML</li>
-<li>I&rsquo;ll finish this list later :p</li>
-</ul>
-
+                <p>you can find the description <a href="https://adventofcode.com/2021/day/2">here</a>
+and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master/2">here</a></p>
+<p>for part one, it is a very straight forward simulation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-clojure" data-lang="clojure">(<span style="color:#66d9ef">defn </span>step-part1 [x y cmd i]
+  (<span style="color:#a6e22e">cond</span>
+    (= cmd <span style="color:#e6db74">&#34;forward&#34;</span>) [(+ x i) y]
+    (= cmd <span style="color:#e6db74">&#34;up&#34;</span>) [x (- y i)]
+    <span style="color:#e6db74">:else</span> [x (+ y i)]))
+</code></pre></div><p>part two is very similar but we also need to keep track of the aim</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-clojure" data-lang="clojure">(<span style="color:#66d9ef">defn </span>step-part2 [x y aim cmd i]
+  (<span style="color:#a6e22e">cond</span>
+    (= cmd <span style="color:#e6db74">&#34;forward&#34;</span>) [(+ x i) (- y (* aim i)) aim]
+    (= cmd <span style="color:#e6db74">&#34;up&#34;</span>) [x y (+ aim i)]
+    <span style="color:#e6db74">:else</span> [x y (- aim i)]))	
+</code></pre></div>
             </div>
         </article>
 
@@ -154,6 +170,15 @@
         <div class="post-info">
             
             
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
+        <span class="tag"><a href="/categories/advent-of-code/">advent-of-code</a></span>
+        <span class="tag"><a href="/categories/python/">python</a></span>
+        <span class="tag"><a href="/categories/clojure/">clojure</a></span>
+        
+    </p>
+
   		</div>
     </main>
 

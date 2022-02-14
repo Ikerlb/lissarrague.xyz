@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>about on about me</title>
-    <link>/</link>
-    <description>Recent content in about on about me</description>
+    <title>advent of code 2021 on about me</title>
+    <link>/projects/advent-of-code-2021/</link>
+    <description>Recent content in advent of code 2021 on about me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>mandelrust</title>
-      <link>/projects/mandelrust/</link>
-      <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
-      
-      <guid>/projects/mandelrust/</guid>
-      <description>click to see demo! i basically wanted to have a random zoom on an interesting mandelbrot point because:
- i wanted to try out rust in an aws lambda function i wanted to build that lambda function with cdk (i&amp;rsquo;m kinda procrastinating from learning/using terraform) i was kinda hyped to use rust after reading about it  what i learned
- i&amp;rsquo;m starting to dig aws hehe. i really really really like rust and will keep using it as much as i can i will never ever find mandelbrot set uninteresting rust lambda startup time is unlike anything i&amp;rsquo;ve ever seen.</description>
-    </item>
-    
+    <lastBuildDate>Fri, 03 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="/projects/advent-of-code-2021/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>day 3</title>
       <link>/projects/advent-of-code-2021/day3/</link>
@@ -48,15 +37,6 @@ for part one, it is a very straight forward simulation.
       <description>you can find the description here and you can find the code here
 well my solution uses a very simple (fixed size) sliding window technique, with the first part being a size 1 window and the second part a size 3 window.
 def solve(l: [int], k: int): s = sum(l[:k]) res = 0 for i in range(k, len(l)): ss = s - l[i - k] + l[i] res += s &amp;lt; ss s = ss return res </description>
-    </item>
-    
-    <item>
-      <title>reading log</title>
-      <link>/reading_log/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/reading_log/</guid>
-      <description>2022  Building Event-Driven Microservices: Leveraging Organizational Data at Scale: currently reading it. The Man from the Future: currently reading it. Deep Learning with Python: currently reading it.  2021  Designing data intensive applications: can&amp;rsquo;t recomend it enough. Programming Rust: Fast, Safe Systems Development: i love rust and this is a great book but afaik outside of all the (wonderful) cli tooling being built in rust, i see more interesting projects being built with go (if you could point me to some interesting rust projects, i would love to see them!</description>
     </item>
     
   </channel>
