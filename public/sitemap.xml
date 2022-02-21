@@ -3,16 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/</loc>
-    <lastmod>2022-02-08T00:00:00+00:00</lastmod>
+    <lastmod>2022-02-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/projects/ray-tracer/</loc>
+    <lastmod>2022-02-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/projects/</loc>
+    <lastmod>2022-02-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/projects/mandelrust/</loc>
     <lastmod>2022-02-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/projects/</loc>
-    <lastmod>2022-02-08T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/projects/advent-of-code-2021/</loc>
-    <lastmod>2021-12-03T00:00:00+00:00</lastmod>
+    <lastmod>2021-12-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/projects/advent-of-code-2021/day7/</loc>
+    <lastmod>2021-12-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/projects/advent-of-code-2021/day6/</loc>
+    <lastmod>2021-12-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/projects/advent-of-code-2021/day5/</loc>
+    <lastmod>2021-12-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/projects/advent-of-code-2021/day4/</loc>
+    <lastmod>2021-12-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/projects/advent-of-code-2021/day3/</loc>
     <lastmod>2021-12-03T00:00:00+00:00</lastmod>
