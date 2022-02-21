@@ -5,52 +5,36 @@ date = "2021-12-04"
 categories = [
 	"advent-of-code",
 	"python",
-	"clojure"
 ]
 +++
 
 you can find the description [here](https://adventofcode.com/2021/day/4)
 and you can find the code [here](https://github.com/Ikerlb/AoC2021/tree/master/4)
 
-to solve each part, we basically need a function that can give us the number of bits turned on for a certain digit index:
+ok. this was fun!
+
+for both parts, i just simulated all boards with a class.
+only interesting thing is i kept track of all numbers contained in a board and added a rows and cols array, containing how many remaining numbers until a bingo in each row/col. this made it very easy to know if marking a number in a board yields a bingo.
 
 ``` python
-def count_by_index(nums, i):
-    total = len(nums)
-    res = ones = 0
-    for n in nums:            
-        if (n >> i) & 1:
-            ones += 1    
-    return ones, total - ones  
+class Board:
+    def __init__(self, grid):
+        n, m = len(grid), len(grid[0])
+        self.elems = {grid[r][c]:(r, c) for r in range(n) for c in range(m)}
+        self.rows = [m for _ in range(n)] 
+        self.cols = [n for _ in range(m)]
+            
+    def mark(self, n):
+        if n not in self.elems:
+            return False
+        
+        r, c = self.elems[n]    
+        del self.elems[n]
+        self.rows[r] -= 1
+        self.cols[c] -= 1
+        return self.rows[r] == 0 or self.cols[c] == 0
 ```
 
-you can get the gamma rate by simply iterating over each possible index and assigning that index to be the digit of the **most** common digit of all numbers for that index.
+for part one, just mark each board if it contains the number. if either the row or the column is all marked (board.rows[r] == 0 or board.cols[r] == 0) that board is the solution
 
-analogously, you get epsilon rate by iterating over each possible index and assigning that index to be the digit of the **least** common digit of all numbers for that index.
-
-``` python
-# md is the max index of digits
-def rate(nums, f, md): 
-    res = 0
-    for i in range(md, -1, -1):
-        o, z = count_by_index(nums, i)
-        if f(o, z) == o:
-            res += (1 << i)
-    return res
-```
-
-for the second part, you need to keep filtering by the most or least common digit for each index (depending on the measurement) and return the number that remains.
-
-``` python
-# md is the max index of digits
-def filter_by(nums, f, md):
-    n, i = len(nums), md
-    while len(nums) > 1 and i >= 0:
-        o, z = count_by_index(nums, i)
-        s = f(o, z)
-        nums = [n for n in nums if ((n >> i) & 1) == s] 
-        i -= 1
-    return nums.pop()
-```
-
-
+for part two, just remove each board as it gets a bingo until to have no more boards left. the answer is the last board you removed

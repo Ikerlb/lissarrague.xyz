@@ -5,7 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
-<meta name="description" content="you can find the description here and you can find the code here" />
+<meta name="description" content="you can find the description here and you can find the code here
+to solve each part, we basically need a function that can give us the number of bits turned on for a certain digit index:
+def count_by_index(nums, i): total = len(nums) res = ones = 0 for n in nums: if (n &amp;gt;&amp;gt; i) &amp;amp; 1: ones &#43;= 1 return ones, total - ones you can get the gamma rate by simply iterating over each possible index and assigning that index to be the digit of the most common digit of all numbers for that index." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -41,13 +43,17 @@
 
 
 <meta itemprop="name" content="day 3">
-<meta itemprop="description" content="you can find the description here and you can find the code here"><meta itemprop="datePublished" content="2021-12-03T00:00:00+00:00" />
+<meta itemprop="description" content="you can find the description here and you can find the code here
+to solve each part, we basically need a function that can give us the number of bits turned on for a certain digit index:
+def count_by_index(nums, i): total = len(nums) res = ones = 0 for n in nums: if (n &gt;&gt; i) &amp; 1: ones &#43;= 1 return ones, total - ones you can get the gamma rate by simply iterating over each possible index and assigning that index to be the digit of the most common digit of all numbers for that index."><meta itemprop="datePublished" content="2021-12-03T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2021-12-03T00:00:00+00:00" />
-<meta itemprop="wordCount" content="13">
+<meta itemprop="wordCount" content="249">
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="day 3"/>
-<meta name="twitter:description" content="you can find the description here and you can find the code here"/>
+<meta name="twitter:description" content="you can find the description here and you can find the code here
+to solve each part, we basically need a function that can give us the number of bits turned on for a certain digit index:
+def count_by_index(nums, i): total = len(nums) res = ones = 0 for n in nums: if (n &gt;&gt; i) &amp; 1: ones &#43;= 1 return ones, total - ones you can get the gamma rate by simply iterating over each possible index and assigning that index to be the digit of the most common digit of all numbers for that index."/>
 
 
 
@@ -140,7 +146,34 @@
             <div class="post-content">
                 <p>you can find the description <a href="https://adventofcode.com/2021/day/3">here</a>
 and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master/3">here</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+<p>to solve each part, we basically need a function that can give us the number of bits turned on for a certain digit index:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">count_by_index</span>(nums, i):
+    total <span style="color:#f92672">=</span> len(nums)
+    res <span style="color:#f92672">=</span> ones <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> n <span style="color:#f92672">in</span> nums:            
+        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;&gt;</span> i) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>:
+            ones <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>    
+    <span style="color:#66d9ef">return</span> ones, total <span style="color:#f92672">-</span> ones  
+</code></pre></div><p>you can get the gamma rate by simply iterating over each possible index and assigning that index to be the digit of the <strong>most</strong> common digit of all numbers for that index.</p>
+<p>analogously, you get epsilon rate by iterating over each possible index and assigning that index to be the digit of the <strong>least</strong> common digit of all numbers for that index.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># md is the max index of digits</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rate</span>(nums, f, md): 
+    res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(md, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+        o, z <span style="color:#f92672">=</span> count_by_index(nums, i)
+        <span style="color:#66d9ef">if</span> f(o, z) <span style="color:#f92672">==</span> o:
+            res <span style="color:#f92672">+=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> i)
+    <span style="color:#66d9ef">return</span> res
+</code></pre></div><p>for the second part, you need to keep filtering by the most or least common digit for each index (depending on the measurement) and return the number that remains.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># md is the max index of digits</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">filter_by</span>(nums, f, md):
+    n, i <span style="color:#f92672">=</span> len(nums), md
+    <span style="color:#66d9ef">while</span> len(nums) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
+        o, z <span style="color:#f92672">=</span> count_by_index(nums, i)
+        s <span style="color:#f92672">=</span> f(o, z)
+        nums <span style="color:#f92672">=</span> [n <span style="color:#66d9ef">for</span> n <span style="color:#f92672">in</span> nums <span style="color:#66d9ef">if</span> ((n <span style="color:#f92672">&gt;&gt;</span> i) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">==</span> s] 
+        i <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">return</span> nums<span style="color:#f92672">.</span>pop()
 </code></pre></div>
             </div>
         </article>

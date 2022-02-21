@@ -84,4 +84,4 @@ const getRandomInt = (min, max)  => {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-//callMandelbrot(getRandomInt(1, 10000));
+callMandelbrot(getRandomInt(1, 10000));

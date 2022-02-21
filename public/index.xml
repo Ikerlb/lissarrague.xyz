@@ -6,16 +6,72 @@
     <description>Recent content in about on about me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>go ray tracer</title>
+      <link>/projects/ray-tracer/</link>
+      <pubDate>Mon, 21 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/ray-tracer/</guid>
+      <description>what? a ray tracer of course! if you are not familiar with the term, it is basically a rendering technique that is very intuitive, and fairly easy to implement naively (and yields very decent results), but tends to be computationally expensive.
+why?  back in my Modeling and Programming course, we were asked to implement a ray tracer in order to get one extra credit. back then, though, even fairly easy problems seemed very scary and alien to me (plus, i had a pretty good score already).</description>
+    </item>
+    
     <item>
       <title>mandelrust</title>
       <link>/projects/mandelrust/</link>
       <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
       
       <guid>/projects/mandelrust/</guid>
-      <description>click to see demo! i basically wanted to have a random zoom on an interesting mandelbrot point because:
- i wanted to try out rust in an aws lambda function i wanted to build that lambda function with cdk (i&amp;rsquo;m kinda procrastinating from learning/using terraform) i was kinda hyped to use rust after reading about it  what i learned
- i&amp;rsquo;m starting to dig aws hehe. i really really really like rust and will keep using it as much as i can i will never ever find mandelbrot set uninteresting rust lambda startup time is unlike anything i&amp;rsquo;ve ever seen.</description>
+      <description>what? i basically wanted to have a random zoom on an interesting mandelbrot point:
+-0.761574 + -0.0847596i why?  i wanted to try out rust in an aws lambda function i wanted to build that lambda function with cdk (i&amp;rsquo;m kinda procrastinating from learning/using terraform) i was kinda hyped to use rust after reading about it  conclusions  i&amp;rsquo;m starting to dig aws hehe. i really like rust and will keep using it as much as i can i will never ever find mandelbrot set uninteresting rust lambda startup time is unlike anything i&amp;rsquo;ve ever seen.</description>
+    </item>
+    
+    <item>
+      <title>day 7</title>
+      <link>/projects/advent-of-code-2021/day7/</link>
+      <pubDate>Tue, 07 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/advent-of-code-2021/day7/</guid>
+      <description>you can find the description here and you can find the code here
+def cost(l, n, f): return sum(f(e, n) for e in l) for the first part, the solution is the median.
+def median(l): return l[len(l) &amp;gt;&amp;gt; 1] def part1(l): m = median(l) return cost(l, m, lambda x, y: abs(x - y)) for the second part, the solution is the average.
+def part2(l): avg = sum(l) / len(l) f = lambda x, y: gauss(abs(x - y)) return min(cost(l, ceil(avg), f), cost(l, floor(avg), f)) </description>
+    </item>
+    
+    <item>
+      <title>day 6</title>
+      <link>/projects/advent-of-code-2021/day6/</link>
+      <pubDate>Mon, 06 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/advent-of-code-2021/day6/</guid>
+      <description>you can find the description here and you can find the code here
+this was very fun!
+my first solution consisted on a simple simulation on a double ended queue. this solution is linear on the number of days and it handles both parts without a problem.
+# mutates q def step(q): n, last = q[0], q.pop() q[-1] += n q.append(last) q.rotate(-1) however, it ocurred to me while working, that i could simply simulate a single step of this as a matrix multiplication.</description>
+    </item>
+    
+    <item>
+      <title>day 5</title>
+      <link>/projects/advent-of-code-2021/day5/</link>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/advent-of-code-2021/day5/</guid>
+      <description>you can find the description here and you can find the code here
+nothing interesting for this problem. just walk from p1 to p2 and add all the points you walk to a counter. for part one, simply filter those who are diagonal (start[1] == end[1] or start[0] == end[0])
+for part two, don&amp;rsquo;t filter.
+def span(p1, p2): sx, sy = p1 ex, ey = p2 dx = delta(sx, ex) dy = delta(sy, ey) while p1 !</description>
+    </item>
+    
+    <item>
+      <title>day 4</title>
+      <link>/projects/advent-of-code-2021/day4/</link>
+      <pubDate>Sat, 04 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/advent-of-code-2021/day4/</guid>
+      <description>you can find the description here and you can find the code here
+ok. this was fun!
+for both parts, i just simulated all boards with a class. only interesting thing is i kept track of all numbers contained in a board and added a rows and cols array, containing how many remaining numbers until a bingo in each row/col. this made it very easy to know if marking a number in a board yields a bingo.</description>
     </item>
     
     <item>
@@ -24,7 +80,9 @@
       <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>/projects/advent-of-code-2021/day3/</guid>
-      <description>you can find the description here and you can find the code here</description>
+      <description>you can find the description here and you can find the code here
+to solve each part, we basically need a function that can give us the number of bits turned on for a certain digit index:
+def count_by_index(nums, i): total = len(nums) res = ones = 0 for n in nums: if (n &amp;gt;&amp;gt; i) &amp;amp; 1: ones += 1 return ones, total - ones you can get the gamma rate by simply iterating over each possible index and assigning that index to be the digit of the most common digit of all numbers for that index.</description>
     </item>
     
     <item>
