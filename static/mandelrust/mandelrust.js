@@ -48,8 +48,9 @@ const request = (method, url, data) => {
   );
 }
 
+
 const callMandelbrot = (zoom) => {
-  const url = "https://895dswqsvi.execute-api.us-east-1.amazonaws.com/prod";
+  const url = "https://7el4n2j6wexvmsas7rrewvxwxu0fimju.lambda-url.us-east-1.on.aws/"; 
   var win = window,
     doc = document,
     docElem = doc.documentElement,
@@ -76,7 +77,7 @@ const callMandelbrot = (zoom) => {
     let container = document.getElementById("container");
     container.appendChild(htmlImg);
   }).catch(e => {
-    alert("ha ocurrido un error. intentalo más tarde " + e);
+    alert("ha ocurrido un error. intentalo más tarde " + JSON.stringify(e));
   })
 }
 
