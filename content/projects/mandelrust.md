@@ -1,7 +1,7 @@
 +++
 logoDirectory = "projects"
 title = "mandelrust"
-date = "2022-02-08"
+date = "2022-05-10"
 categories = [
     "development",
     "rust",
@@ -25,14 +25,18 @@ i basically wanted to have a random zoom on an interesting mandelbrot point:
 ### conclusions
   * i'm starting to dig aws hehe.
   * i **really** like rust and will keep using it as much as i can
-  * i will never ever find mandelbrot set uninteresting
+  * i will never ever find mandelbrot set uninteresting 
   * rust lambda startup time is unlike anything i've ever seen. it draws (for me, at least) the line between server and serverless kinda blurry
 
 ### todo
   * well this seems obvious but i don't want to use a single point and a random zoom but rather a set of interesting points and a random zoom! all this seems kinda time consuming so i guess i'll leave it like this for a while
   * i also want to optimize mb allocated for each lambda execution. 128mb takes arround 13 seconds to finish, while 1gb takes arround 3.
 
+### update 10-5-2022
+  * i've been consuming a lot of terraform content. but as you may know by now, in the realm of programming you learn mostly by getting your hands dirty, so i tried importing (this is the single feature i liked the most) most of the resources i used on cdk and got them up & running in terraform. it is beautiful.
+
 ### links
   * [demo](https://lissarrague.xyz/mandelrust/)
-  * [code](https://github.com/Ikerlb/mandelrust-lambda)
+  * [cdk code](https://github.com/Ikerlb/mandelrust-lambda)
+  * [terraform code](https://github.com/Ikerlb/tf-mandelrust)
 

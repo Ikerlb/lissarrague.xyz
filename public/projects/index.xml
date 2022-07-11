@@ -6,7 +6,17 @@
     <description>Recent content in my projects on about me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 21 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="/projects/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="/projects/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mandelrust</title>
+      <link>/projects/mandelrust/</link>
+      <pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/mandelrust/</guid>
+      <description>what? i basically wanted to have a random zoom on an interesting mandelbrot point:
+-0.761574 + -0.0847596i why?  i wanted to try out rust in an aws lambda function i wanted to build that lambda function with cdk (i&amp;rsquo;m kinda procrastinating from learning/using terraform) i was kinda hyped to use rust after reading about it  conclusions  i&amp;rsquo;m starting to dig aws hehe. i really like rust and will keep using it as much as i can i will never ever find mandelbrot set uninteresting rust lambda startup time is unlike anything i&amp;rsquo;ve ever seen.</description>
+    </item>
+    
     <item>
       <title>go ray tracer</title>
       <link>/projects/ray-tracer/</link>
@@ -15,16 +25,6 @@
       <guid>/projects/ray-tracer/</guid>
       <description>what? a ray tracer of course! if you are not familiar with the term, it is basically a rendering technique that is very intuitive, and fairly easy to implement naively (and yields very decent results), but tends to be computationally expensive.
 why?  back in my Modeling and Programming course, we were asked to implement a ray tracer in order to get one extra credit. back then, though, even fairly easy problems seemed very scary and alien to me (plus, i had a pretty good score already).</description>
-    </item>
-    
-    <item>
-      <title>mandelrust</title>
-      <link>/projects/mandelrust/</link>
-      <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
-      
-      <guid>/projects/mandelrust/</guid>
-      <description>what? i basically wanted to have a random zoom on an interesting mandelbrot point:
--0.761574 + -0.0847596i why?  i wanted to try out rust in an aws lambda function i wanted to build that lambda function with cdk (i&amp;rsquo;m kinda procrastinating from learning/using terraform) i was kinda hyped to use rust after reading about it  conclusions  i&amp;rsquo;m starting to dig aws hehe. i really like rust and will keep using it as much as i can i will never ever find mandelbrot set uninteresting rust lambda startup time is unlike anything i&amp;rsquo;ve ever seen.</description>
     </item>
     
   </channel>
