@@ -6,7 +6,17 @@
     <description>Recent content in my projects on about me</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="/projects/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 08 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="/projects/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>rust ray tracer</title>
+      <link>/projects/rust-ray-tracer/</link>
+      <pubDate>Tue, 08 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/rust-ray-tracer/</guid>
+      <description>what? good old ray tracer again
+why?  earlier last year i followed Ray Tracing in One Weekend and implemented it in go to get a hang of the language. it was all nice and fun but rendering the final scene took arround 20 minutes in my M1 Macbook Air, so i was left feeling a little disatisfied. i have been solving many kattis problems in rust (particularly those that are just too slow to run in python), and i wanted to try rust on a slightly more complicated &amp;lsquo;project&amp;rsquo; i really wanted to see how rust concurrency feels.</description>
+    </item>
+    
     <item>
       <title>mandelrust</title>
       <link>/projects/mandelrust/</link>
@@ -19,10 +29,10 @@
     
     <item>
       <title>go ray tracer</title>
-      <link>/projects/ray-tracer/</link>
+      <link>/projects/go-ray-tracer/</link>
       <pubDate>Mon, 21 Feb 2022 00:00:00 +0000</pubDate>
       
-      <guid>/projects/ray-tracer/</guid>
+      <guid>/projects/go-ray-tracer/</guid>
       <description>what? a ray tracer of course! if you are not familiar with the term, it is basically a rendering technique that is very intuitive, and fairly easy to implement naively (and yields very decent results), but tends to be computationally expensive.
 why?  back in my Modeling and Programming course, we were asked to implement a ray tracer in order to get one extra credit. back then, though, even fairly easy problems seemed very scary and alien to me (plus, i had a pretty good score already).</description>
     </item>
