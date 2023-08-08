@@ -38,6 +38,40 @@ why?  back in my Modeling and Programming course, we were asked to implement a r
     </item>
     
     <item>
+      <title>day 10</title>
+      <link>/projects/advent-of-code-2021/day10/</link>
+      <pubDate>Fri, 10 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/advent-of-code-2021/day10/</guid>
+      <description>you can find the description here and you can find the code here
+using a stack, you can figure out exactly where does the string become invalid, if at all
+m = {&amp;#34;{&amp;#34;:&amp;#34;}&amp;#34;, &amp;#34;(&amp;#34;:&amp;#34;)&amp;#34;, &amp;#34;[&amp;#34;:&amp;#34;]&amp;#34;, &amp;#34;&amp;lt;&amp;#34;:&amp;#34;&amp;gt;&amp;#34;} def parse(l): s = [] for c in l: if c in m: s.append(c) elif s and m[s[-1]] == c: s.pop() else: return s, c return s, None if the stack is not empty at the end, it means it is incomplete and that the only way to complete it would be to reverse the stack and append it to the original string</description>
+    </item>
+    
+    <item>
+      <title>day 9</title>
+      <link>/projects/advent-of-code-2021/day9/</link>
+      <pubDate>Thu, 09 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/advent-of-code-2021/day9/</guid>
+      <description>you can find the description here and you can find the code here
+for part one, simply count the number of cells in which all neighbors are strictly greater.
+for part two, floodfill until you have previously visited or until you find a height 9
+def floodfill(grid, r, c): if grid[r][c] is None or grid[r][c] == 9: return 0 s, grid[r][c] = 1, None for nr, nc in neighbors(grid, r, c): s += floodfill(grid, nr, nc) return s </description>
+    </item>
+    
+    <item>
+      <title>day 8</title>
+      <link>/projects/advent-of-code-2021/day8/</link>
+      <pubDate>Wed, 08 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/advent-of-code-2021/day8/</guid>
+      <description>you can find the description here and you can find the code here
+for the first part, simply count the number of words in the output section that have lengths 2, 3, 4 or 7
+for the second part, i couldn&amp;rsquo;t think of a better solution than just try permutations until the wires make sense</description>
+    </item>
+    
+    <item>
       <title>day 7</title>
       <link>/projects/advent-of-code-2021/day7/</link>
       <pubDate>Tue, 07 Dec 2021 00:00:00 +0000</pubDate>
