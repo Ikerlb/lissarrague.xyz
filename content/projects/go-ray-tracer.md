@@ -13,7 +13,7 @@ categories = [
 ### what?
  a ray tracer of course! if you are not familiar with the term, it is basically a rendering technique that is very intuitive, and fairly easy to implement naively (and yields very decent results), but tends to be computationally expensive.
 
-![final scene](/ray-tracer/spheres.png)
+![final scene](/ray-tracer/go-spheres.png)
 
 ### why?
 
@@ -26,7 +26,7 @@ categories = [
   * i think i'm starting to like go (i mean, it is as simple as it gets). plus [generics!](https://go.dev/doc/tutorial/generics). 
 
 ### todo
-  * while making it concurrent and giving it more cores to run in parallel made it significantly faster, i'm still not satisfied by the results. rendering the final scene of the project takes about 6 minutes in my M1 Macbook Air with the full 8 cores. i think i can squeeze some performance by making garbage collector do less work. we'll see how it goes.
+  * while making it concurrent and giving it more cores to run in parallel made it significantly faster, i'm still not satisfied by the results. rendering the final scene of the project takes about 15 minutes in my M1 Macbook Air with the full 8 cores. i think i can squeeze some performance by making garbage collector do less work. we'll see how it goes.
   * lights! 
   * more materials!
   * more geometries!
