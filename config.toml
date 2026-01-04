@@ -2,12 +2,15 @@ baseurl      = "/"
 languageCode = "en-us"
 theme        = "hello-friend-ng"
 title        = "home"
-paginate     = 10
+[pagination]
+  pagerSize = 10
 
 
 defaultContentLanguage = "en"
 
-googleAnalytics = "G-GXDRCDCX0B"
+[services]
+  [services.googleAnalytics]
+    ID = "G-GXDRCDCX0B"
 
 [params]
   dateform        = "Jan 2, 2006"

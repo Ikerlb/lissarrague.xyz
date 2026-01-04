@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=62507&amp;path=livereload" data-no-instant defer></script>
         <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,17 +8,17 @@
 <meta name="description" content="you can find the description here and you can find the code here
 the only thing we have to be careful about in this problem is avoid counting octopuses more than once
 but otherwise, just simulate the steps
-here&amp;rsquo;s the step function i used, that returns the number of flashes that happened during each time period
-# mutates grid def step(grid): n, m = len(grid), len(grid[0]) s = [] for r, c in product(range(n), range(m)): grid[r][c] &#43;= 1 if grid[r][c] == 10: s." />
+here&rsquo;s the step function i used, that returns the number of flashes that happened during each time period
+# mutates grid def step(grid): n, m = len(grid), len(grid[0]) s = [] for r, c in product(range(n), range(m)): grid[r][c] &#43;= 1 if grid[r][c] == 10: s.extend(neighbors(grid, r, c)) while s: r, c = s.pop() grid[r][c] &#43;= 1 if grid[r][c] == 10: s.extend(neighbors(grid, r, c)) flashes = 0 for r, c in product(range(n), range(m)): if grid[r][c] &gt; 9: grid[r][c] = 0 flashes &#43;= 1 return flashes " />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
-<link rel="canonical" href="/projects/advent-of-code-2021/day11/" />
+<link rel="canonical" href="//localhost:62507/projects/advent-of-code-2021/day11/" />
 
 
     <title>
         
-            day 11 :: about me  — lissarrague.xyz
+            day 11 :: about me 
         
     </title>
 
@@ -33,34 +33,28 @@ here&amp;rsquo;s the step function i used, that returns the number of flashes th
 
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <meta name="msapplication-TileColor" content="">
-    <meta name="theme-color" content="">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
 
 
-<meta itemprop="name" content="day 11">
-<meta itemprop="description" content="you can find the description here and you can find the code here
+
+  <meta itemprop="name" content="day 11">
+  <meta itemprop="description" content="you can find the description here and you can find the code here
 the only thing we have to be careful about in this problem is avoid counting octopuses more than once
 but otherwise, just simulate the steps
-here&rsquo;s the step function i used, that returns the number of flashes that happened during each time period
-# mutates grid def step(grid): n, m = len(grid), len(grid[0]) s = [] for r, c in product(range(n), range(m)): grid[r][c] &#43;= 1 if grid[r][c] == 10: s."><meta itemprop="datePublished" content="2021-12-11T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-12-11T00:00:00+00:00" />
-<meta itemprop="wordCount" content="122">
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="day 11"/>
-<meta name="twitter:description" content="you can find the description here and you can find the code here
+here’s the step function i used, that returns the number of flashes that happened during each time period
+# mutates grid def step(grid): n, m = len(grid), len(grid[0]) s = [] for r, c in product(range(n), range(m)): grid[r][c] &#43;= 1 if grid[r][c] == 10: s.extend(neighbors(grid, r, c)) while s: r, c = s.pop() grid[r][c] &#43;= 1 if grid[r][c] == 10: s.extend(neighbors(grid, r, c)) flashes = 0 for r, c in product(range(n), range(m)): if grid[r][c] &gt; 9: grid[r][c] = 0 flashes &#43;= 1 return flashes">
+  <meta itemprop="datePublished" content="2021-12-11T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-12-11T00:00:00+00:00">
+  <meta itemprop="wordCount" content="122">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="day 11">
+  <meta name="twitter:description" content="you can find the description here and you can find the code here
 the only thing we have to be careful about in this problem is avoid counting octopuses more than once
 but otherwise, just simulate the steps
-here&rsquo;s the step function i used, that returns the number of flashes that happened during each time period
-# mutates grid def step(grid): n, m = len(grid), len(grid[0]) s = [] for r, c in product(range(n), range(m)): grid[r][c] &#43;= 1 if grid[r][c] == 10: s."/>
-
+here’s the step function i used, that returns the number of flashes that happened during each time period
+# mutates grid def step(grid): n, m = len(grid), len(grid[0]) s = [] for r, c in product(range(n), range(m)): grid[r][c] &#43;= 1 if grid[r][c] == 10: s.extend(neighbors(grid, r, c)) while s: r, c = s.pop() grid[r][c] &#43;= 1 if grid[r][c] == 10: s.extend(neighbors(grid, r, c)) flashes = 0 for r, c in product(range(n), range(m)): if grid[r][c] &gt; 9: grid[r][c] = 0 flashes &#43;= 1 return flashes">
 
 
 
@@ -81,18 +75,6 @@ here&rsquo;s the step function i used, that returns the number of flashes that h
 
 
 
-
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXDRCDCX0B"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-GXDRCDCX0B', { 'anonymize_ip': false });
-}
-</script>
 
 
     </head>
@@ -153,7 +135,7 @@ if (!doNotTrack) {
         </div>
 
         <article>
-            <h2 class="post-title"><a href="/projects/advent-of-code-2021/day11/">day 11</a></h2>
+            <h2 class="post-title"><a href="//localhost:62507/projects/advent-of-code-2021/day11/">day 11</a></h2>
 
             
             
@@ -165,27 +147,27 @@ and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master
 <p>the only thing we have to be careful about in this problem is avoid counting octopuses more than once</p>
 <p>but otherwise, just simulate the steps</p>
 <p>here&rsquo;s the step function i used, that returns the number of flashes that happened during each time period</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># mutates grid</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">step</span>(grid):
-    n, m <span style="color:#f92672">=</span> len(grid), len(grid[<span style="color:#ae81ff">0</span>])
-    s <span style="color:#f92672">=</span> []
-    <span style="color:#66d9ef">for</span> r, c <span style="color:#f92672">in</span> product(range(n), range(m)):   
-        grid[r][c] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>        
-        <span style="color:#66d9ef">if</span> grid[r][c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">10</span>: 
-            s<span style="color:#f92672">.</span>extend(neighbors(grid, r, c))
-    <span style="color:#66d9ef">while</span> s:
-        r, c <span style="color:#f92672">=</span> s<span style="color:#f92672">.</span>pop()    
-        grid[r][c] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>   
-        <span style="color:#66d9ef">if</span> grid[r][c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">10</span>:
-            s<span style="color:#f92672">.</span>extend(neighbors(grid, r, c))    
-
-    flashes <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-    <span style="color:#66d9ef">for</span> r, c <span style="color:#f92672">in</span> product(range(n), range(m)):
-        <span style="color:#66d9ef">if</span> grid[r][c] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>:
-            grid[r][c] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>    
-            flashes <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-    <span style="color:#66d9ef">return</span> flashes
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># mutates grid</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">step</span>(grid):
+</span></span><span style="display:flex;"><span>    n, m <span style="color:#f92672">=</span> len(grid), len(grid[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>    s <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> r, c <span style="color:#f92672">in</span> product(range(n), range(m)):   
+</span></span><span style="display:flex;"><span>        grid[r][c] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> grid[r][c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">10</span>: 
+</span></span><span style="display:flex;"><span>            s<span style="color:#f92672">.</span>extend(neighbors(grid, r, c))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> s:
+</span></span><span style="display:flex;"><span>        r, c <span style="color:#f92672">=</span> s<span style="color:#f92672">.</span>pop()    
+</span></span><span style="display:flex;"><span>        grid[r][c] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>   
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> grid[r][c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">10</span>:
+</span></span><span style="display:flex;"><span>            s<span style="color:#f92672">.</span>extend(neighbors(grid, r, c))    
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    flashes <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> r, c <span style="color:#f92672">in</span> product(range(n), range(m)):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> grid[r][c] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>:
+</span></span><span style="display:flex;"><span>            grid[r][c] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>    
+</span></span><span style="display:flex;"><span>            flashes <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> flashes
+</span></span></code></pre></div>
             </div>
         </article>
 
@@ -197,8 +179,8 @@ and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master
     <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
 
-        <span class="tag"><a href="/categories/advent-of-code/">advent-of-code</a></span>
-        <span class="tag"><a href="/categories/python/">python</a></span>
+        <span class="tag"><a href="//localhost:62507/categories/advent-of-code/">advent-of-code</a></span>
+        <span class="tag"><a href="//localhost:62507/categories/python/">python</a></span>
         
     </p>
 
@@ -232,7 +214,7 @@ and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master
 
 
 
-<script type="text/javascript" src="/bundle.min.599099f1f14b78b657d524b28e10e0c5098e7cd46e9c7aed73d577068a276c3ff1bb234cbf29cb313333e83cf411727b43157c91ce5b809e2ffc81664614608e.js" integrity="sha512-WZCZ8fFLeLZX1SSyjhDgxQmOfNRunHrtc9V3BoonbD/xuyNMvynLMTMz6Dz0EXJ7QxV8kc5bgJ4v/IFmRhRgjg=="></script>
+<script type="text/javascript" src="/bundle.min.17f4a297973019cb34411034a36394fcb6eacdd75534644a62f64d85ac204bca0405d8a5b5f4babfd7625a6307b48c86d042051a47e0506e4147dda733ef13aa.js" integrity="sha512-F/Sil5cwGcs0QRA0o2OU/LbqzddVNGRKYvZNhawgS8oEBdiltfS6v9diWmMHtIyG0EIFGkfgUG5BR92nM&#43;8Tqg=="></script>
 
 
 

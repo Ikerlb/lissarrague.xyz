@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=62507&amp;path=livereload" data-no-instant defer></script>
         <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,12 +12,12 @@ def floodfill(grid, r, c): if grid[r][c] is None or grid[r][c] == 9: return 0 s,
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
-<link rel="canonical" href="/projects/advent-of-code-2021/day9/" />
+<link rel="canonical" href="//localhost:62507/projects/advent-of-code-2021/day9/" />
 
 
     <title>
         
-            day 9 :: about me  — lissarrague.xyz
+            day 9 :: about me 
         
     </title>
 
@@ -32,32 +32,26 @@ def floodfill(grid, r, c): if grid[r][c] is None or grid[r][c] == 9: return 0 s,
 
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <meta name="msapplication-TileColor" content="">
-    <meta name="theme-color" content="">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
 
 
-<meta itemprop="name" content="day 9">
-<meta itemprop="description" content="you can find the description here and you can find the code here
+
+  <meta itemprop="name" content="day 9">
+  <meta itemprop="description" content="you can find the description here and you can find the code here
 for part one, simply count the number of cells in which all neighbors are strictly greater.
 for part two, floodfill until you have previously visited or until you find a height 9
-def floodfill(grid, r, c): if grid[r][c] is None or grid[r][c] == 9: return 0 s, grid[r][c] = 1, None for nr, nc in neighbors(grid, r, c): s &#43;= floodfill(grid, nr, nc) return s "><meta itemprop="datePublished" content="2021-12-09T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-12-09T00:00:00+00:00" />
-<meta itemprop="wordCount" content="78">
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="day 9"/>
-<meta name="twitter:description" content="you can find the description here and you can find the code here
+def floodfill(grid, r, c): if grid[r][c] is None or grid[r][c] == 9: return 0 s, grid[r][c] = 1, None for nr, nc in neighbors(grid, r, c): s &#43;= floodfill(grid, nr, nc) return s">
+  <meta itemprop="datePublished" content="2021-12-09T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-12-09T00:00:00+00:00">
+  <meta itemprop="wordCount" content="78">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="day 9">
+  <meta name="twitter:description" content="you can find the description here and you can find the code here
 for part one, simply count the number of cells in which all neighbors are strictly greater.
 for part two, floodfill until you have previously visited or until you find a height 9
-def floodfill(grid, r, c): if grid[r][c] is None or grid[r][c] == 9: return 0 s, grid[r][c] = 1, None for nr, nc in neighbors(grid, r, c): s &#43;= floodfill(grid, nr, nc) return s "/>
-
+def floodfill(grid, r, c): if grid[r][c] is None or grid[r][c] == 9: return 0 s, grid[r][c] = 1, None for nr, nc in neighbors(grid, r, c): s &#43;= floodfill(grid, nr, nc) return s">
 
 
 
@@ -78,18 +72,6 @@ def floodfill(grid, r, c): if grid[r][c] is None or grid[r][c] == 9: return 0 s,
 
 
 
-
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXDRCDCX0B"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-GXDRCDCX0B', { 'anonymize_ip': false });
-}
-</script>
 
 
     </head>
@@ -150,7 +132,7 @@ if (!doNotTrack) {
         </div>
 
         <article>
-            <h2 class="post-title"><a href="/projects/advent-of-code-2021/day9/">day 9</a></h2>
+            <h2 class="post-title"><a href="//localhost:62507/projects/advent-of-code-2021/day9/">day 9</a></h2>
 
             
             
@@ -161,14 +143,14 @@ if (!doNotTrack) {
 and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master/9">here</a></p>
 <p>for part one, simply count the number of cells in which all neighbors are strictly greater.</p>
 <p>for part two, floodfill until you have previously visited or until you find a height 9</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">floodfill</span>(grid, r, c):
-    <span style="color:#66d9ef">if</span> grid[r][c] <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span> <span style="color:#f92672">or</span> grid[r][c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">9</span>: 
-        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>    
-    s, grid[r][c] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">None</span>
-    <span style="color:#66d9ef">for</span> nr, nc <span style="color:#f92672">in</span> neighbors(grid, r, c):
-        s <span style="color:#f92672">+=</span> floodfill(grid, nr, nc)    
-    <span style="color:#66d9ef">return</span> s
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">floodfill</span>(grid, r, c):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> grid[r][c] <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span> <span style="color:#f92672">or</span> grid[r][c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">9</span>: 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>    
+</span></span><span style="display:flex;"><span>    s, grid[r][c] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> nr, nc <span style="color:#f92672">in</span> neighbors(grid, r, c):
+</span></span><span style="display:flex;"><span>        s <span style="color:#f92672">+=</span> floodfill(grid, nr, nc)    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> s
+</span></span></code></pre></div>
             </div>
         </article>
 
@@ -180,8 +162,8 @@ and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master
     <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
 
-        <span class="tag"><a href="/categories/advent-of-code/">advent-of-code</a></span>
-        <span class="tag"><a href="/categories/python/">python</a></span>
+        <span class="tag"><a href="//localhost:62507/categories/advent-of-code/">advent-of-code</a></span>
+        <span class="tag"><a href="//localhost:62507/categories/python/">python</a></span>
         
     </p>
 
@@ -215,7 +197,7 @@ and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master
 
 
 
-<script type="text/javascript" src="/bundle.min.599099f1f14b78b657d524b28e10e0c5098e7cd46e9c7aed73d577068a276c3ff1bb234cbf29cb313333e83cf411727b43157c91ce5b809e2ffc81664614608e.js" integrity="sha512-WZCZ8fFLeLZX1SSyjhDgxQmOfNRunHrtc9V3BoonbD/xuyNMvynLMTMz6Dz0EXJ7QxV8kc5bgJ4v/IFmRhRgjg=="></script>
+<script type="text/javascript" src="/bundle.min.17f4a297973019cb34411034a36394fcb6eacdd75534644a62f64d85ac204bca0405d8a5b5f4babfd7625a6307b48c86d042051a47e0506e4147dda733ef13aa.js" integrity="sha512-F/Sil5cwGcs0QRA0o2OU/LbqzddVNGRKYvZNhawgS8oEBdiltfS6v9diWmMHtIyG0EIFGkfgUG5BR92nM&#43;8Tqg=="></script>
 
 
 

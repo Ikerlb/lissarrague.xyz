@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=62507&amp;path=livereload" data-no-instant defer></script>
         <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
 <meta name="description" content="you can find the description here and you can find the code here
 for part one, it is a very straight forward simulation.
-(defn step-part1 [x y cmd i] (cond (= cmd &amp;#34;forward&amp;#34;) [(&#43; x i) y] (= cmd &amp;#34;up&amp;#34;) [x (- y i)] :else [x (&#43; y i)])) part two is very similar but we also need to keep track of the aim
-(defn step-part2 [x y aim cmd i] (cond (= cmd &amp;#34;forward&amp;#34;) [(&#43; x i) (- y (* aim i)) aim] (= cmd &amp;#34;up&amp;#34;) [x y (&#43; aim i)] :else [x y (- aim i)]))	" />
+(defn step-part1 [x y cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) y] (= cmd &#34;up&#34;) [x (- y i)] :else [x (&#43; y i)])) part two is very similar but we also need to keep track of the aim
+(defn step-part2 [x y aim cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) (- y (* aim i)) aim] (= cmd &#34;up&#34;) [x y (&#43; aim i)] :else [x y (- aim i)]))	" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
-<link rel="canonical" href="/projects/advent-of-code-2021/day2/" />
+<link rel="canonical" href="//localhost:62507/projects/advent-of-code-2021/day2/" />
 
 
     <title>
         
-            day 2 :: about me  — lissarrague.xyz
+            day 2 :: about me 
         
     </title>
 
@@ -32,32 +32,26 @@ for part one, it is a very straight forward simulation.
 
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <meta name="msapplication-TileColor" content="">
-    <meta name="theme-color" content="">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
 
 
-<meta itemprop="name" content="day 2">
-<meta itemprop="description" content="you can find the description here and you can find the code here
+
+  <meta itemprop="name" content="day 2">
+  <meta itemprop="description" content="you can find the description here and you can find the code here
 for part one, it is a very straight forward simulation.
 (defn step-part1 [x y cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) y] (= cmd &#34;up&#34;) [x (- y i)] :else [x (&#43; y i)])) part two is very similar but we also need to keep track of the aim
-(defn step-part2 [x y aim cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) (- y (* aim i)) aim] (= cmd &#34;up&#34;) [x y (&#43; aim i)] :else [x y (- aim i)]))	"><meta itemprop="datePublished" content="2021-12-02T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-12-02T00:00:00+00:00" />
-<meta itemprop="wordCount" content="98">
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="day 2"/>
-<meta name="twitter:description" content="you can find the description here and you can find the code here
+(defn step-part2 [x y aim cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) (- y (* aim i)) aim] (= cmd &#34;up&#34;) [x y (&#43; aim i)] :else [x y (- aim i)]))">
+  <meta itemprop="datePublished" content="2021-12-02T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-12-02T00:00:00+00:00">
+  <meta itemprop="wordCount" content="98">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="day 2">
+  <meta name="twitter:description" content="you can find the description here and you can find the code here
 for part one, it is a very straight forward simulation.
 (defn step-part1 [x y cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) y] (= cmd &#34;up&#34;) [x (- y i)] :else [x (&#43; y i)])) part two is very similar but we also need to keep track of the aim
-(defn step-part2 [x y aim cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) (- y (* aim i)) aim] (= cmd &#34;up&#34;) [x y (&#43; aim i)] :else [x y (- aim i)]))	"/>
-
+(defn step-part2 [x y aim cmd i] (cond (= cmd &#34;forward&#34;) [(&#43; x i) (- y (* aim i)) aim] (= cmd &#34;up&#34;) [x y (&#43; aim i)] :else [x y (- aim i)]))">
 
 
 
@@ -80,18 +74,6 @@ for part one, it is a very straight forward simulation.
 
 
 
-
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXDRCDCX0B"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-GXDRCDCX0B', { 'anonymize_ip': false });
-}
-</script>
 
 
     </head>
@@ -152,7 +134,7 @@ if (!doNotTrack) {
         </div>
 
         <article>
-            <h2 class="post-title"><a href="/projects/advent-of-code-2021/day2/">day 2</a></h2>
+            <h2 class="post-title"><a href="//localhost:62507/projects/advent-of-code-2021/day2/">day 2</a></h2>
 
             
             
@@ -162,18 +144,18 @@ if (!doNotTrack) {
                 <p>you can find the description <a href="https://adventofcode.com/2021/day/2">here</a>
 and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master/2">here</a></p>
 <p>for part one, it is a very straight forward simulation.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-clojure" data-lang="clojure">(<span style="color:#66d9ef">defn </span>step-part1 [x y cmd i]
-  (<span style="color:#a6e22e">cond</span>
-    (= cmd <span style="color:#e6db74">&#34;forward&#34;</span>) [(+ x i) y]
-    (= cmd <span style="color:#e6db74">&#34;up&#34;</span>) [x (- y i)]
-    <span style="color:#e6db74">:else</span> [x (+ y i)]))
-</code></pre></div><p>part two is very similar but we also need to keep track of the aim</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-clojure" data-lang="clojure">(<span style="color:#66d9ef">defn </span>step-part2 [x y aim cmd i]
-  (<span style="color:#a6e22e">cond</span>
-    (= cmd <span style="color:#e6db74">&#34;forward&#34;</span>) [(+ x i) (- y (* aim i)) aim]
-    (= cmd <span style="color:#e6db74">&#34;up&#34;</span>) [x y (+ aim i)]
-    <span style="color:#e6db74">:else</span> [x y (- aim i)]))	
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-clojure" data-lang="clojure"><span style="display:flex;"><span>(<span style="color:#66d9ef">defn </span>step-part1 [x y cmd i]
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">cond</span>
+</span></span><span style="display:flex;"><span>    (= cmd <span style="color:#e6db74">&#34;forward&#34;</span>) [(+ x i) y]
+</span></span><span style="display:flex;"><span>    (= cmd <span style="color:#e6db74">&#34;up&#34;</span>) [x (- y i)]
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:else</span> [x (+ y i)]))
+</span></span></code></pre></div><p>part two is very similar but we also need to keep track of the aim</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-clojure" data-lang="clojure"><span style="display:flex;"><span>(<span style="color:#66d9ef">defn </span>step-part2 [x y aim cmd i]
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">cond</span>
+</span></span><span style="display:flex;"><span>    (= cmd <span style="color:#e6db74">&#34;forward&#34;</span>) [(+ x i) (- y (* aim i)) aim]
+</span></span><span style="display:flex;"><span>    (= cmd <span style="color:#e6db74">&#34;up&#34;</span>) [x y (+ aim i)]
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:else</span> [x y (- aim i)]))	
+</span></span></code></pre></div>
             </div>
         </article>
 
@@ -185,9 +167,9 @@ and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master
     <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
 
-        <span class="tag"><a href="/categories/advent-of-code/">advent-of-code</a></span>
-        <span class="tag"><a href="/categories/python/">python</a></span>
-        <span class="tag"><a href="/categories/clojure/">clojure</a></span>
+        <span class="tag"><a href="//localhost:62507/categories/advent-of-code/">advent-of-code</a></span>
+        <span class="tag"><a href="//localhost:62507/categories/python/">python</a></span>
+        <span class="tag"><a href="//localhost:62507/categories/clojure/">clojure</a></span>
         
     </p>
 
@@ -221,7 +203,7 @@ and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master
 
 
 
-<script type="text/javascript" src="/bundle.min.599099f1f14b78b657d524b28e10e0c5098e7cd46e9c7aed73d577068a276c3ff1bb234cbf29cb313333e83cf411727b43157c91ce5b809e2ffc81664614608e.js" integrity="sha512-WZCZ8fFLeLZX1SSyjhDgxQmOfNRunHrtc9V3BoonbD/xuyNMvynLMTMz6Dz0EXJ7QxV8kc5bgJ4v/IFmRhRgjg=="></script>
+<script type="text/javascript" src="/bundle.min.17f4a297973019cb34411034a36394fcb6eacdd75534644a62f64d85ac204bca0405d8a5b5f4babfd7625a6307b48c86d042051a47e0506e4147dda733ef13aa.js" integrity="sha512-F/Sil5cwGcs0QRA0o2OU/LbqzddVNGRKYvZNhawgS8oEBdiltfS6v9diWmMHtIyG0EIFGkfgUG5BR92nM&#43;8Tqg=="></script>
 
 
 

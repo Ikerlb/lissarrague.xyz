@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=62507&amp;path=livereload" data-no-instant defer></script>
         <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="">
 <meta name="description" content="you can find the description here and you can find the code here
 ok. this was fun!
-for both parts, i just simulated all boards with a class. only interesting thing is i kept track of all numbers contained in a board and added a rows and cols array, containing how many remaining numbers until a bingo in each row/col. this made it very easy to know if marking a number in a board yields a bingo." />
+for both parts, i just simulated all boards with a class. only interesting thing is i kept track of all numbers contained in a board and added a rows and cols array, containing how many remaining numbers until a bingo in each row/col. this made it very easy to know if marking a number in a board yields a bingo.
+" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
-<link rel="canonical" href="/projects/advent-of-code-2021/day4/" />
+<link rel="canonical" href="//localhost:62507/projects/advent-of-code-2021/day4/" />
 
 
     <title>
         
-            day 4 :: about me  — lissarrague.xyz
+            day 4 :: about me 
         
     </title>
 
@@ -31,30 +32,24 @@ for both parts, i just simulated all boards with a class. only interesting thing
 
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
-    <link rel="shortcut icon" href="/favicon.ico">
-    <meta name="msapplication-TileColor" content="">
-    <meta name="theme-color" content="">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
 
 
-<meta itemprop="name" content="day 4">
-<meta itemprop="description" content="you can find the description here and you can find the code here
+
+  <meta itemprop="name" content="day 4">
+  <meta itemprop="description" content="you can find the description here and you can find the code here
 ok. this was fun!
-for both parts, i just simulated all boards with a class. only interesting thing is i kept track of all numbers contained in a board and added a rows and cols array, containing how many remaining numbers until a bingo in each row/col. this made it very easy to know if marking a number in a board yields a bingo."><meta itemprop="datePublished" content="2021-12-04T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2021-12-04T00:00:00+00:00" />
-<meta itemprop="wordCount" content="204">
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="day 4"/>
-<meta name="twitter:description" content="you can find the description here and you can find the code here
-ok. this was fun!
-for both parts, i just simulated all boards with a class. only interesting thing is i kept track of all numbers contained in a board and added a rows and cols array, containing how many remaining numbers until a bingo in each row/col. this made it very easy to know if marking a number in a board yields a bingo."/>
+for both parts, i just simulated all boards with a class. only interesting thing is i kept track of all numbers contained in a board and added a rows and cols array, containing how many remaining numbers until a bingo in each row/col. this made it very easy to know if marking a number in a board yields a bingo.">
+  <meta itemprop="datePublished" content="2021-12-04T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-12-04T00:00:00+00:00">
+  <meta itemprop="wordCount" content="204">
 
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="day 4">
+  <meta name="twitter:description" content="you can find the description here and you can find the code here
+ok. this was fun!
+for both parts, i just simulated all boards with a class. only interesting thing is i kept track of all numbers contained in a board and added a rows and cols array, containing how many remaining numbers until a bingo in each row/col. this made it very easy to know if marking a number in a board yields a bingo.">
 
 
 
@@ -75,18 +70,6 @@ for both parts, i just simulated all boards with a class. only interesting thing
 
 
 
-
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GXDRCDCX0B"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-GXDRCDCX0B', { 'anonymize_ip': false });
-}
-</script>
 
 
     </head>
@@ -147,7 +130,7 @@ if (!doNotTrack) {
         </div>
 
         <article>
-            <h2 class="post-title"><a href="/projects/advent-of-code-2021/day4/">day 4</a></h2>
+            <h2 class="post-title"><a href="//localhost:62507/projects/advent-of-code-2021/day4/">day 4</a></h2>
 
             
             
@@ -159,23 +142,23 @@ and you can find the code <a href="https://github.com/Ikerlb/AoC2021/tree/master
 <p>ok. this was fun!</p>
 <p>for both parts, i just simulated all boards with a class.
 only interesting thing is i kept track of all numbers contained in a board and added a rows and cols array, containing how many remaining numbers until a bingo in each row/col. this made it very easy to know if marking a number in a board yields a bingo.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Board</span>:
-    <span style="color:#66d9ef">def</span> __init__(self, grid):
-        n, m <span style="color:#f92672">=</span> len(grid), len(grid[<span style="color:#ae81ff">0</span>])
-        self<span style="color:#f92672">.</span>elems <span style="color:#f92672">=</span> {grid[r][c]:(r, c) <span style="color:#66d9ef">for</span> r <span style="color:#f92672">in</span> range(n) <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> range(m)}
-        self<span style="color:#f92672">.</span>rows <span style="color:#f92672">=</span> [m <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(n)] 
-        self<span style="color:#f92672">.</span>cols <span style="color:#f92672">=</span> [n <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(m)]
-            
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mark</span>(self, n):
-        <span style="color:#66d9ef">if</span> n <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>elems:
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
-        
-        r, c <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>elems[n]    
-        <span style="color:#66d9ef">del</span> self<span style="color:#f92672">.</span>elems[n]
-        self<span style="color:#f92672">.</span>rows[r] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
-        self<span style="color:#f92672">.</span>cols[c] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
-        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>rows[r] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> self<span style="color:#f92672">.</span>cols[c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>
-</code></pre></div><p>for part one, just mark each board if it contains the number. if either the row or the column is all marked (board.rows[r] == 0 or board.cols[r] == 0) that board is the solution</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Board</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__init__</span>(self, grid):
+</span></span><span style="display:flex;"><span>        n, m <span style="color:#f92672">=</span> len(grid), len(grid[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>elems <span style="color:#f92672">=</span> {grid[r][c]:(r, c) <span style="color:#66d9ef">for</span> r <span style="color:#f92672">in</span> range(n) <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> range(m)}
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>rows <span style="color:#f92672">=</span> [m <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(n)] 
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>cols <span style="color:#f92672">=</span> [n <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(m)]
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mark</span>(self, n):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> n <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>elems:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        r, c <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>elems[n]    
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">del</span> self<span style="color:#f92672">.</span>elems[n]
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>rows[r] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>cols[c] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>rows[r] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> self<span style="color:#f92672">.</span>cols[c] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>for part one, just mark each board if it contains the number. if either the row or the column is all marked (board.rows[r] == 0 or board.cols[r] == 0) that board is the solution</p>
 <p>for part two, just remove each board as it gets a bingo until to have no more boards left. the answer is the last board you removed</p>
 
             </div>
@@ -189,8 +172,8 @@ only interesting thing is i kept track of all numbers contained in a board and a
     <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
 
-        <span class="tag"><a href="/categories/advent-of-code/">advent-of-code</a></span>
-        <span class="tag"><a href="/categories/python/">python</a></span>
+        <span class="tag"><a href="//localhost:62507/categories/advent-of-code/">advent-of-code</a></span>
+        <span class="tag"><a href="//localhost:62507/categories/python/">python</a></span>
         
     </p>
 
@@ -224,7 +207,7 @@ only interesting thing is i kept track of all numbers contained in a board and a
 
 
 
-<script type="text/javascript" src="/bundle.min.599099f1f14b78b657d524b28e10e0c5098e7cd46e9c7aed73d577068a276c3ff1bb234cbf29cb313333e83cf411727b43157c91ce5b809e2ffc81664614608e.js" integrity="sha512-WZCZ8fFLeLZX1SSyjhDgxQmOfNRunHrtc9V3BoonbD/xuyNMvynLMTMz6Dz0EXJ7QxV8kc5bgJ4v/IFmRhRgjg=="></script>
+<script type="text/javascript" src="/bundle.min.17f4a297973019cb34411034a36394fcb6eacdd75534644a62f64d85ac204bca0405d8a5b5f4babfd7625a6307b48c86d042051a47e0506e4147dda733ef13aa.js" integrity="sha512-F/Sil5cwGcs0QRA0o2OU/LbqzddVNGRKYvZNhawgS8oEBdiltfS6v9diWmMHtIyG0EIFGkfgUG5BR92nM&#43;8Tqg=="></script>
 
 
 
