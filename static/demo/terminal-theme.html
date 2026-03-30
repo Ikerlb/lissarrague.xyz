@@ -8,7 +8,6 @@
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
   :root {
-    /* Gruvbox-inspired palette */
     --bg: #1d2021;
     --bg-soft: #282828;
     --bg-highlight: #3c3836;
@@ -40,7 +39,6 @@
     padding: 0;
   }
 
-  /* ── Title bar ── */
   .title-bar {
     background: var(--bg-highlight);
     display: flex;
@@ -52,98 +50,39 @@
     z-index: 10;
     border-bottom: 1px solid #504945;
   }
-  .title-bar .dot {
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    display: inline-block;
-  }
+  .title-bar .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
   .title-bar .dot.red { background: var(--red); }
   .title-bar .dot.yellow { background: var(--yellow); }
   .title-bar .dot.green { background: var(--green); }
-  .title-bar .title-text {
-    flex: 1;
-    text-align: center;
-    color: var(--fg-dim);
-    font-size: 13px;
-  }
+  .title-bar .title-text { flex: 1; text-align: center; color: var(--fg-dim); font-size: 13px; }
 
-  /* ── Terminal container ── */
-  .terminal {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 24px 20px 60px;
-  }
+  .terminal { max-width: 860px; margin: 0 auto; padding: 24px 20px 60px; }
 
-  /* ── Prompt ── */
-  .prompt-line {
-    margin-bottom: 2px;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-  .prompt {
-    color: var(--fg-dim);
-    user-select: none;
-  }
+  .prompt-line { margin-bottom: 2px; white-space: pre-wrap; word-break: break-word; }
+  .prompt { color: var(--fg-dim); user-select: none; }
   .prompt .user { color: var(--prompt-user); font-weight: 700; }
   .prompt .host { color: var(--prompt-host); }
   .prompt .path { color: var(--prompt-path); }
   .prompt .dollar { color: var(--fg-dim); }
+  .command { color: var(--fg); font-weight: 700; }
 
-  .command {
-    color: var(--fg);
-    font-weight: 700;
-  }
-
-  /* ── Output blocks ── */
-  .output {
-    margin: 4px 0 24px 0;
-    color: var(--fg);
-  }
-  .output p {
-    margin: 4px 0;
-  }
+  .output { margin: 4px 0 24px 0; color: var(--fg); }
+  .output p { margin: 4px 0; }
   .output .dim { color: var(--fg-dim); }
   .output .highlight { color: var(--yellow); }
   .output .accent { color: var(--aqua); }
 
-  /* ── Section headers (like command output) ── */
   .section-header {
-    color: var(--orange);
-    font-weight: 700;
-    margin: 8px 0 4px;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 1px;
+    color: var(--orange); font-weight: 700; margin: 8px 0 4px;
+    text-transform: uppercase; font-size: 13px; letter-spacing: 1px;
   }
 
-  /* ── Links ── */
-  a {
-    color: var(--link);
-    text-decoration: none;
-    border-bottom: 1px dashed var(--link);
-    transition: color 0.15s, border-color 0.15s;
-  }
-  a:hover {
-    color: var(--link-hover);
-    border-color: var(--link-hover);
-  }
+  a { color: var(--link); text-decoration: none; border-bottom: 1px dashed var(--link); transition: color 0.15s, border-color 0.15s; }
+  a:hover { color: var(--link-hover); border-color: var(--link-hover); }
 
-  /* ── Project cards as ls -la output ── */
-  .file-listing {
-    font-size: 14px;
-    margin: 8px 0;
-  }
-  .file-listing .row {
-    display: flex;
-    gap: 0;
-    padding: 2px 0;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: background 0.1s;
-  }
-  .file-listing .row:hover {
-    background: var(--bg-highlight);
-  }
+  .file-listing { font-size: 14px; margin: 8px 0; }
+  .file-listing .row { display: flex; gap: 0; padding: 2px 0; cursor: pointer; border-radius: 3px; transition: background 0.1s; }
+  .file-listing .row:hover { background: var(--bg-highlight); }
   .file-listing .perms { color: var(--fg-dim); width: 11ch; flex-shrink: 0; }
   .file-listing .owner { color: var(--green); width: 7ch; flex-shrink: 0; }
   .file-listing .size  { color: var(--fg-dim); width: 7ch; flex-shrink: 0; text-align: right; padding-right: 1ch; }
@@ -151,150 +90,77 @@
   .file-listing .name  { color: var(--blue); font-weight: 700; }
   .file-listing .name.dir::after { content: '/'; color: var(--fg-dim); }
 
-  /* ── Expandable project details ── */
   .project-detail {
-    display: none;
-    margin: 4px 0 12px 2ch;
-    padding: 8px 12px;
-    border-left: 2px solid var(--bg-highlight);
-    color: var(--fg);
+    display: none; margin: 4px 0 12px 2ch; padding: 8px 12px;
+    border-left: 2px solid var(--bg-highlight); color: var(--fg);
   }
-  .project-detail.open {
-    display: block;
-  }
-  .project-detail .tags {
-    margin-top: 6px;
-  }
+  .project-detail.open { display: block; }
+  .project-detail .tags { margin-top: 6px; }
   .project-detail .tag {
-    display: inline-block;
-    background: var(--bg-highlight);
-    color: var(--purple);
-    padding: 1px 8px;
-    border-radius: 3px;
-    font-size: 12px;
-    margin-right: 4px;
+    display: inline-block; background: var(--bg-highlight); color: var(--purple);
+    padding: 1px 8px; border-radius: 3px; font-size: 12px; margin-right: 4px;
   }
 
-  /* ── Cat output (about me) ── */
-  .cat-output {
-    margin: 4px 0 24px;
-    padding: 0 0 0 2ch;
-    border-left: 2px solid var(--bg-highlight);
-  }
-  .cat-output p {
-    margin: 6px 0;
-  }
+  .cat-output { margin: 4px 0 24px; padding: 0 0 0 2ch; border-left: 2px solid var(--bg-highlight); }
+  .cat-output p { margin: 6px 0; }
 
-  /* ── Reading log as table ── */
-  .reading-table {
-    margin: 8px 0;
-    font-size: 14px;
-  }
-  .reading-table .entry {
-    display: flex;
-    gap: 0;
-    padding: 2px 0;
-  }
+  .reading-table { margin: 8px 0; font-size: 14px; }
+  .reading-table .entry { display: flex; gap: 0; padding: 2px 0; }
   .reading-table .status { width: 3ch; flex-shrink: 0; }
   .reading-table .status.done { color: var(--green); }
-  .reading-table .status.reading { color: var(--yellow); }
   .reading-table .book-title { color: var(--fg); flex: 1; }
   .reading-table .book-author { color: var(--fg-dim); width: 25ch; flex-shrink: 0; text-align: right; }
 
-  /* ── Interactive input ── */
-  .input-line {
-    display: flex;
-    align-items: center;
-    margin-top: 24px;
-  }
+  .input-line { display: flex; align-items: center; margin-top: 24px; }
   .input-line .prompt { margin-right: 0; }
   .input-line input {
-    background: none;
-    border: none;
-    color: var(--fg);
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: 700;
-    outline: none;
-    flex: 1;
-    caret-color: var(--green);
+    background: none; border: none; color: var(--fg); font-family: inherit;
+    font-size: inherit; font-weight: 700; outline: none; flex: 1; caret-color: var(--green);
   }
   .cursor-block {
-    display: inline-block;
-    width: 8px;
-    height: 1.2em;
-    background: var(--green);
-    animation: blink 1s step-end infinite;
-    vertical-align: text-bottom;
-    margin-left: 1px;
+    display: inline-block; width: 8px; height: 1.2em; background: var(--green);
+    animation: blink 1s step-end infinite; vertical-align: text-bottom; margin-left: 1px;
   }
-  @keyframes blink {
-    50% { opacity: 0; }
-  }
+  @keyframes blink { 50% { opacity: 0; } }
 
-  /* ── Scrollbar ── */
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--bg-highlight); border-radius: 4px; }
 
-  /* ── Nav hints ── */
   .nav-hints {
-    color: var(--fg-dim);
-    font-size: 13px;
-    margin: 12px 0 8px;
-    padding: 8px 0;
-    border-top: 1px dashed var(--bg-highlight);
-    border-bottom: 1px dashed var(--bg-highlight);
+    color: var(--fg-dim); font-size: 13px; margin: 12px 0 8px; padding: 8px 0;
+    border-top: 1px dashed var(--bg-highlight); border-bottom: 1px dashed var(--bg-highlight);
   }
-  .nav-hints kbd {
-    background: var(--bg-highlight);
-    padding: 1px 6px;
-    border-radius: 3px;
-    font-size: 12px;
-    color: var(--fg);
+  .nav-hints kbd { background: var(--bg-highlight); padding: 1px 6px; border-radius: 3px; font-size: 12px; color: var(--fg); }
+
+  .help-grid { display: grid; grid-template-columns: 18ch 1fr; gap: 2px 2ch; margin: 8px 0; }
+  .help-grid .cmd { color: var(--green); font-weight: 700; }
+  .help-grid .desc { color: var(--fg-dim); }
+
+  /* ── Animation helpers ── */
+  .fade-in { animation: fadeIn 0.3s ease-in; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .output-line { opacity: 0; transition: opacity 0.25s ease-in; }
+  .output-line.visible { opacity: 1; }
+
+  .skip-hint {
+    position: fixed; bottom: 16px; right: 16px; color: var(--fg-dim); font-size: 12px;
+    background: var(--bg-highlight); padding: 4px 10px; border-radius: 4px;
+    opacity: 0.7; transition: opacity 0.3s; pointer-events: none;
   }
 
-  /* ── Mobile adjustments ── */
   @media (max-width: 640px) {
     body { font-size: 13px; }
     .terminal { padding: 16px 12px 40px; }
-    .file-listing .perms,
-    .file-listing .owner,
-    .file-listing .size { display: none; }
+    .file-listing .perms, .file-listing .owner, .file-listing .size { display: none; }
     .file-listing .date { width: auto; margin-right: 1ch; }
     .reading-table .book-author { width: auto; }
   }
-
-  /* ── Typewriter animation ── */
-  .typewriter {
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 2px solid var(--green);
-    animation: typing 0.8s steps(30, end), blink-caret 0.6s step-end 3;
-    animation-fill-mode: forwards;
-  }
-  @keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
-  }
-  @keyframes blink-caret {
-    50% { border-color: transparent; }
-  }
-
-  /* ── Help output ── */
-  .help-grid {
-    display: grid;
-    grid-template-columns: 18ch 1fr;
-    gap: 2px 2ch;
-    margin: 8px 0;
-  }
-  .help-grid .cmd { color: var(--green); font-weight: 700; }
-  .help-grid .desc { color: var(--fg-dim); }
 </style>
 </head>
 <body>
 
-<!-- Title bar (macOS-style) -->
 <div class="title-bar">
   <span class="dot red"></span>
   <span class="dot yellow"></span>
@@ -302,290 +168,284 @@
   <span class="title-text">iker@lissarrague.xyz: ~</span>
 </div>
 
-<div class="terminal" id="terminal">
-
-  <!-- Welcome / MOTD -->
-  <div class="output dim" style="margin-bottom: 20px;">
-Welcome to lissarrague.xyz
-Last login: Mon Mar 30 09:42:13 2026 from 192.168.1.1
-Type <span class="accent">help</span> for available commands.
-  </div>
-
-  <!-- ─── whoami ─── -->
-  <div class="prompt-line">
-    <span class="prompt"><span class="user">iker</span>@<span class="host">lissarrague.xyz</span>:<span class="path">~</span><span class="dollar"> $</span></span>
-    <span class="command"> whoami</span>
-  </div>
-  <div class="cat-output">
-    <p><span class="highlight">Iker Lissarrague</span> — Software Engineer</p>
-    <p>I'm a software engineer constantly looking for ways to make people's lives better with software.</p>
-    <p>As of late, I've been focusing more and more on the backend of the stack but I've had some experience as a fullstack developer.</p>
-    <p>I love trying out new technologies, specially programming languages that feel very novel from what I'm used to.</p>
-    <p>Feel free to reach out!</p>
-    <p style="margin-top:12px;">
-      <span class="dim">email:</span> <a href="mailto:iker@lissarrague.xyz">iker@lissarrague.xyz</a> &nbsp;
-      <span class="dim">github:</span> <a href="https://github.com/Ikerlb/">Ikerlb</a> &nbsp;
-      <span class="dim">linkedin:</span> <a href="https://www.linkedin.com/in/iker-lissarrague/">iker-lissarrague</a>
-    </p>
-  </div>
-
-  <!-- ─── ls projects ─── -->
-  <div class="prompt-line">
-    <span class="prompt"><span class="user">iker</span>@<span class="host">lissarrague.xyz</span>:<span class="path">~</span><span class="dollar"> $</span></span>
-    <span class="command"> ls -la ~/projects/</span>
-  </div>
-  <div class="output">
-    <div class="file-listing">
-      <div class="row" onclick="toggleDetail('p1')">
-        <span class="perms">drwxr-xr-x</span>
-        <span class="owner">iker</span>
-        <span class="size">4.2K</span>
-        <span class="date">Mar 14 2026</span>
-        <span class="name dir">toy-totp</span>
-      </div>
-      <div class="project-detail" id="p1">
-        Interactive TOTP algorithm visualizer. Breaks down each step of the TOTP generation process with live animations.
-        <div class="tags">
-          <span class="tag">javascript</span>
-          <span class="tag">cryptography</span>
-          <span class="tag">interactive</span>
-        </div>
-      </div>
-      <div class="row" onclick="toggleDetail('p2')">
-        <span class="perms">drwxr-xr-x</span>
-        <span class="owner">iker</span>
-        <span class="size">8.1K</span>
-        <span class="date">Aug  8 2023</span>
-        <span class="name dir">rust-ray-tracer</span>
-      </div>
-      <div class="project-detail" id="p2">
-        A ray tracer written in Rust following "Ray Tracing in One Weekend". Features parallel rendering with Rayon.
-        <div class="tags">
-          <span class="tag">rust</span>
-          <span class="tag">ray-tracing</span>
-          <span class="tag">computer-graphics</span>
-        </div>
-      </div>
-      <div class="row" onclick="toggleDetail('p3')">
-        <span class="perms">drwxr-xr-x</span>
-        <span class="owner">iker</span>
-        <span class="size">3.5K</span>
-        <span class="date">May 10 2022</span>
-        <span class="name dir">mandelrust</span>
-      </div>
-      <div class="project-detail" id="p3">
-        Interactive Mandelbrot set renderer powered by AWS Lambda and Rust. Click to zoom, rendered server-side.
-        <div class="tags">
-          <span class="tag">rust</span>
-          <span class="tag">aws-lambda</span>
-          <span class="tag">terraform</span>
-        </div>
-      </div>
-      <div class="row" onclick="toggleDetail('p4')">
-        <span class="perms">drwxr-xr-x</span>
-        <span class="owner">iker</span>
-        <span class="size">6.7K</span>
-        <span class="date">Feb 21 2022</span>
-        <span class="name dir">go-ray-tracer</span>
-      </div>
-      <div class="project-detail" id="p4">
-        A ray tracer in Go using goroutines for parallel rendering. Implements diffuse, metal, and dielectric materials.
-        <div class="tags">
-          <span class="tag">go</span>
-          <span class="tag">ray-tracing</span>
-          <span class="tag">concurrency</span>
-        </div>
-      </div>
-      <div class="row" onclick="toggleDetail('p5')">
-        <span class="perms">drwxr-xr-x</span>
-        <span class="owner">iker</span>
-        <span class="size">12K</span>
-        <span class="date">Dec  1 2021</span>
-        <span class="name dir">advent-of-code-2021</span>
-      </div>
-      <div class="project-detail" id="p5">
-        Solutions and write-ups for Advent of Code 2021. 12 days of puzzles with detailed explanations.
-        <div class="tags">
-          <span class="tag">python</span>
-          <span class="tag">algorithms</span>
-          <span class="tag">puzzles</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── cat reading_log ─── -->
-  <div class="prompt-line">
-    <span class="prompt"><span class="user">iker</span>@<span class="host">lissarrague.xyz</span>:<span class="path">~</span><span class="dollar"> $</span></span>
-    <span class="command"> cat reading_log.txt</span>
-  </div>
-  <div class="output">
-    <div class="section-header">── 2022 ──</div>
-    <div class="reading-table">
-      <div class="entry">
-        <span class="status done">✓</span>
-        <span class="book-title">Programming Rust, 2nd Ed.</span>
-        <span class="book-author dim">Blandy, Orendorff, Tindall</span>
-      </div>
-      <div class="entry">
-        <span class="status done">✓</span>
-        <span class="book-title">Designing Data-Intensive Applications</span>
-        <span class="book-author dim">Martin Kleppmann</span>
-      </div>
-      <div class="entry">
-        <span class="status done">✓</span>
-        <span class="book-title">Terraform: Up & Running, 3rd Ed.</span>
-        <span class="book-author dim">Yevgeniy Brikman</span>
-      </div>
-    </div>
-    <div class="section-header">── 2021 ──</div>
-    <div class="reading-table">
-      <div class="entry">
-        <span class="status done">✓</span>
-        <span class="book-title">The Go Programming Language</span>
-        <span class="book-author dim">Donovan, Kernighan</span>
-      </div>
-      <div class="entry">
-        <span class="status done">✓</span>
-        <span class="book-title">Grokking Algorithms</span>
-        <span class="book-author dim">Aditya Bhargava</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── help ─── -->
-  <div class="prompt-line">
-    <span class="prompt"><span class="user">iker</span>@<span class="host">lissarrague.xyz</span>:<span class="path">~</span><span class="dollar"> $</span></span>
-    <span class="command"> help</span>
-  </div>
-  <div class="output">
-    <div class="help-grid">
-      <span class="cmd">whoami</span>     <span class="desc">About me</span>
-      <span class="cmd">ls projects/</span> <span class="desc">Browse projects</span>
-      <span class="cmd">cat &lt;file&gt;</span>  <span class="desc">Read a project write-up or blog post</span>
-      <span class="cmd">reading</span>     <span class="desc">Show reading log</span>
-      <span class="cmd">contact</span>     <span class="desc">Show contact info</span>
-      <span class="cmd">clear</span>       <span class="desc">Clear terminal</span>
-      <span class="cmd">help</span>        <span class="desc">Show this help</span>
-    </div>
-  </div>
-
-  <!-- ─── Nav hints for non-tech users ─── -->
-  <div class="nav-hints">
-    <kbd>↑</kbd> <kbd>↓</kbd> command history &nbsp;·&nbsp;
-    click any <span style="color:var(--blue);font-weight:700;">project/</span> to expand &nbsp;·&nbsp;
-    or just type a command below
-  </div>
-
-  <!-- ─── Interactive input ─── -->
-  <div class="input-line">
-    <span class="prompt"><span class="user">iker</span>@<span class="host">lissarrague.xyz</span>:<span class="path">~</span><span class="dollar"> $</span></span>
-    <input type="text" id="cmd-input" autofocus autocomplete="off" spellcheck="false" aria-label="Command input">
-    <span class="cursor-block" id="cursor"></span>
-  </div>
-</div>
+<div class="terminal" id="terminal"></div>
+<div class="skip-hint" id="skip-hint">click or press any key to skip</div>
 
 <script>
-  // Toggle project detail expand
-  function toggleDetail(id) {
-    const el = document.getElementById(id);
-    el.classList.toggle('open');
+const terminal = document.getElementById('terminal');
+const skipHint = document.getElementById('skip-hint');
+
+const PROMPT_HTML = '<span class="prompt"><span class="user">iker</span>@<span class="host">lissarrague.xyz</span>:<span class="path">~</span><span class="dollar"> $</span></span>';
+
+// ── Content definitions ──
+
+const MOTD = `<div class="output dim" style="margin-bottom: 20px;">Welcome to lissarrague.xyz\nLast login: Mon Mar 30 09:42:13 2026 from 192.168.1.1\nType <span class="accent">help</span> for available commands.</div>`;
+
+const WHOAMI_OUTPUT = `<div class="cat-output">
+  <p><span class="highlight">Iker Lissarrague</span> — Software Engineer</p>
+  <p>I'm a software engineer constantly looking for ways to make people's lives better with software.</p>
+  <p>As of late, I've been focusing more and more on the backend of the stack but I've had some experience as a fullstack developer.</p>
+  <p>I love trying out new technologies, specially programming languages that feel very novel from what I'm used to.</p>
+  <p>Feel free to reach out!</p>
+  <p style="margin-top:12px;">
+    <span class="dim">email:</span> <a href="mailto:iker@lissarrague.xyz">iker@lissarrague.xyz</a> &nbsp;
+    <span class="dim">github:</span> <a href="https://github.com/Ikerlb/">Ikerlb</a> &nbsp;
+    <span class="dim">linkedin:</span> <a href="https://www.linkedin.com/in/iker-lissarrague/">iker-lissarrague</a>
+  </p>
+</div>`;
+
+const PROJECTS_OUTPUT = `<div class="output"><div class="file-listing">
+  <div class="row" onclick="toggleDetail('p1')"><span class="perms">drwxr-xr-x</span><span class="owner">iker</span><span class="size">4.2K</span><span class="date">Mar 14 2026</span><span class="name dir">toy-totp</span></div>
+  <div class="project-detail" id="p1">Interactive TOTP algorithm visualizer. Breaks down each step of the TOTP generation process with live animations.<div class="tags"><span class="tag">javascript</span><span class="tag">cryptography</span><span class="tag">interactive</span></div></div>
+  <div class="row" onclick="toggleDetail('p2')"><span class="perms">drwxr-xr-x</span><span class="owner">iker</span><span class="size">8.1K</span><span class="date">Aug  8 2023</span><span class="name dir">rust-ray-tracer</span></div>
+  <div class="project-detail" id="p2">A ray tracer written in Rust following "Ray Tracing in One Weekend". Features parallel rendering with Rayon.<div class="tags"><span class="tag">rust</span><span class="tag">ray-tracing</span><span class="tag">computer-graphics</span></div></div>
+  <div class="row" onclick="toggleDetail('p3')"><span class="perms">drwxr-xr-x</span><span class="owner">iker</span><span class="size">3.5K</span><span class="date">May 10 2022</span><span class="name dir">mandelrust</span></div>
+  <div class="project-detail" id="p3">Interactive Mandelbrot set renderer powered by AWS Lambda and Rust. Click to zoom, rendered server-side.<div class="tags"><span class="tag">rust</span><span class="tag">aws-lambda</span><span class="tag">terraform</span></div></div>
+  <div class="row" onclick="toggleDetail('p4')"><span class="perms">drwxr-xr-x</span><span class="owner">iker</span><span class="size">6.7K</span><span class="date">Feb 21 2022</span><span class="name dir">go-ray-tracer</span></div>
+  <div class="project-detail" id="p4">A ray tracer in Go using goroutines for parallel rendering. Implements diffuse, metal, and dielectric materials.<div class="tags"><span class="tag">go</span><span class="tag">ray-tracing</span><span class="tag">concurrency</span></div></div>
+  <div class="row" onclick="toggleDetail('p5')"><span class="perms">drwxr-xr-x</span><span class="owner">iker</span><span class="size">12K</span><span class="date">Dec  1 2021</span><span class="name dir">advent-of-code-2021</span></div>
+  <div class="project-detail" id="p5">Solutions and write-ups for Advent of Code 2021. 12 days of puzzles with detailed explanations.<div class="tags"><span class="tag">python</span><span class="tag">algorithms</span><span class="tag">puzzles</span></div></div>
+</div></div>`;
+
+const HELP_OUTPUT = `<div class="output"><div class="help-grid">
+  <span class="cmd">whoami</span>     <span class="desc">About me</span>
+  <span class="cmd">ls projects/</span> <span class="desc">Browse projects</span>
+  <span class="cmd">cat &lt;file&gt;</span>  <span class="desc">Read a project write-up or blog post</span>
+  <span class="cmd">reading</span>     <span class="desc">Show reading log</span>
+  <span class="cmd">contact</span>     <span class="desc">Show contact info</span>
+  <span class="cmd">clear</span>       <span class="desc">Clear terminal</span>
+  <span class="cmd">help</span>        <span class="desc">Show this help</span>
+</div></div>`;
+
+const NAV_HINTS = `<div class="nav-hints"><kbd>↑</kbd> <kbd>↓</kbd> command history &nbsp;·&nbsp; click any <span style="color:var(--blue);font-weight:700;">project/</span> to expand &nbsp;·&nbsp; or just type a command below</div>`;
+
+const INPUT_LINE = `<div class="input-line">${PROMPT_HTML}<input type="text" id="cmd-input" autocomplete="off" spellcheck="false" aria-label="Command input"><span class="cursor-block" id="cursor"></span></div>`;
+
+// ── Intro sequence definition ──
+
+const INTRO_SEQUENCE = [
+  { type: 'html', content: MOTD, delay: 400 },
+  { type: 'command', text: 'whoami', delay: 600 },
+  { type: 'html', content: WHOAMI_OUTPUT, delay: 800 },
+  { type: 'command', text: 'ls -la ~/projects/', delay: 600 },
+  { type: 'html', content: PROJECTS_OUTPUT, delay: 600 },
+  { type: 'command', text: 'help', delay: 500 },
+  { type: 'html', content: HELP_OUTPUT, delay: 400 },
+  { type: 'html', content: NAV_HINTS, delay: 0 },
+  { type: 'html', content: INPUT_LINE, delay: 0 },
+];
+
+// ── Animation engine ──
+
+let animationRunning = true;
+let skipRequested = false;
+let currentTimeout = null;
+
+function sleep(ms) {
+  return new Promise(resolve => {
+    currentTimeout = setTimeout(resolve, ms);
+  });
+}
+
+function typeCommand(text, container) {
+  return new Promise(async (resolve) => {
+    const cmdSpan = container.querySelector('.command');
+    cmdSpan.textContent = '';
+    const charDelay = Math.max(25, Math.min(60, 800 / text.length));
+    for (let i = 0; i < text.length; i++) {
+      if (skipRequested) {
+        cmdSpan.textContent = text;
+        resolve();
+        return;
+      }
+      cmdSpan.textContent = text.substring(0, i + 1);
+      await sleep(charDelay);
+    }
+    resolve();
+  });
+}
+
+async function runIntroSequence() {
+  for (const step of INTRO_SEQUENCE) {
+    if (skipRequested) break;
+
+    if (step.type === 'command') {
+      // Create prompt line with empty command
+      const div = document.createElement('div');
+      div.className = 'prompt-line';
+      div.innerHTML = `${PROMPT_HTML} <span class="command"></span>`;
+      terminal.appendChild(div);
+      scrollToBottom();
+
+      await typeCommand(step.text, div);
+      if (skipRequested) break;
+      await sleep(step.delay);
+
+    } else if (step.type === 'html') {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'fade-in';
+      wrapper.innerHTML = step.content;
+      terminal.appendChild(wrapper.firstElementChild || wrapper);
+      scrollToBottom();
+
+      if (skipRequested) break;
+      if (step.delay > 0) await sleep(step.delay);
+    }
   }
 
-  // Basic interactive command handling
+  finishIntro();
+}
+
+function finishIntro() {
+  animationRunning = false;
+  skipHint.style.display = 'none';
+
+  // If skipped, render everything that's missing
+  if (skipRequested) {
+    terminal.innerHTML = '';
+    for (const step of INTRO_SEQUENCE) {
+      if (step.type === 'command') {
+        const div = document.createElement('div');
+        div.className = 'prompt-line';
+        div.innerHTML = `${PROMPT_HTML} <span class="command">${escapeHtml(step.text)}</span>`;
+        terminal.appendChild(div);
+      } else if (step.type === 'html') {
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = step.content;
+        terminal.appendChild(wrapper.firstElementChild || wrapper);
+      }
+    }
+  }
+
+  setupInteractiveShell();
+  scrollToBottom();
+}
+
+function skipAnimation() {
+  if (!animationRunning) return;
+  skipRequested = true;
+  if (currentTimeout) clearTimeout(currentTimeout);
+  finishIntro();
+}
+
+// Skip on click or keypress
+document.addEventListener('click', (e) => {
+  if (animationRunning && !e.target.closest('a')) {
+    skipAnimation();
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (animationRunning) {
+    skipAnimation();
+    e.preventDefault();
+  }
+});
+
+// ── Interactive shell (post-animation) ──
+
+const COMMANDS = {
+  help: () => HELP_OUTPUT,
+  whoami: () => WHOAMI_OUTPUT,
+  contact: () => `<div class="output"><span class="dim">email:</span>    <a href="mailto:iker@lissarrague.xyz">iker@lissarrague.xyz</a><br><span class="dim">github:</span>   <a href="https://github.com/Ikerlb/">github.com/Ikerlb</a><br><span class="dim">linkedin:</span> <a href="https://www.linkedin.com/in/iker-lissarrague/">iker-lissarrague</a></div>`,
+  'ls': () => PROJECTS_OUTPUT,
+  clear: () => '__CLEAR__',
+};
+
+// Also match "ls projects/", "ls -la ~/projects/", etc.
+function resolveCommand(raw) {
+  const trimmed = raw.trim();
+  if (trimmed.startsWith('ls')) return COMMANDS['ls'];
+  return COMMANDS[trimmed.split(' ')[0]];
+}
+
+const cmdHistory = [];
+let historyIdx = -1;
+
+function setupInteractiveShell() {
   const input = document.getElementById('cmd-input');
-  const terminal = document.getElementById('terminal');
   const cursor = document.getElementById('cursor');
+  if (!input) return;
 
-  const COMMANDS = {
-    help: () => `<div class="help-grid">
-      <span class="cmd">whoami</span>     <span class="desc">About me</span>
-      <span class="cmd">ls projects/</span> <span class="desc">Browse projects</span>
-      <span class="cmd">cat &lt;file&gt;</span>  <span class="desc">Read a project write-up</span>
-      <span class="cmd">reading</span>     <span class="desc">Show reading log</span>
-      <span class="cmd">contact</span>     <span class="desc">Show contact info</span>
-      <span class="cmd">clear</span>       <span class="desc">Clear terminal</span>
-      <span class="cmd">help</span>        <span class="desc">Show this help</span>
-    </div>`,
-    whoami: () => `<span class="highlight">Iker Lissarrague</span> — Software Engineer\nFeel free to reach out at <a href="mailto:iker@lissarrague.xyz">iker@lissarrague.xyz</a>`,
-    contact: () => `<span class="dim">email:</span>    <a href="mailto:iker@lissarrague.xyz">iker@lissarrague.xyz</a>\n<span class="dim">github:</span>   <a href="https://github.com/Ikerlb/">github.com/Ikerlb</a>\n<span class="dim">linkedin:</span> <a href="https://www.linkedin.com/in/iker-lissarrague/">iker-lissarrague</a>`,
-    clear: () => '__CLEAR__',
-  };
+  input.focus();
 
-  const history = [];
-  let historyIdx = -1;
-
-  input.addEventListener('focus', () => cursor.style.display = 'none');
-  input.addEventListener('blur', () => cursor.style.display = 'inline-block');
+  input.addEventListener('focus', () => { if (cursor) cursor.style.display = 'none'; });
+  input.addEventListener('blur', () => { if (cursor) cursor.style.display = 'inline-block'; });
 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       const cmd = input.value.trim();
       if (!cmd) return;
 
-      history.unshift(cmd);
+      cmdHistory.unshift(cmd);
       historyIdx = -1;
 
-      // Build prompt + command line
       const lineDiv = document.createElement('div');
       lineDiv.className = 'prompt-line';
-      lineDiv.innerHTML = `<span class="prompt"><span class="user">iker</span>@<span class="host">lissarrague.xyz</span>:<span class="path">~</span><span class="dollar"> $</span></span> <span class="command">${escapeHtml(cmd)}</span>`;
+      lineDiv.innerHTML = `${PROMPT_HTML} <span class="command">${escapeHtml(cmd)}</span>`;
 
-      // Insert before input line
       const inputLine = input.closest('.input-line');
       terminal.insertBefore(lineDiv, inputLine);
 
       if (cmd === 'clear') {
-        // Remove everything except input line
         while (terminal.firstChild !== inputLine) {
           terminal.removeChild(terminal.firstChild);
         }
       } else {
-        const handler = COMMANDS[cmd.split(' ')[0]];
+        const handler = resolveCommand(cmd);
         const outputDiv = document.createElement('div');
-        outputDiv.className = 'output';
 
         if (handler) {
-          outputDiv.innerHTML = handler().replace(/\n/g, '<br>');
+          const wrapper = document.createElement('div');
+          wrapper.innerHTML = handler();
+          const el = wrapper.firstElementChild || wrapper;
+          el.classList.add('fade-in');
+          terminal.insertBefore(el, inputLine);
         } else {
+          outputDiv.className = 'output fade-in';
           outputDiv.innerHTML = `<span class="dim">command not found: ${escapeHtml(cmd)}. Type </span><span class="accent">help</span><span class="dim"> for available commands.</span>`;
+          terminal.insertBefore(outputDiv, inputLine);
         }
-        terminal.insertBefore(outputDiv, inputLine);
       }
 
       input.value = '';
-      window.scrollTo(0, document.body.scrollHeight);
+      scrollToBottom();
     }
 
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      if (historyIdx < history.length - 1) {
-        historyIdx++;
-        input.value = history[historyIdx];
-      }
+      if (historyIdx < cmdHistory.length - 1) { historyIdx++; input.value = cmdHistory[historyIdx]; }
     }
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (historyIdx > 0) {
-        historyIdx--;
-        input.value = history[historyIdx];
-      } else {
-        historyIdx = -1;
-        input.value = '';
-      }
+      if (historyIdx > 0) { historyIdx--; input.value = cmdHistory[historyIdx]; }
+      else { historyIdx = -1; input.value = ''; }
     }
   });
 
-  // Click anywhere to focus input
+  // Click to focus (but not on links or project rows)
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('a') && !e.target.closest('.file-listing .row')) {
+    if (!animationRunning && !e.target.closest('a') && !e.target.closest('.file-listing .row')) {
       input.focus();
     }
   });
+}
 
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
+// ── Utilities ──
+
+function toggleDetail(id) {
+  document.getElementById(id)?.classList.toggle('open');
+}
+
+function scrollToBottom() {
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// ── Start ──
+runIntroSequence();
 </script>
 </body>
 </html>
