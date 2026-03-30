@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lissarrague.xyz — terminal UI demo</title>
+    <style>
+        /* ───────────── Reset & Base ───────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Gruvbox-inspired dark palette */
+            --bg:        #1d2021;
+            --bg-soft:   #282828;
+            --fg:        #ebdbb2;
+            --fg-dim:    #a89984;
+            --green:     #b8bb26;
+            --aqua:      #8ec07c;
+            --yellow:    #fabd2f;
+            --orange:    #fe8019;
+            --red:       #fb4934;
+            --blue:      #83a598;
+            --purple:    #d3869b;
+            --border:    #504945;
+
+            /* Light palette */
+            --light-bg:        #fbf1c7;
+            --light-bg-soft:   #f2e5bc;
+            --light-fg:        #3c3836;
+            --light-fg-dim:    #7c6f64;
+            --light-green:     #79740e;
+            --light-aqua:      #427b58;
+            --light-yellow:    #b57614;
+            --light-orange:    #af3a03;
+            --light-red:       #cc241d;
+            --light-blue:      #076678;
+            --light-purple:    #8f3f71;
+            --light-border:    #d5c4a1;
+        }
+
+        html.light {
+            --bg:        var(--light-bg);
+            --bg-soft:   var(--light-bg-soft);
+            --fg:        var(--light-fg);
+            --fg-dim:    var(--light-fg-dim);
+            --green:     var(--light-green);
+            --aqua:      var(--light-aqua);
+            --yellow:    var(--light-yellow);
+            --orange:    var(--light-orange);
+            --red:       var(--light-red);
+            --blue:      var(--light-blue);
+            --purple:    var(--light-purple);
+            --border:    var(--light-border);
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ───────────── Terminal Window ───────────── */
+        .terminal-window {
+            width: 100%;
+            max-width: 820px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,.4);
+            margin-top: 2rem;
+        }
+
+        .terminal-titlebar {
+            background: var(--bg-soft);
+            border-bottom: 1px solid var(--border);
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            user-select: none;
+        }
+
+        .terminal-titlebar .dots {
+            display: flex;
+            gap: 6px;
+        }
+        .terminal-titlebar .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot.red   { background: var(--red); }
+        .dot.yellow { background: var(--yellow); }
+        .dot.green  { background: var(--green); }
+
+        .terminal-titlebar .title {
+            flex: 1;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--fg-dim);
+        }
+
+        .terminal-titlebar .controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .terminal-titlebar .controls button {
+            background: none;
+            border: none;
+            color: var(--fg-dim);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+        .terminal-titlebar .controls button:hover {
+            background: var(--border);
+            color: var(--fg);
+        }
+
+        .terminal-body {
+            background: var(--bg);
+            padding: 1.25rem;
+            min-height: 400px;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        /* ───────────── Prompt & Output ───────────── */
+        .prompt-line {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+        }
+
+        .prompt {
+            color: var(--green);
+            white-space: pre;
+        }
+        .prompt .path {
+            color: var(--blue);
+        }
+        .prompt .dollar {
+            color: var(--fg);
+        }
+
+        .command {
+            color: var(--fg);
+            margin-left: 0.5ch;
+        }
+
+        .output {
+            margin: 0.5rem 0 1.25rem 0;
+            color: var(--fg);
+        }
+
+        .output p {
+            margin: 0.3rem 0;
+        }
+
+        .output .highlight {
+            color: var(--yellow);
+            font-weight: bold;
+        }
+
+        .output a {
+            color: var(--aqua);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--aqua);
+            transition: border-color 0.2s;
+        }
+        .output a:hover {
+            border-bottom-style: solid;
+            color: var(--green);
+        }
+
+        /* ───────────── Interactive Input ───────────── */
+        .input-line {
+            display: flex;
+            align-items: baseline;
+        }
+
+        .input-line input {
+            background: transparent;
+            border: none;
+            color: var(--fg);
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+            flex: 1;
+            margin-left: 0.5ch;
+            caret-color: var(--green);
+        }
+
+        /* ───────────── Nav hints (clickable commands) ───────────── */
+        .nav-hint {
+            display: inline-block;
+            color: var(--aqua);
+            cursor: pointer;
+            border-bottom: 1px dashed var(--aqua);
+            transition: color 0.2s;
+        }
+        .nav-hint:hover {
+            color: var(--green);
+            border-bottom-color: var(--green);
+        }
+
+        /* ───────────── File listings ───────────── */
+        .file-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.25rem 2rem;
+        }
+        .file-list .dir {
+            color: var(--blue);
+            font-weight: bold;
+        }
+        .file-list .file {
+            color: var(--fg);
+        }
+        .file-list .exec {
+            color: var(--green);
+        }
+
+        /* ───────────── Table (for reading log etc.) ───────────── */
+        .ascii-table {
+            border-collapse: collapse;
+            margin: 0.5rem 0;
+            font-size: 0.85rem;
+        }
+        .ascii-table th {
+            color: var(--yellow);
+            text-align: left;
+            padding: 0.15rem 1.5rem 0.15rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .ascii-table td {
+            padding: 0.15rem 1.5rem 0.15rem 0;
+            color: var(--fg);
+        }
+
+        /* ───────────── ASCII Art ───────────── */
+        .ascii-art {
+            color: var(--green);
+            font-size: 0.65rem;
+            line-height: 1.2;
+            white-space: pre;
+            margin: 0.5rem 0;
+        }
+
+        /* ───────────── Blinking cursor ───────────── */
+        .cursor {
+            display: inline-block;
+            width: 0.6ch;
+            height: 1.1em;
+            background: var(--green);
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* ───────────── Typing animation ───────────── */
+        .typing .char {
+            opacity: 0;
+            animation: typeIn 0.03s forwards;
+        }
+
+        @keyframes typeIn {
+            to { opacity: 1; }
+        }
+
+        /* ───────────── Responsive ───────────── */
+        @media (max-width: 600px) {
+            body { padding: 0.5rem; }
+            .terminal-window { margin-top: 0.5rem; border-radius: 0; }
+            .terminal-body { font-size: 0.8rem; padding: 0.75rem; }
+            .ascii-art { font-size: 0.45rem; }
+            .file-list { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* ───────────── Autocomplete dropdown ───────────── */
+        .autocomplete {
+            position: relative;
+            flex: 1;
+            margin-left: 0.5ch;
+        }
+        .autocomplete input {
+            margin-left: 0;
+            width: 100%;
+        }
+        .autocomplete-list {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            background: var(--bg-soft);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.25rem 0;
+            z-index: 10;
+            min-width: 220px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .autocomplete-list.visible { display: block; }
+        .autocomplete-list .item {
+            padding: 0.2rem 0.75rem;
+            cursor: pointer;
+            color: var(--fg);
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+        .autocomplete-list .item.active {
+            background: var(--border);
+            color: var(--green);
+        }
+        .autocomplete-list .item .hint {
+            color: var(--fg-dim);
+            margin-left: 1ch;
+            font-size: 0.75rem;
+        }
+
+        /* ───────────── Help banner ───────────── */
+        .help-banner {
+            color: var(--fg-dim);
+            font-size: 0.8rem;
+            margin: 0.5rem 0 1rem 0;
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+        }
+        .help-banner .cmd {
+            color: var(--aqua);
+            font-weight: bold;
+        }
+        .help-banner .desc {
+            color: var(--fg-dim);
+        }
+
+        /* ───────────── Tag/category pills ───────────── */
+        .tag {
+            display: inline-block;
+            background: var(--bg-soft);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 0 0.4rem;
+            font-size: 0.75rem;
+            color: var(--purple);
+            margin-right: 0.3rem;
+        }
+    </style>
+    <!-- Google Font: JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="terminal-window">
+        <div class="terminal-titlebar">
+            <div class="dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            <span class="title">iker@lissarrague.xyz: ~</span>
+            <div class="controls">
+                <button onclick="toggleTheme()" title="Toggle light/dark mode">theme</button>
+                <button onclick="runCommand('help')" title="Show available commands">help</button>
+            </div>
+        </div>
+        <div class="terminal-body" id="terminal">
+            <!-- Content rendered by JS -->
+        </div>
+    </div>
+
+<script>
+// ─────────────────────────────────────────────
+// Site data (in a real build, generated by Hugo)
+// ─────────────────────────────────────────────
+const SITE = {
+    user: 'iker',
+    host: 'lissarrague.xyz',
+    name: 'iker lissarrague',
+    bio: [
+        "i'm a software engineer constantly looking for ways to make people's lives better with software.",
+        "as of late, i've been focusing more and more on the backend of the stack but i've had some experience as a fullstack developer.",
+        "i love trying out new technologies, specially programming languages that feel very novel from what i'm used to.",
+        "feel free to reach out!"
+    ],
+    social: [
+        { name: 'email',    url: 'mailto:iker@lissarrague.xyz', display: 'iker@lissarrague.xyz' },
+        { name: 'github',   url: 'https://github.com/Ikerlb/',  display: 'github.com/Ikerlb' },
+        { name: 'linkedin', url: 'https://www.linkedin.com/in/iker-lissarrague/', display: 'linkedin.com/in/iker-lissarrague' },
+    ],
+    projects: [
+        { slug: 'toy-totp',             title: 'Toy TOTP',             date: '2026-03-18', tags: ['go', 'cryptography', 'interactive'], summary: 'An interactive TOTP visualizer built to understand how time-based one-time passwords work under the hood.' },
+        { slug: 'rust-ray-tracer',      title: 'Rust Ray Tracer',      date: '2023-08-08', tags: ['rust', 'graphics'],                  summary: 'A ray tracer implementation in Rust following "Ray Tracing in One Weekend".' },
+        { slug: 'mandelrust',           title: 'Mandelrust',           date: '2022-05-04', tags: ['rust', 'aws', 'lambda', 'wasm'],     summary: 'Interactive Mandelbrot set explorer backed by AWS Lambda + Rust.' },
+        { slug: 'go-ray-tracer',        title: 'Go Ray Tracer',        date: '2022-02-22', tags: ['go', 'graphics'],                    summary: 'A ray tracer in Go — my first foray into the language.' },
+        { slug: 'advent-of-code-2021',  title: 'Advent of Code 2021',  date: '2022-01-12', tags: ['python', 'algorithms'],              summary: 'Solutions and write-ups for Advent of Code 2021 puzzles.' },
+    ],
+    readingLog: {
+        '2022': [
+            { title: 'Designing Data-Intensive Applications', author: 'Martin Kleppmann' },
+            { title: 'The Pragmatic Programmer',             author: 'Hunt & Thomas' },
+        ],
+        '2021': [
+            { title: 'Crafting Interpreters',   author: 'Robert Nystrom' },
+            { title: 'The Rust Programming Language', author: 'Klabnik & Nichols' },
+        ],
+    },
+};
+
+const ASCII_BANNER = `
+ _ _
+| (_)___ ___  __ _ _ __ _ __ __ _  __ _ _   _  ___
+| | / __/ __|/ _\` | '__| '__/ _\` |/ _\` | | | |/ _ \\
+| | \\__ \\__ \\ (_| | |  | | | (_| | (_| | |_| |  __/
+|_|_|___/___/\\__,_|_|  |_|  \\__,_|\\__, |\\__,_|\\___|
+                                   |___/            `.trim();
+
+// ─────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────
+let history = [];
+let historyIndex = -1;
+let currentPath = '~';
+
+const terminal = document.getElementById('terminal');
+
+// ─────────────────────────────────────────────
+// Commands
+// ─────────────────────────────────────────────
+const COMMANDS = {
+    help: {
+        hint: 'show available commands',
+        run() {
+            return helpOutput();
+        }
+    },
+    about: {
+        hint: 'who am i?',
+        run() {
+            let html = `<div class="ascii-art">${escHtml(ASCII_BANNER)}</div>`;
+            html += `<p class="highlight">${SITE.name}</p>`;
+            SITE.bio.forEach(p => html += `<p>${escHtml(p)}</p>`);
+            html += `<br>`;
+            SITE.social.forEach(s => {
+                html += `<p>${s.name.padEnd(10)} <a href="${s.url}" target="_blank" rel="noopener">${s.display}</a></p>`;
+            });
+            return html;
+        }
+    },
+    projects: {
+        hint: 'list projects',
+        run() {
+            let html = '';
+            SITE.projects.forEach(p => {
+                const tags = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+                html += `<p><span class="highlight">${escHtml(p.title)}</span> <span style="color:var(--fg-dim)">(${p.date})</span></p>`;
+                html += `<p>${escHtml(p.summary)}</p>`;
+                html += `<p>${tags}</p><br>`;
+            });
+            html += `<p style="color:var(--fg-dim)">tip: run <span class="nav-hint" onclick="runCommand('project rust-ray-tracer')">project &lt;slug&gt;</span> to read more</p>`;
+            return html;
+        }
+    },
+    project: {
+        hint: 'view a project (e.g. project rust-ray-tracer)',
+        run(args) {
+            const slug = args[0];
+            const p = SITE.projects.find(x => x.slug === slug);
+            if (!p) return `<p style="color:var(--red)">project not found: ${escHtml(slug || '')}</p><p>available: ${SITE.projects.map(x => x.slug).join(', ')}</p>`;
+            const tags = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+            return `<p><span class="highlight">${escHtml(p.title)}</span></p><p>${escHtml(p.summary)}</p><p>${tags}</p>`;
+        }
+    },
+    reading: {
+        hint: 'show reading log',
+        run() {
+            let html = '<table class="ascii-table"><tr><th>year</th><th>title</th><th>author</th></tr>';
+            Object.entries(SITE.readingLog).sort((a,b) => b[0]-a[0]).forEach(([year, books]) => {
+                books.forEach((b, i) => {
+                    html += `<tr><td>${i === 0 ? year : ''}</td><td>${escHtml(b.title)}</td><td style="color:var(--fg-dim)">${escHtml(b.author)}</td></tr>`;
+                });
+            });
+            html += '</table>';
+            return html;
+        }
+    },
+    social: {
+        hint: 'show contact & social links',
+        run() {
+            let html = '';
+            SITE.social.forEach(s => {
+                html += `<p>${s.name.padEnd(10)} <a href="${s.url}" target="_blank" rel="noopener">${s.display}</a></p>`;
+            });
+            return html;
+        }
+    },
+    clear: {
+        hint: 'clear the terminal',
+        run() {
+            terminal.innerHTML = '';
+            return null; // no output to append
+        }
+    },
+    theme: {
+        hint: 'toggle light/dark mode',
+        run() {
+            toggleTheme();
+            const mode = document.documentElement.classList.contains('light') ? 'light' : 'dark';
+            return `<p>switched to ${mode} mode</p>`;
+        }
+    },
+};
+
+// ─────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────
+function escHtml(s) {
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+}
+
+function promptHtml() {
+    return `<span class="prompt"><span style="color:var(--green)">${SITE.user}@${SITE.host}</span>:<span class="path">${currentPath}</span><span class="dollar">$</span></span>`;
+}
+
+function helpOutput() {
+    let html = '<div class="help-banner">';
+    html += '<p style="color:var(--yellow);margin-bottom:0.4rem">available commands:</p>';
+    Object.entries(COMMANDS).forEach(([name, cmd]) => {
+        html += `<p><span class="cmd">${name.padEnd(12)}</span> <span class="desc">${cmd.hint}</span></p>`;
+    });
+    html += '<br><p class="desc">you can also click on <span style="color:var(--aqua)">highlighted text</span> to run commands.</p>';
+    html += '<p class="desc">press <span style="color:var(--aqua)">Tab</span> to autocomplete, <span style="color:var(--aqua)">↑/↓</span> for history.</p>';
+    html += '</div>';
+    return html;
+}
+
+function runCommand(input) {
+    const trimmed = input.trim();
+    if (!trimmed) return renderPrompt();
+
+    // Remove existing input line
+    const existingInput = document.querySelector('.input-line');
+    if (existingInput) existingInput.parentElement.remove();
+
+    // Show the command in the terminal
+    const cmdLine = document.createElement('div');
+    cmdLine.innerHTML = `<div class="prompt-line">${promptHtml()} <span class="command">${escHtml(trimmed)}</span></div>`;
+    terminal.appendChild(cmdLine);
+
+    // Parse & execute
+    const parts = trimmed.split(/\s+/);
+    const cmd = parts[0].toLowerCase();
+    const args = parts.slice(1);
+
+    history.push(trimmed);
+    historyIndex = history.length;
+
+    const handler = COMMANDS[cmd];
+    if (handler) {
+        const result = handler.run(args);
+        if (result !== null && result !== undefined) {
+            const out = document.createElement('div');
+            out.className = 'output';
+            out.innerHTML = result;
+            terminal.appendChild(out);
+        }
+    } else {
+        const out = document.createElement('div');
+        out.className = 'output';
+        out.innerHTML = `<p style="color:var(--red)">command not found: ${escHtml(cmd)}</p><p style="color:var(--fg-dim)">type <span class="nav-hint" onclick="runCommand('help')">help</span> for available commands</p>`;
+        terminal.appendChild(out);
+    }
+
+    renderPrompt();
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+function renderPrompt() {
+    // Remove existing input line if any
+    const existing = document.querySelector('.input-line');
+    if (existing) existing.parentElement.remove();
+
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = `
+        <div class="input-line">
+            ${promptHtml()}
+            <div class="autocomplete">
+                <input type="text" id="cmd-input" autofocus autocomplete="off" spellcheck="false" aria-label="Terminal input">
+                <div class="autocomplete-list" id="ac-list"></div>
+            </div>
+        </div>`;
+    terminal.appendChild(wrapper);
+
+    const input = document.getElementById('cmd-input');
+    input.focus();
+
+    input.addEventListener('keydown', handleInput);
+    input.addEventListener('input', handleAutocomplete);
+}
+
+function handleInput(e) {
+    const input = e.target;
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        hideAutocomplete();
+        runCommand(input.value);
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (historyIndex > 0) {
+            historyIndex--;
+            input.value = history[historyIndex];
+        }
+    } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (historyIndex < history.length - 1) {
+            historyIndex++;
+            input.value = history[historyIndex];
+        } else {
+            historyIndex = history.length;
+            input.value = '';
+        }
+    } else if (e.key === 'Tab') {
+        e.preventDefault();
+        const val = input.value.trim().toLowerCase();
+        const matches = Object.keys(COMMANDS).filter(c => c.startsWith(val));
+        if (matches.length === 1) {
+            input.value = matches[0] + ' ';
+            hideAutocomplete();
+        }
+    } else if (e.key === 'l' && e.ctrlKey) {
+        e.preventDefault();
+        runCommand('clear');
+    }
+}
+
+function handleAutocomplete(e) {
+    const val = e.target.value.trim().toLowerCase();
+    const list = document.getElementById('ac-list');
+    if (!val) { hideAutocomplete(); return; }
+
+    const matches = Object.entries(COMMANDS).filter(([name]) => name.startsWith(val) && name !== val);
+    if (matches.length === 0) { hideAutocomplete(); return; }
+
+    list.innerHTML = matches.map(([name, cmd]) =>
+        `<div class="item" onmousedown="selectAutocomplete('${name}')">${name}<span class="hint">${cmd.hint}</span></div>`
+    ).join('');
+    list.classList.add('visible');
+}
+
+function selectAutocomplete(name) {
+    const input = document.getElementById('cmd-input');
+    input.value = name + ' ';
+    hideAutocomplete();
+    input.focus();
+}
+
+function hideAutocomplete() {
+    const list = document.getElementById('ac-list');
+    if (list) list.classList.remove('visible');
+}
+
+function toggleTheme() {
+    document.documentElement.classList.toggle('light');
+}
+
+// ─────────────────────────────────────────────
+// Boot sequence
+// ─────────────────────────────────────────────
+function boot() {
+    // Welcome message
+    const welcome = document.createElement('div');
+    welcome.className = 'output';
+    welcome.innerHTML = `
+        <div class="ascii-art">${escHtml(ASCII_BANNER)}</div>
+        <p>welcome to <span class="highlight">${SITE.host}</span></p>
+        <p style="color:var(--fg-dim)">type <span class="nav-hint" onclick="runCommand('help')">help</span> for commands, or try: <span class="nav-hint" onclick="runCommand('about')">about</span> · <span class="nav-hint" onclick="runCommand('projects')">projects</span> · <span class="nav-hint" onclick="runCommand('reading')">reading</span></p>
+        <br>
+    `;
+    terminal.appendChild(welcome);
+    renderPrompt();
+
+    // Click anywhere in terminal focuses input
+    terminal.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'A' && !e.target.classList.contains('nav-hint') && e.target.tagName !== 'INPUT') {
+            const input = document.getElementById('cmd-input');
+            if (input) input.focus();
+        }
+    });
+}
+
+boot();
+</script>
+</body>
+</html>
