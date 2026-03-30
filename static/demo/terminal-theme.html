@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>lissarrague.xyz — terminal demo</title>
+<title>lissarrague.xyz</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
@@ -20,9 +20,6 @@
     --red: #fb4934;
     --purple: #d3869b;
     --aqua: #8ec07c;
-    --prompt-user: var(--green);
-    --prompt-host: var(--blue);
-    --prompt-path: var(--yellow);
     --link: var(--aqua);
     --link-hover: var(--green);
   }
@@ -36,41 +33,88 @@
     font-size: 15px;
     line-height: 1.6;
     min-height: 100vh;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
   }
 
+  /* ── Title bar ── */
   .title-bar {
     background: var(--bg-highlight);
     display: flex;
     align-items: center;
     padding: 8px 16px;
     gap: 8px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
     border-bottom: 1px solid #504945;
+    flex-shrink: 0;
   }
-  .title-bar .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .title-bar .dots { display: flex; gap: 6px; flex-shrink: 0; }
+  .title-bar .dot { width: 12px; height: 12px; border-radius: 50%; }
   .title-bar .dot.red { background: var(--red); }
   .title-bar .dot.yellow { background: var(--yellow); }
   .title-bar .dot.green { background: var(--green); }
   .title-bar .title-text { flex: 1; text-align: center; color: var(--fg-dim); font-size: 13px; }
 
-  .terminal { max-width: 860px; margin: 0 auto; padding: 24px 20px 60px; }
+  /* ── Tab bar ── */
+  .tab-bar {
+    background: var(--bg);
+    display: flex;
+    border-bottom: 1px solid #504945;
+    flex-shrink: 0;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 8px 20px;
+    color: var(--fg-dim);
+    font-size: 13px;
+    cursor: pointer;
+    border-right: 1px solid #504945;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tab:hover { background: var(--bg-highlight); color: var(--fg); }
+  .tab.active {
+    background: var(--bg-soft);
+    color: var(--fg);
+    border-bottom: 2px solid var(--green);
+    margin-bottom: -1px;
+  }
+  .tab .tab-icon { font-size: 11px; }
 
+  /* ── Terminal pane ── */
+  .pane-container {
+    flex: 1;
+    overflow-y: auto;
+  }
+  .pane {
+    display: none;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+    width: 100%;
+    animation: fadeIn 0.2s ease-in;
+  }
+  .pane.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ── Prompt ── */
   .prompt-line { margin-bottom: 2px; white-space: pre-wrap; word-break: break-word; }
   .prompt { color: var(--fg-dim); user-select: none; }
-  .prompt .user { color: var(--prompt-user); font-weight: 700; }
-  .prompt .host { color: var(--prompt-host); }
-  .prompt .path { color: var(--prompt-path); }
+  .prompt .user { color: var(--green); font-weight: 700; }
+  .prompt .host { color: var(--blue); }
+  .prompt .path { color: var(--yellow); }
   .prompt .dollar { color: var(--fg-dim); }
   .command { color: var(--fg); font-weight: 700; }
 
+  /* ── Output ── */
   .output { margin: 4px 0 24px 0; color: var(--fg); }
   .output p { margin: 4px 0; }
-  .output .dim { color: var(--fg-dim); }
-  .output .highlight { color: var(--yellow); }
-  .output .accent { color: var(--aqua); }
+  .dim { color: var(--fg-dim); }
+  .highlight { color: var(--yellow); }
+  .accent { color: var(--aqua); }
 
   .section-header {
     color: var(--orange); font-weight: 700; margin: 8px 0 4px;
@@ -80,8 +124,16 @@
   a { color: var(--link); text-decoration: none; border-bottom: 1px dashed var(--link); transition: color 0.15s, border-color 0.15s; }
   a:hover { color: var(--link-hover); border-color: var(--link-hover); }
 
+  /* ── cat output ── */
+  .cat-output { margin: 4px 0 24px; padding: 0 0 0 2ch; border-left: 2px solid var(--bg-highlight); }
+  .cat-output p { margin: 6px 0; }
+
+  /* ── File listing ── */
   .file-listing { font-size: 14px; margin: 8px 0; }
-  .file-listing .row { display: flex; gap: 0; padding: 2px 0; cursor: pointer; border-radius: 3px; transition: background 0.1s; }
+  .file-listing .row {
+    display: flex; gap: 0; padding: 4px 2px; cursor: pointer;
+    border-radius: 3px; transition: background 0.1s;
+  }
   .file-listing .row:hover { background: var(--bg-highlight); }
   .file-listing .perms { color: var(--fg-dim); width: 11ch; flex-shrink: 0; }
   .file-listing .owner { color: var(--green); width: 7ch; flex-shrink: 0; }
@@ -90,20 +142,26 @@
   .file-listing .name  { color: var(--blue); font-weight: 700; }
   .file-listing .name.dir::after { content: '/'; color: var(--fg-dim); }
 
-  .project-detail {
-    display: none; margin: 4px 0 12px 2ch; padding: 8px 12px;
-    border-left: 2px solid var(--bg-highlight); color: var(--fg);
+  /* ── Project detail view ── */
+  .project-view { animation: fadeIn 0.2s ease-in; }
+  .project-view .back-link {
+    color: var(--fg-dim); cursor: pointer; font-size: 13px; margin-bottom: 16px; display: inline-block;
+    border-bottom: none;
   }
-  .project-detail.open { display: block; }
-  .project-detail .tags { margin-top: 6px; }
-  .project-detail .tag {
+  .project-view .back-link:hover { color: var(--green); }
+  .project-view .project-title { color: var(--yellow); font-weight: 700; font-size: 18px; margin: 8px 0; }
+  .project-view .project-meta { color: var(--fg-dim); font-size: 13px; margin-bottom: 16px; }
+  .project-view .project-body { margin: 16px 0; }
+  .project-view .project-body p { margin: 8px 0; }
+  .project-view .tags { margin-top: 12px; }
+  .tag {
     display: inline-block; background: var(--bg-highlight); color: var(--purple);
     padding: 1px 8px; border-radius: 3px; font-size: 12px; margin-right: 4px;
   }
+  .project-view .project-links { margin-top: 16px; }
+  .project-view .project-links a { margin-right: 16px; }
 
-  .cat-output { margin: 4px 0 24px; padding: 0 0 0 2ch; border-left: 2px solid var(--bg-highlight); }
-  .cat-output p { margin: 6px 0; }
-
+  /* ── Reading log ── */
   .reading-table { margin: 8px 0; font-size: 14px; }
   .reading-table .entry { display: flex; gap: 0; padding: 2px 0; }
   .reading-table .status { width: 3ch; flex-shrink: 0; }
@@ -111,8 +169,8 @@
   .reading-table .book-title { color: var(--fg); flex: 1; }
   .reading-table .book-author { color: var(--fg-dim); width: 25ch; flex-shrink: 0; text-align: right; }
 
-  .input-line { display: flex; align-items: center; margin-top: 24px; }
-  .input-line .prompt { margin-right: 0; }
+  /* ── Interactive input ── */
+  .input-line { display: flex; align-items: center; margin-top: 16px; }
   .input-line input {
     background: none; border: none; color: var(--fg); font-family: inherit;
     font-size: inherit; font-weight: 700; outline: none; flex: 1; caret-color: var(--green);
@@ -123,65 +181,181 @@
   }
   @keyframes blink { 50% { opacity: 0; } }
 
+  /* ── Scrollbar ── */
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--bg-highlight); border-radius: 4px; }
 
-  .nav-hints {
-    color: var(--fg-dim); font-size: 13px; margin: 12px 0 8px; padding: 8px 0;
-    border-top: 1px dashed var(--bg-highlight); border-bottom: 1px dashed var(--bg-highlight);
-  }
-  .nav-hints kbd { background: var(--bg-highlight); padding: 1px 6px; border-radius: 3px; font-size: 12px; color: var(--fg); }
-
-  .help-grid { display: grid; grid-template-columns: 18ch 1fr; gap: 2px 2ch; margin: 8px 0; }
-  .help-grid .cmd { color: var(--green); font-weight: 700; }
-  .help-grid .desc { color: var(--fg-dim); }
-
-  /* ── Animation helpers ── */
-  .fade-in { animation: fadeIn 0.3s ease-in; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-  .output-line { opacity: 0; transition: opacity 0.25s ease-in; }
-  .output-line.visible { opacity: 1; }
-
+  /* ── Skip hint ── */
   .skip-hint {
     position: fixed; bottom: 16px; right: 16px; color: var(--fg-dim); font-size: 12px;
     background: var(--bg-highlight); padding: 4px 10px; border-radius: 4px;
-    opacity: 0.7; transition: opacity 0.3s; pointer-events: none;
+    opacity: 0.7; pointer-events: none; transition: opacity 0.3s;
   }
 
+  /* ── Mobile ── */
   @media (max-width: 640px) {
     body { font-size: 13px; }
-    .terminal { padding: 16px 12px 40px; }
+    .pane { padding: 16px 12px 40px; }
     .file-listing .perms, .file-listing .owner, .file-listing .size { display: none; }
     .file-listing .date { width: auto; margin-right: 1ch; }
     .reading-table .book-author { width: auto; }
+    .tab { padding: 8px 14px; font-size: 12px; }
   }
 </style>
 </head>
 <body>
 
+<!-- Title bar -->
 <div class="title-bar">
-  <span class="dot red"></span>
-  <span class="dot yellow"></span>
-  <span class="dot green"></span>
-  <span class="title-text">iker@lissarrague.xyz: ~</span>
+  <div class="dots">
+    <span class="dot red"></span>
+    <span class="dot yellow"></span>
+    <span class="dot green"></span>
+  </div>
+  <span class="title-text" id="title-text">iker@lissarrague.xyz: ~</span>
+  <div class="dots" style="visibility:hidden;">
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+  </div>
 </div>
 
-<div class="terminal" id="terminal"></div>
+<!-- Tab bar -->
+<div class="tab-bar" id="tab-bar">
+  <div class="tab active" data-tab="about">
+    <span class="tab-icon">~</span> about
+  </div>
+  <div class="tab" data-tab="projects">
+    <span class="tab-icon">~</span> projects
+  </div>
+  <div class="tab" data-tab="reading">
+    <span class="tab-icon">~</span> reading
+  </div>
+</div>
+
+<!-- Panes -->
+<div class="pane-container">
+
+  <!-- ─── About pane ─── -->
+  <div class="pane active" id="pane-about"></div>
+
+  <!-- ─── Projects pane ─── -->
+  <div class="pane" id="pane-projects"></div>
+
+  <!-- ─── Reading pane ─── -->
+  <div class="pane" id="pane-reading"></div>
+
+</div>
+
 <div class="skip-hint" id="skip-hint">click or press any key to skip</div>
 
 <script>
-const terminal = document.getElementById('terminal');
+const PROMPT = '<span class="prompt"><span class="user">iker</span>@<span class="host">lissarrague.xyz</span>:<span class="path">~</span><span class="dollar"> $</span></span>';
+
+// ── Project data ──
+const PROJECTS = [
+  {
+    id: 'toy-totp', name: 'toy-totp', size: '4.2K', date: 'Mar 14 2026',
+    title: 'Toy TOTP',
+    desc: `An interactive visualizer that breaks down the TOTP (Time-based One-Time Password) algorithm step by step. Watch how HMAC-SHA1 is computed, how dynamic truncation works, and how the final 6-digit code is derived — all with live animations.`,
+    tags: ['javascript', 'cryptography', 'interactive'],
+    links: [{ label: 'live demo', href: '/projects/toy-totp/' }],
+  },
+  {
+    id: 'rust-ray-tracer', name: 'rust-ray-tracer', size: '8.1K', date: 'Aug  8 2023',
+    title: 'Rust Ray Tracer',
+    desc: `A ray tracer written in Rust following Peter Shirley's "Ray Tracing in One Weekend" series. Supports diffuse, metallic, and dielectric materials with configurable scenes. Uses Rayon for parallel rendering across all available cores.`,
+    tags: ['rust', 'ray-tracing', 'computer-graphics'],
+    links: [{ label: 'source', href: 'https://github.com/Ikerlb/ray-tracer-rust' }],
+  },
+  {
+    id: 'mandelrust', name: 'mandelrust', size: '3.5K', date: 'May 10 2022',
+    title: 'Mandelrust',
+    desc: `An interactive Mandelbrot set explorer. Click anywhere to zoom in. The rendering is done server-side via an AWS Lambda function written in Rust, with infrastructure managed by Terraform. The client sends viewport coordinates and receives a PNG.`,
+    tags: ['rust', 'aws-lambda', 'terraform', 'wasm'],
+    links: [
+      { label: 'live demo', href: '/mandelrust/' },
+      { label: 'infra repo', href: 'https://github.com/Ikerlb/tf-mandelrust' },
+    ],
+  },
+  {
+    id: 'go-ray-tracer', name: 'go-ray-tracer', size: '6.7K', date: 'Feb 21 2022',
+    title: 'Go Ray Tracer',
+    desc: `Another implementation of "Ray Tracing in One Weekend", this time in Go. Uses goroutines and channels for concurrent scanline rendering. Implements diffuse, metal, and dielectric materials with depth-of-field.`,
+    tags: ['go', 'ray-tracing', 'concurrency'],
+    links: [{ label: 'source', href: 'https://github.com/Ikerlb/ray-tracer-go' }],
+  },
+  {
+    id: 'advent-of-code-2021', name: 'advent-of-code-2021', size: '12K', date: 'Dec  1 2021',
+    title: 'Advent of Code 2021',
+    desc: `Solutions and detailed write-ups for 12 days of Advent of Code 2021. Each post walks through the problem, the approach, and the Python implementation with complexity analysis.`,
+    tags: ['python', 'algorithms', 'puzzles'],
+    links: [{ label: 'write-ups', href: '/projects/advent-of-code-2021/' }],
+  },
+];
+
+// ── Tab switching ──
+const tabs = document.querySelectorAll('.tab');
+const titleText = document.getElementById('title-text');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    switchTab(target);
+  });
+});
+
+function switchTab(target) {
+  tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === target));
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('pane-' + target).classList.add('active');
+
+  const paths = { about: '~', projects: '~/projects', reading: '~/reading' };
+  titleText.textContent = `iker@lissarrague.xyz: ${paths[target] || '~'}`;
+
+  // Render pane content on first visit
+  if (target === 'projects' && !projectsRendered) renderProjects();
+  if (target === 'reading' && !readingRendered) renderReading();
+}
+
+// ── About pane (animated) ──
+const aboutPane = document.getElementById('pane-about');
 const skipHint = document.getElementById('skip-hint');
 
-const PROMPT_HTML = '<span class="prompt"><span class="user">iker</span>@<span class="host">lissarrague.xyz</span>:<span class="path">~</span><span class="dollar"> $</span></span>';
+let animationRunning = true;
+let skipRequested = false;
+let currentTimeout = null;
 
-// ── Content definitions ──
+function sleep(ms) {
+  return new Promise(resolve => { currentTimeout = setTimeout(resolve, ms); });
+}
 
-const MOTD = `<div class="output dim" style="margin-bottom: 20px;">Welcome to lissarrague.xyz\nLast login: Mon Mar 30 09:42:13 2026 from 192.168.1.1\nType <span class="accent">help</span> for available commands.</div>`;
+function typeText(text, span) {
+  return new Promise(async (resolve) => {
+    const delay = Math.max(25, Math.min(55, 700 / text.length));
+    for (let i = 0; i < text.length; i++) {
+      if (skipRequested) { span.textContent = text; resolve(); return; }
+      span.textContent = text.substring(0, i + 1);
+      await sleep(delay);
+    }
+    resolve();
+  });
+}
 
-const WHOAMI_OUTPUT = `<div class="cat-output">
+async function addPromptAndType(container, cmdText) {
+  const line = document.createElement('div');
+  line.className = 'prompt-line';
+  line.innerHTML = `${PROMPT} <span class="command"></span>`;
+  container.appendChild(line);
+  await typeText(cmdText, line.querySelector('.command'));
+}
+
+function addHTML(container, html) {
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = html;
+  while (wrapper.firstChild) container.appendChild(wrapper.firstChild);
+}
+
+const ABOUT_OUTPUT = `<div class="cat-output">
   <p><span class="highlight">Iker Lissarrague</span> — Software Engineer</p>
   <p>I'm a software engineer constantly looking for ways to make people's lives better with software.</p>
   <p>As of late, I've been focusing more and more on the backend of the stack but I've had some experience as a fullstack developer.</p>
@@ -194,258 +368,159 @@ const WHOAMI_OUTPUT = `<div class="cat-output">
   </p>
 </div>`;
 
-const PROJECTS_OUTPUT = `<div class="output"><div class="file-listing">
-  <div class="row" onclick="toggleDetail('p1')"><span class="perms">drwxr-xr-x</span><span class="owner">iker</span><span class="size">4.2K</span><span class="date">Mar 14 2026</span><span class="name dir">toy-totp</span></div>
-  <div class="project-detail" id="p1">Interactive TOTP algorithm visualizer. Breaks down each step of the TOTP generation process with live animations.<div class="tags"><span class="tag">javascript</span><span class="tag">cryptography</span><span class="tag">interactive</span></div></div>
-  <div class="row" onclick="toggleDetail('p2')"><span class="perms">drwxr-xr-x</span><span class="owner">iker</span><span class="size">8.1K</span><span class="date">Aug  8 2023</span><span class="name dir">rust-ray-tracer</span></div>
-  <div class="project-detail" id="p2">A ray tracer written in Rust following "Ray Tracing in One Weekend". Features parallel rendering with Rayon.<div class="tags"><span class="tag">rust</span><span class="tag">ray-tracing</span><span class="tag">computer-graphics</span></div></div>
-  <div class="row" onclick="toggleDetail('p3')"><span class="perms">drwxr-xr-x</span><span class="owner">iker</span><span class="size">3.5K</span><span class="date">May 10 2022</span><span class="name dir">mandelrust</span></div>
-  <div class="project-detail" id="p3">Interactive Mandelbrot set renderer powered by AWS Lambda and Rust. Click to zoom, rendered server-side.<div class="tags"><span class="tag">rust</span><span class="tag">aws-lambda</span><span class="tag">terraform</span></div></div>
-  <div class="row" onclick="toggleDetail('p4')"><span class="perms">drwxr-xr-x</span><span class="owner">iker</span><span class="size">6.7K</span><span class="date">Feb 21 2022</span><span class="name dir">go-ray-tracer</span></div>
-  <div class="project-detail" id="p4">A ray tracer in Go using goroutines for parallel rendering. Implements diffuse, metal, and dielectric materials.<div class="tags"><span class="tag">go</span><span class="tag">ray-tracing</span><span class="tag">concurrency</span></div></div>
-  <div class="row" onclick="toggleDetail('p5')"><span class="perms">drwxr-xr-x</span><span class="owner">iker</span><span class="size">12K</span><span class="date">Dec  1 2021</span><span class="name dir">advent-of-code-2021</span></div>
-  <div class="project-detail" id="p5">Solutions and write-ups for Advent of Code 2021. 12 days of puzzles with detailed explanations.<div class="tags"><span class="tag">python</span><span class="tag">algorithms</span><span class="tag">puzzles</span></div></div>
-</div></div>`;
+async function runAboutIntro() {
+  // MOTD
+  addHTML(aboutPane, `<div class="output dim" style="margin-bottom:16px;">Welcome to lissarrague.xyz\nLast login: Mon Mar 30 09:42:13 2026 from 192.168.1.1\nType <span class="accent">help</span> or use the tabs above to navigate.</div>`);
 
-const HELP_OUTPUT = `<div class="output"><div class="help-grid">
-  <span class="cmd">whoami</span>     <span class="desc">About me</span>
-  <span class="cmd">ls projects/</span> <span class="desc">Browse projects</span>
-  <span class="cmd">cat &lt;file&gt;</span>  <span class="desc">Read a project write-up or blog post</span>
-  <span class="cmd">reading</span>     <span class="desc">Show reading log</span>
-  <span class="cmd">contact</span>     <span class="desc">Show contact info</span>
-  <span class="cmd">clear</span>       <span class="desc">Clear terminal</span>
-  <span class="cmd">help</span>        <span class="desc">Show this help</span>
-</div></div>`;
+  if (skipRequested) return;
+  await sleep(400);
 
-const NAV_HINTS = `<div class="nav-hints"><kbd>↑</kbd> <kbd>↓</kbd> command history &nbsp;·&nbsp; click any <span style="color:var(--blue);font-weight:700;">project/</span> to expand &nbsp;·&nbsp; or just type a command below</div>`;
+  // whoami
+  if (skipRequested) return;
+  await addPromptAndType(aboutPane, 'cat about.md');
+  if (skipRequested) return;
+  await sleep(300);
+  addHTML(aboutPane, ABOUT_OUTPUT);
 
-const INPUT_LINE = `<div class="input-line">${PROMPT_HTML}<input type="text" id="cmd-input" autocomplete="off" spellcheck="false" aria-label="Command input"><span class="cursor-block" id="cursor"></span></div>`;
-
-// ── Intro sequence definition ──
-
-const INTRO_SEQUENCE = [
-  { type: 'html', content: MOTD, delay: 400 },
-  { type: 'command', text: 'whoami', delay: 600 },
-  { type: 'html', content: WHOAMI_OUTPUT, delay: 800 },
-  { type: 'command', text: 'ls -la ~/projects/', delay: 600 },
-  { type: 'html', content: PROJECTS_OUTPUT, delay: 600 },
-  { type: 'command', text: 'help', delay: 500 },
-  { type: 'html', content: HELP_OUTPUT, delay: 400 },
-  { type: 'html', content: NAV_HINTS, delay: 0 },
-  { type: 'html', content: INPUT_LINE, delay: 0 },
-];
-
-// ── Animation engine ──
-
-let animationRunning = true;
-let skipRequested = false;
-let currentTimeout = null;
-
-function sleep(ms) {
-  return new Promise(resolve => {
-    currentTimeout = setTimeout(resolve, ms);
-  });
-}
-
-function typeCommand(text, container) {
-  return new Promise(async (resolve) => {
-    const cmdSpan = container.querySelector('.command');
-    cmdSpan.textContent = '';
-    const charDelay = Math.max(25, Math.min(60, 800 / text.length));
-    for (let i = 0; i < text.length; i++) {
-      if (skipRequested) {
-        cmdSpan.textContent = text;
-        resolve();
-        return;
-      }
-      cmdSpan.textContent = text.substring(0, i + 1);
-      await sleep(charDelay);
-    }
-    resolve();
-  });
-}
-
-async function runIntroSequence() {
-  for (const step of INTRO_SEQUENCE) {
-    if (skipRequested) break;
-
-    if (step.type === 'command') {
-      // Create prompt line with empty command
-      const div = document.createElement('div');
-      div.className = 'prompt-line';
-      div.innerHTML = `${PROMPT_HTML} <span class="command"></span>`;
-      terminal.appendChild(div);
-      scrollToBottom();
-
-      await typeCommand(step.text, div);
-      if (skipRequested) break;
-      await sleep(step.delay);
-
-    } else if (step.type === 'html') {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'fade-in';
-      wrapper.innerHTML = step.content;
-      terminal.appendChild(wrapper.firstElementChild || wrapper);
-      scrollToBottom();
-
-      if (skipRequested) break;
-      if (step.delay > 0) await sleep(step.delay);
-    }
-  }
-
-  finishIntro();
-}
-
-function finishIntro() {
   animationRunning = false;
   skipHint.style.display = 'none';
+}
 
-  // If skipped, render everything that's missing
-  if (skipRequested) {
-    terminal.innerHTML = '';
-    for (const step of INTRO_SEQUENCE) {
-      if (step.type === 'command') {
-        const div = document.createElement('div');
-        div.className = 'prompt-line';
-        div.innerHTML = `${PROMPT_HTML} <span class="command">${escapeHtml(step.text)}</span>`;
-        terminal.appendChild(div);
-      } else if (step.type === 'html') {
-        const wrapper = document.createElement('div');
-        wrapper.innerHTML = step.content;
-        terminal.appendChild(wrapper.firstElementChild || wrapper);
-      }
-    }
-  }
-
-  setupInteractiveShell();
-  scrollToBottom();
+function renderAboutFull() {
+  aboutPane.innerHTML = '';
+  addHTML(aboutPane, `<div class="output dim" style="margin-bottom:16px;">Welcome to lissarrague.xyz\nLast login: Mon Mar 30 09:42:13 2026 from 192.168.1.1\nType <span class="accent">help</span> or use the tabs above to navigate.</div>`);
+  addHTML(aboutPane, `<div class="prompt-line">${PROMPT} <span class="command">cat about.md</span></div>`);
+  addHTML(aboutPane, ABOUT_OUTPUT);
 }
 
 function skipAnimation() {
   if (!animationRunning) return;
   skipRequested = true;
   if (currentTimeout) clearTimeout(currentTimeout);
-  finishIntro();
+  animationRunning = false;
+  skipHint.style.display = 'none';
+  aboutPane.innerHTML = '';
+  renderAboutFull();
 }
 
-// Skip on click or keypress
 document.addEventListener('click', (e) => {
-  if (animationRunning && !e.target.closest('a')) {
-    skipAnimation();
-  }
+  if (animationRunning && !e.target.closest('a') && !e.target.closest('.tab')) skipAnimation();
 });
 document.addEventListener('keydown', (e) => {
-  if (animationRunning) {
-    skipAnimation();
-    e.preventDefault();
-  }
+  if (animationRunning) { skipAnimation(); e.preventDefault(); }
 });
 
-// ── Interactive shell (post-animation) ──
+// ── Projects pane ──
+let projectsRendered = false;
+const projectsPane = document.getElementById('pane-projects');
 
-const COMMANDS = {
-  help: () => HELP_OUTPUT,
-  whoami: () => WHOAMI_OUTPUT,
-  contact: () => `<div class="output"><span class="dim">email:</span>    <a href="mailto:iker@lissarrague.xyz">iker@lissarrague.xyz</a><br><span class="dim">github:</span>   <a href="https://github.com/Ikerlb/">github.com/Ikerlb</a><br><span class="dim">linkedin:</span> <a href="https://www.linkedin.com/in/iker-lissarrague/">iker-lissarrague</a></div>`,
-  'ls': () => PROJECTS_OUTPUT,
-  clear: () => '__CLEAR__',
-};
-
-// Also match "ls projects/", "ls -la ~/projects/", etc.
-function resolveCommand(raw) {
-  const trimmed = raw.trim();
-  if (trimmed.startsWith('ls')) return COMMANDS['ls'];
-  return COMMANDS[trimmed.split(' ')[0]];
+function renderProjects() {
+  projectsRendered = true;
+  showProjectList();
 }
 
-const cmdHistory = [];
-let historyIdx = -1;
+function showProjectList() {
+  projectsPane.innerHTML = '';
+  addHTML(projectsPane, `<div class="prompt-line">${PROMPT} <span class="command">ls -la ~/projects/</span></div>`);
 
-function setupInteractiveShell() {
-  const input = document.getElementById('cmd-input');
-  const cursor = document.getElementById('cursor');
-  if (!input) return;
-
-  input.focus();
-
-  input.addEventListener('focus', () => { if (cursor) cursor.style.display = 'none'; });
-  input.addEventListener('blur', () => { if (cursor) cursor.style.display = 'inline-block'; });
-
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      const cmd = input.value.trim();
-      if (!cmd) return;
-
-      cmdHistory.unshift(cmd);
-      historyIdx = -1;
-
-      const lineDiv = document.createElement('div');
-      lineDiv.className = 'prompt-line';
-      lineDiv.innerHTML = `${PROMPT_HTML} <span class="command">${escapeHtml(cmd)}</span>`;
-
-      const inputLine = input.closest('.input-line');
-      terminal.insertBefore(lineDiv, inputLine);
-
-      if (cmd === 'clear') {
-        while (terminal.firstChild !== inputLine) {
-          terminal.removeChild(terminal.firstChild);
-        }
-      } else {
-        const handler = resolveCommand(cmd);
-        const outputDiv = document.createElement('div');
-
-        if (handler) {
-          const wrapper = document.createElement('div');
-          wrapper.innerHTML = handler();
-          const el = wrapper.firstElementChild || wrapper;
-          el.classList.add('fade-in');
-          terminal.insertBefore(el, inputLine);
-        } else {
-          outputDiv.className = 'output fade-in';
-          outputDiv.innerHTML = `<span class="dim">command not found: ${escapeHtml(cmd)}. Type </span><span class="accent">help</span><span class="dim"> for available commands.</span>`;
-          terminal.insertBefore(outputDiv, inputLine);
-        }
-      }
-
-      input.value = '';
-      scrollToBottom();
-    }
-
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (historyIdx < cmdHistory.length - 1) { historyIdx++; input.value = cmdHistory[historyIdx]; }
-    }
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (historyIdx > 0) { historyIdx--; input.value = cmdHistory[historyIdx]; }
-      else { historyIdx = -1; input.value = ''; }
-    }
+  const listing = document.createElement('div');
+  listing.className = 'output';
+  let rows = '<div class="file-listing">';
+  PROJECTS.forEach(p => {
+    rows += `<div class="row" data-project="${p.id}">
+      <span class="perms">drwxr-xr-x</span>
+      <span class="owner">iker</span>
+      <span class="size">${p.size}</span>
+      <span class="date">${p.date}</span>
+      <span class="name dir">${p.name}</span>
+    </div>`;
   });
+  rows += '</div>';
+  listing.innerHTML = rows;
+  projectsPane.appendChild(listing);
 
-  // Click to focus (but not on links or project rows)
-  document.addEventListener('click', (e) => {
-    if (!animationRunning && !e.target.closest('a') && !e.target.closest('.file-listing .row')) {
-      input.focus();
-    }
+  // Hint
+  addHTML(projectsPane, `<div class="dim" style="font-size:13px;margin-top:8px;">click a project to view details</div>`);
+
+  // Row click handlers
+  listing.querySelectorAll('.row').forEach(row => {
+    row.addEventListener('click', () => showProjectDetail(row.dataset.project));
   });
 }
 
-// ── Utilities ──
+function showProjectDetail(id) {
+  const project = PROJECTS.find(p => p.id === id);
+  if (!project) return;
 
-function toggleDetail(id) {
-  document.getElementById(id)?.classList.toggle('open');
+  projectsPane.innerHTML = '';
+
+  const view = document.createElement('div');
+  view.className = 'project-view';
+
+  let linksHTML = '';
+  if (project.links) {
+    linksHTML = '<div class="project-links">' +
+      project.links.map(l => `<a href="${l.href}">${l.label}</a>`).join('') +
+      '</div>';
+  }
+
+  view.innerHTML = `
+    <div class="prompt-line">${PROMPT} <span class="command">cat ~/projects/${project.name}/README.md</span></div>
+    <div style="margin-top:12px;">
+      <span class="back-link" id="back-to-list">← cd ..</span>
+      <div class="project-title">${project.title}</div>
+      <div class="project-meta">${project.date} · ${project.size}</div>
+      <div class="project-body"><p>${project.desc}</p></div>
+      <div class="tags">${project.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      ${linksHTML}
+    </div>
+  `;
+
+  projectsPane.appendChild(view);
+  document.getElementById('back-to-list').addEventListener('click', showProjectList);
+
+  titleText.textContent = `iker@lissarrague.xyz: ~/projects/${project.name}`;
 }
 
-function scrollToBottom() {
-  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-}
+// ── Reading pane ──
+let readingRendered = false;
+const readingPane = document.getElementById('pane-reading');
 
-function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function renderReading() {
+  readingRendered = true;
+  readingPane.innerHTML = '';
+  addHTML(readingPane, `<div class="prompt-line">${PROMPT} <span class="command">cat reading_log.txt</span></div>`);
+
+  const books = {
+    '2022': [
+      { title: 'Programming Rust, 2nd Ed.', author: 'Blandy, Orendorff, Tindall' },
+      { title: 'Designing Data-Intensive Applications', author: 'Martin Kleppmann' },
+      { title: 'Terraform: Up & Running, 3rd Ed.', author: 'Yevgeniy Brikman' },
+    ],
+    '2021': [
+      { title: 'The Go Programming Language', author: 'Donovan, Kernighan' },
+      { title: 'Grokking Algorithms', author: 'Aditya Bhargava' },
+    ],
+  };
+
+  let html = '<div class="output">';
+  for (const [year, entries] of Object.entries(books)) {
+    html += `<div class="section-header">── ${year} ──</div><div class="reading-table">`;
+    entries.forEach(b => {
+      html += `<div class="entry">
+        <span class="status done">✓</span>
+        <span class="book-title">${b.title}</span>
+        <span class="book-author dim">${b.author}</span>
+      </div>`;
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+  addHTML(readingPane, html);
 }
 
 // ── Start ──
-runIntroSequence();
+runAboutIntro();
 </script>
 </body>
 </html>
