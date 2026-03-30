@@ -18,7 +18,7 @@
 
 ## Option 1: Terraform (AWS S3 + CloudFront)
 
-**Complexity: 3/5** | **Monthly cost: ~$0.50-$3 (low-traffic static site)**
+**Complexity: 4/5** | **Monthly cost: ~$0.02-$0.50 (low-traffic static site)**
 
 Codify the existing manually provisioned setup into Terraform so it becomes reproducible, version-controlled, and tear-down-safe.
 
@@ -27,10 +27,11 @@ Codify the existing manually provisioned setup into Terraform so it becomes repr
 | Resource | Purpose |
 |---|---|
 | `aws_s3_bucket` | Static file storage |
+| `aws_s3_bucket_public_access_block` | Block all direct public access to the bucket |
 | `aws_s3_bucket_policy` | Grant CloudFront OAC read access |
 | `aws_cloudfront_origin_access_control` | Secure S3 origin (replaces legacy OAI) |
 | `aws_cloudfront_distribution` | CDN, HTTPS termination, caching |
-| `aws_cloudfront_function` | Rewrite `/path/` to `/path/index.html` |
+| `aws_cloudfront_function` | Rewrite `/path/` to `/path/index.html` (Hugo generates `dir/index.html`) |
 | `aws_acm_certificate` + validation | TLS certificate for `lissarrague.xyz` (must be in `us-east-1`) |
 
 ### DNS Note
@@ -176,12 +177,8 @@ resource "aws_cloudfront_distribution" "site" {
     cached_methods         = ["GET", "HEAD"]
     compress               = true
 
-    forwarded_values {
-      query_string = false
-      cookies {
-        forward = "none"
-      }
-    }
+    # Use managed cache policy: CachingOptimized
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
 
     function_association {
       event_type   = "viewer-request"
@@ -200,6 +197,12 @@ resource "aws_cloudfront_distribution" "site" {
       restriction_type = "none"
     }
   }
+
+  custom_error_response {
+    error_code         = 404
+    response_code      = 404
+    response_page_path = "/404.html"
+  }
 }
 
 # ---------- Outputs ----------
@@ -211,6 +214,18 @@ output "cloudfront_domain" {
 output "cloudfront_distribution_id" {
   value = aws_cloudfront_distribution.site.id
 }
+```
+
+### Deploy Workflow
+
+```bash
+# Build and sync Hugo output to S3
+hugo --minify && aws s3 sync public/ s3://lissarrague-xyz-site --delete
+
+# Invalidate CloudFront cache
+aws cloudfront create-invalidation \
+  --distribution-id $(terraform -chdir=infra output -raw cloudfront_distribution_id) \
+  --paths "/*"
 ```
 
 ### Pros
@@ -231,9 +246,9 @@ output "cloudfront_distribution_id" {
 
 ## Option 2: AWS CDK (TypeScript)
 
-**Complexity: 3/5** | **Monthly cost: ~$0.50-$3 (same AWS resources)**
+**Complexity: 3/5** | **Monthly cost: ~$0.02-$0.50 (same AWS resources)**
 
-Same infrastructure as Option 1, expressed in TypeScript with the CDK.
+Same infrastructure as Option 1, expressed in TypeScript with the CDK. CDK's higher-level constructs handle much of the wiring (OAC + bucket policy) automatically.
 
 ### Example Stack
 
@@ -244,37 +259,52 @@ import * as s3 from "aws-cdk-lib/aws-s3";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
+import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
 
 export class SiteStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    const domainName = "lissarrague.xyz";
+
+    // S3 bucket (private, no public access)
     const bucket = new s3.Bucket(this, "SiteBucket", {
-      bucketName: "lissarrague-xyz-site",
+      bucketName: `${domainName}-site`,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
-    // Certificate must be in us-east-1; use a cross-region reference
-    // or deploy this stack to us-east-1.
-    const certificate = acm.Certificate.fromCertificateArn(
-      this,
-      "Cert",
-      "arn:aws:acm:us-east-1:ACCOUNT:certificate/CERT_ID"
-    );
+    // ACM certificate -- must deploy this stack to us-east-1 for CloudFront.
+    // With external DNS, use DNS validation and manually create the CNAME records.
+    const certificate = new acm.Certificate(this, "SiteCert", {
+      domainName: domainName,
+      subjectAlternativeNames: [`*.${domainName}`],
+      validation: acm.CertificateValidation.fromDns(), // no hosted zone arg = manual DNS
+    });
 
+    // CloudFront function for index.html rewriting
     const rewriteFunction = new cloudfront.Function(this, "Rewrite", {
-      code: cloudfront.FunctionCode.fromFile({
-        filePath: "cloudfront-function.js",
-      }),
+      code: cloudfront.FunctionCode.fromInline(`
+        function handler(event) {
+          var request = event.request;
+          var uri = request.uri;
+          if (uri.endsWith('/')) { request.uri += 'index.html'; }
+          else if (!uri.includes('.')) { request.uri += '/index.html'; }
+          return request;
+        }
+      `),
       runtime: cloudfront.FunctionRuntime.JS_2_0,
     });
 
+    // CloudFront distribution
+    // S3BucketOrigin.withOriginAccessControl() automatically creates the OAC
+    // and configures the bucket policy -- no manual wiring needed.
     const distribution = new cloudfront.Distribution(this, "CDN", {
       defaultBehavior: {
         origin: origins.S3BucketOrigin.withOriginAccessControl(bucket),
         viewerProtocolPolicy:
           cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        compress: true,
         functionAssociations: [
           {
             function: rewriteFunction,
@@ -282,11 +312,26 @@ export class SiteStack extends cdk.Stack {
           },
         ],
       },
-      domainNames: ["lissarrague.xyz"],
+      domainNames: [domainName],
       certificate,
       defaultRootObject: "index.html",
       priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
+      errorResponses: [
+        {
+          httpStatus: 404,
+          responseHttpStatus: 404,
+          responsePagePath: "/404.html",
+        },
+      ],
     });
+
+    // Optional: deploy site content directly via CDK
+    // new s3deploy.BucketDeployment(this, "DeploySite", {
+    //   sources: [s3deploy.Source.asset("../public")],
+    //   destinationBucket: bucket,
+    //   distribution,
+    //   distributionPaths: ["/*"],
+    // });
 
     new cdk.CfnOutput(this, "DistributionDomain", {
       value: distribution.distributionDomainName,
@@ -298,15 +343,17 @@ export class SiteStack extends cdk.Stack {
 ### Pros
 
 - TypeScript type safety and IDE autocomplete.
-- Higher-level constructs (e.g., `S3BucketOrigin.withOriginAccessControl`) reduce boilerplate.
-- If you already have CDK projects, consistent tooling.
+- Higher-level constructs (e.g., `S3BucketOrigin.withOriginAccessControl`) reduce boilerplate -- OAC and bucket policy are handled automatically.
+- `BucketDeployment` construct can upload Hugo output and invalidate CloudFront in a single `cdk deploy`.
+- Existing CDK experience from the mandelrust project means less ramp-up time.
+- Consistent tooling if you already maintain other CDK stacks.
 
 ### Cons
 
-- Same operational overhead as Terraform (AWS creds, state via CloudFormation, deploy scripts).
+- Same operational overhead as Terraform (AWS creds, CloudFormation state, deploy scripts).
 - CDK bootstrap required per account/region.
-- Harder to import existing resources compared to Terraform.
-- Synthesized CloudFormation templates can be difficult to debug.
+- Harder to import existing resources compared to Terraform (`terraform import` is more mature).
+- Synthesized CloudFormation templates can be difficult to debug when something goes wrong.
 
 ---
 
@@ -470,8 +517,8 @@ Both are strong platforms for static/Jamstack sites with Git-based deploys.
 
 | Option | Monthly Cost | Complexity | Deploy Effort | Custom Domain |
 |---|---|---|---|---|
-| Terraform (S3+CF) | $0.50-$3 | 3/5 | CI script + invalidation | CNAME to CloudFront |
-| CDK (S3+CF) | $0.50-$3 | 3/5 | CI script + invalidation | CNAME to CloudFront |
+| Terraform (S3+CF) | $0.02-$0.50 | 4/5 | CI script + invalidation | CNAME to CloudFront |
+| CDK (S3+CF) | $0.02-$0.50 | 3/5 | CI script + invalidation | CNAME to CloudFront |
 | GitHub Pages | $0 | 1/5 | `git push` | A/CNAME to GitHub |
 | Cloudflare Pages | $0 | 1/5 | `git push` | CNAME to Cloudflare |
 | Vercel | $0 | 1/5 | `git push` | CNAME to Vercel |
