@@ -436,6 +436,15 @@ function appendProjectListing(container) {
 
 function showProjectList() {
   projectsPane.innerHTML = '';
+
+  // cat projects intro
+  addHTML(projectsPane, `<div class="prompt-line">${PROMPT} <span class="command">cat ~/projects/README.md</span></div>`);
+  addHTML(projectsPane, `<div class="cat-output" style="margin-bottom:24px;">
+    <p>These are some of the projects I work on in my spare time.</p>
+    <p>Most of them come from wanting to learn something new — a language, a rendering technique, a cloud service — and building something tangible with it.</p>
+  </div>`);
+
+  // ls projects
   addHTML(projectsPane, `<div class="prompt-line">${PROMPT} <span class="command">ls -la ~/projects/</span></div>`);
   appendProjectListing(projectsPane);
   addHTML(projectsPane, `<div class="dim" style="font-size:13px;margin-top:8px;">click a project to view details</div>`);
