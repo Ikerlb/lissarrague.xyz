@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lissarrague.xyz - terminal demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="terminal-window">
+    <div class="terminal-titlebar">
+      <div class="terminal-buttons">
+        <span class="terminal-btn close"></span>
+        <span class="terminal-btn minimize"></span>
+        <span class="terminal-btn maximize"></span>
+      </div>
+      <div class="terminal-title">iker@lissarrague.xyz: ~</div>
+      <div class="terminal-titlebar-spacer"></div>
+    </div>
+    <div class="terminal-body" id="terminal-body">
+      <div id="output"></div>
+      <div class="input-line" id="input-line">
+        <span class="prompt">visitor@lissarrague.xyz<span class="prompt-separator">:</span><span class="prompt-path" id="prompt-path">~</span><span class="prompt-dollar">$</span></span>
+        <input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false" aria-label="Terminal input">
+        <span class="cursor-block" id="cursor-block"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation hint for non-tech users -->
+  <div class="hint-bar" id="hint-bar">
+    <span class="hint-label">Try:</span>
+    <button class="hint-cmd" data-cmd="about">about</button>
+    <button class="hint-cmd" data-cmd="projects">projects</button>
+    <button class="hint-cmd" data-cmd="reading-log">reading-log</button>
+    <button class="hint-cmd" data-cmd="contact">contact</button>
+    <button class="hint-cmd" data-cmd="help">help</button>
+    <span class="hint-divider">|</span>
+    <button class="hint-cmd hint-theme" data-cmd="theme">toggle theme</button>
+  </div>
+
+  <script src="terminal.js"></script>
+</body>
+</html>
