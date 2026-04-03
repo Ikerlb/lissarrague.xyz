@@ -248,22 +248,22 @@ const PROMPT = '<span class="prompt"><span class="user">iker</span>@<span class=
 const PROJECTS = [
   {
     id: 'toy-totp', name: 'toy-totp', size: '4.2K', date: 'Mar 14 2026',
-    title: 'Toy TOTP',
-    desc: `An interactive visualizer that breaks down the TOTP (Time-based One-Time Password) algorithm step by step. Watch how HMAC-SHA1 is computed, how dynamic truncation works, and how the final 6-digit code is derived — all with live animations.`,
+    title: 'toy totp',
+    desc: `an interactive visualizer that breaks down the TOTP (time-based one-time password) algorithm step by step. watch how HMAC-SHA1 is computed, how dynamic truncation works, and how the final 6-digit code is derived — all with live animations.`,
     tags: ['javascript', 'cryptography', 'interactive'],
     links: [{ label: 'live demo', href: '/projects/toy-totp/' }],
   },
   {
     id: 'rust-ray-tracer', name: 'rust-ray-tracer', size: '8.1K', date: 'Aug  8 2023',
-    title: 'Rust Ray Tracer',
-    desc: `A ray tracer written in Rust following Peter Shirley's "Ray Tracing in One Weekend" series. Supports diffuse, metallic, and dielectric materials with configurable scenes. Uses Rayon for parallel rendering across all available cores.`,
+    title: 'rust ray tracer',
+    desc: `a ray tracer written in rust following peter shirley's "ray tracing in one weekend" series. supports diffuse, metallic, and dielectric materials with configurable scenes. uses rayon for parallel rendering across all available cores.`,
     tags: ['rust', 'ray-tracing', 'computer-graphics'],
     links: [{ label: 'source', href: 'https://github.com/Ikerlb/ray-tracer-rust' }],
   },
   {
     id: 'mandelrust', name: 'mandelrust', size: '3.5K', date: 'May 10 2022',
-    title: 'Mandelrust',
-    desc: `An interactive Mandelbrot set explorer. Click anywhere to zoom in. The rendering is done server-side via an AWS Lambda function written in Rust, with infrastructure managed by Terraform. The client sends viewport coordinates and receives a PNG.`,
+    title: 'mandelrust',
+    desc: `an interactive mandelbrot set explorer. click anywhere to zoom in. the rendering is done server-side via an AWS lambda function written in rust, with infrastructure managed by terraform. the client sends viewport coordinates and receives a PNG.`,
     tags: ['rust', 'aws-lambda', 'terraform', 'wasm'],
     links: [
       { label: 'live demo', href: '/mandelrust/' },
@@ -272,15 +272,15 @@ const PROJECTS = [
   },
   {
     id: 'go-ray-tracer', name: 'go-ray-tracer', size: '6.7K', date: 'Feb 21 2022',
-    title: 'Go Ray Tracer',
-    desc: `Another implementation of "Ray Tracing in One Weekend", this time in Go. Uses goroutines and channels for concurrent scanline rendering. Implements diffuse, metal, and dielectric materials with depth-of-field.`,
+    title: 'go ray tracer',
+    desc: `another implementation of "ray tracing in one weekend", this time in go. uses goroutines and channels for concurrent scanline rendering. implements diffuse, metal, and dielectric materials with depth-of-field.`,
     tags: ['go', 'ray-tracing', 'concurrency'],
     links: [{ label: 'source', href: 'https://github.com/Ikerlb/ray-tracer-go' }],
   },
   {
     id: 'advent-of-code-2021', name: 'advent-of-code-2021', size: '12K', date: 'Dec  1 2021',
-    title: 'Advent of Code 2021',
-    desc: `Solutions and detailed write-ups for 12 days of Advent of Code 2021. Each post walks through the problem, the approach, and the Python implementation with complexity analysis.`,
+    title: 'advent of code 2021',
+    desc: `solutions and detailed write-ups for 12 days of advent of code 2021. each post walks through the problem, the approach, and the python implementation with complexity analysis.`,
     tags: ['python', 'algorithms', 'puzzles'],
     links: [{ label: 'write-ups', href: '/projects/advent-of-code-2021/' }],
   },
@@ -349,11 +349,11 @@ function addHTML(container, html) {
 }
 
 const ABOUT_OUTPUT = `<div class="cat-output">
-  <p><span class="highlight">Iker Lissarrague</span> — Software Engineer</p>
-  <p>I'm a software engineer constantly looking for ways to make people's lives better with software.</p>
-  <p>As of late, I've been focusing more and more on the backend of the stack but I've had some experience as a fullstack developer.</p>
-  <p>I love trying out new technologies, specially programming languages that feel very novel from what I'm used to.</p>
-  <p>Feel free to reach out!</p>
+  <p><span class="highlight">iker lissarrague</span> — software engineer</p>
+  <p>i'm a software engineer constantly looking for ways to make people's lives better with software.</p>
+  <p>as of late, i've been focusing more and more on the backend of the stack but i've had some experience as a fullstack developer.</p>
+  <p>i love trying out new technologies, specially programming languages that feel very novel from what i'm used to.</p>
+  <p>feel free to reach out!</p>
   <p style="margin-top:12px;">
     <span class="dim">email:</span> <a href="mailto:iker@lissarrague.xyz">iker@lissarrague.xyz</a> &nbsp;
     <span class="dim">github:</span> <a href="https://github.com/Ikerlb/">Ikerlb</a> &nbsp;
@@ -363,7 +363,7 @@ const ABOUT_OUTPUT = `<div class="cat-output">
 
 async function runAboutIntro() {
   // MOTD
-  addHTML(aboutPane, `<div class="output dim" style="margin-bottom:16px;">Welcome to lissarrague.xyz\nLast login: Mon Mar 30 09:42:13 2026 from 192.168.1.1\nType <span class="accent">help</span> or use the tabs above to navigate.</div>`);
+  addHTML(aboutPane, `<div class="output dim" style="margin-bottom:16px;">welcome to lissarrague.xyz\nlast login: Mon Mar 30 09:42:13 2026 from 192.168.1.1\ntype <span class="accent">help</span> or use the tabs above to navigate.</div>`);
 
   if (skipRequested) return;
   await sleep(400);
@@ -381,7 +381,7 @@ async function runAboutIntro() {
 
 function renderAboutFull() {
   aboutPane.innerHTML = '';
-  addHTML(aboutPane, `<div class="output dim" style="margin-bottom:16px;">Welcome to lissarrague.xyz\nLast login: Mon Mar 30 09:42:13 2026 from 192.168.1.1\nType <span class="accent">help</span> or use the tabs above to navigate.</div>`);
+  addHTML(aboutPane, `<div class="output dim" style="margin-bottom:16px;">welcome to lissarrague.xyz\nlast login: Mon Mar 30 09:42:13 2026 from 192.168.1.1\ntype <span class="accent">help</span> or use the tabs above to navigate.</div>`);
   addHTML(aboutPane, `<div class="prompt-line">${PROMPT} <span class="command">cat about.md</span></div>`);
   addHTML(aboutPane, ABOUT_OUTPUT);
 }
@@ -440,8 +440,8 @@ function showProjectList() {
   // cat projects intro
   addHTML(projectsPane, `<div class="prompt-line">${PROMPT} <span class="command">cat ~/projects/README.md</span></div>`);
   addHTML(projectsPane, `<div class="cat-output" style="margin-bottom:24px;">
-    <p>These are some of the projects I work on in my spare time.</p>
-    <p>Most of them come from wanting to learn something new — a language, a rendering technique, a cloud service — and building something tangible with it.</p>
+    <p>these are some of the projects i work on in my spare time.</p>
+    <p>most of them come from wanting to learn something new — a language, a rendering technique, a cloud service — and building something tangible with it.</p>
   </div>`);
 
   // ls projects
