@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iker@lissarrague: ~</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body data-theme="green" data-crt="on">
+  <main class="terminal" id="terminal">
+    <header class="titlebar" aria-hidden="true">
+      <span class="dot dot--close"></span>
+      <span class="dot dot--min"></span>
+      <span class="dot dot--max"></span>
+      <span class="title">iker@lissarrague: ~</span>
+    </header>
+
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        <li><a href="#" data-cmd="cd /">~</a></li>
+        <li><a href="#" data-cmd="cat about.txt">about</a></li>
+        <li><a href="#" data-cmd="cd projects">projects</a></li>
+        <li><a href="#" data-cmd="cd reading_log">reading log</a></li>
+        <li><a href="#" data-cmd="cat contact.txt">contact</a></li>
+        <li class="nav-spacer"></li>
+        <li><a href="#" data-cmd="theme green">green</a></li>
+        <li><a href="#" data-cmd="theme amber">amber</a></li>
+        <li><a href="#" data-cmd="theme mono">mono</a></li>
+        <li><a href="#" data-cmd="theme light">light</a></li>
+        <li><a href="#" data-cmd="help">help</a></li>
+      </ul>
+    </nav>
+
+    <section class="output" id="output" aria-live="polite"></section>
+
+    <form class="prompt" id="prompt-form" autocomplete="off">
+      <label class="prompt__label" for="prompt-input">
+        <span class="prompt__user">iker@lissarrague</span><span class="prompt__sep">:</span><span class="prompt__path" id="prompt-path">~</span><span class="prompt__sigil">$&nbsp;</span>
+      </label>
+      <input
+        id="prompt-input"
+        class="prompt__input"
+        type="text"
+        spellcheck="false"
+        autocapitalize="off"
+        autocorrect="off"
+        aria-label="terminal input"
+      />
+      <span class="prompt__caret" aria-hidden="true">▌</span>
+    </form>
+
+    <noscript>
+      <p style="padding:1rem;color:#fff;">JavaScript is off. Use the nav above to browse.</p>
+    </noscript>
+  </main>
+
+  <script src="./terminal.js"></script>
+</body>
+</html>

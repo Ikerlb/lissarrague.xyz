@@ -1,0 +1,62 @@
+# proposals/infra/github-actions/deploy.yml
+#
+# starter workflow for "Option A — Terraform + GitHub Actions" in the brainstorm.
+# move to .github/workflows/deploy.yml when you're ready to wire it up.
+#
+# requires the OIDC role and outputs from proposals/infra/terraform/main.tf:
+#
+#   gh variable set AWS_DEPLOY_ROLE_ARN --body "<deploy_role_arn output>"
+#   gh variable set AWS_BUCKET          --body "<bucket_name output>"
+#   gh variable set CLOUDFRONT_DIST_ID  --body "<distribution_id output>"
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write   # required for OIDC
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive   # the hello-friend-ng theme is a submodule
+          fetch-depth: 0          # hugo uses git timestamps for .Lastmod
+
+      - name: setup hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.154.0'
+          extended: true
+
+      - name: build
+        run: hugo --minify --gc
+
+      - name: configure aws credentials (oidc)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: sync to s3
+        run: |
+          aws s3 sync public/ "s3://${{ vars.AWS_BUCKET }}" \
+            --delete \
+            --cache-control "public, max-age=3600"
+
+      - name: invalidate cloudfront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ vars.CLOUDFRONT_DIST_ID }}" \
+            --paths "/*"
