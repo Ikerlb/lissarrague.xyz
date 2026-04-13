@@ -1,0 +1,3 @@
+ADMIN_PASSWORD=your-admin-password-here
+ENCRYPTION_KEY=your-secret-encryption-key-here
+FOOTBALL_API_KEY=your-football-data-org-api-key
