@@ -1,0 +1,189 @@
+/* ---- design tokens ---- */
+:root[data-theme="dark"] {
+  --bg: #0b0d0c;
+  --bg-elev: #111413;
+  --chrome: #1a1d1c;
+  --fg: #c9d1d9;
+  --dim: #6e7681;
+  --accent: #7ee787;      /* dir green, like ls --color */
+  --accent-2: #79c0ff;    /* links */
+  --warn: #f0883e;
+  --err: #ff7b72;
+  --border: #232927;
+  --shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+:root[data-theme="light"] {
+  --bg: #f6f8fa;
+  --bg-elev: #ffffff;
+  --chrome: #e6ebf1;
+  --fg: #1f2328;
+  --dim: #6e7781;
+  --accent: #1a7f37;
+  --accent-2: #0969da;
+  --warn: #9a6700;
+  --err: #cf222e;
+  --border: #d0d7de;
+  --shadow: 0 20px 60px rgba(16,22,26,.12);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--fg);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(126,231,135,.08), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(121,192,255,.08), transparent 50%),
+    var(--bg);
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+}
+
+/* ---- terminal window ---- */
+.term {
+  position: relative;
+  width: min(960px, 100%);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.term__chrome {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--chrome);
+  border-bottom: 1px solid var(--border);
+}
+.term__dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot--r { background: #ff5f57; }
+.dot--y { background: #febc2e; }
+.dot--g { background: #28c840; }
+.term__title {
+  text-align: center;
+  color: var(--dim);
+  font-size: 13px;
+  letter-spacing: .02em;
+}
+.term__tools .toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+}
+.toggle__sun { display: none; }
+:root[data-theme="light"] .toggle__sun { display: inline; }
+:root[data-theme="light"] .toggle__moon { display: none; }
+
+/* ---- body ---- */
+.term__body {
+  padding: 22px clamp(16px, 3vw, 28px) 28px;
+  min-height: 60vh;
+}
+
+.line { margin: 14px 0 6px; }
+.line--last { margin-top: 18px; }
+.prompt { color: var(--accent); font-weight: 600; }
+.sep { color: var(--dim); margin: 0 2px; }
+.cwd { color: var(--accent-2); }
+.cmd { color: var(--fg); }
+
+.block { color: var(--fg); padding-left: 0; }
+.block ul { margin: 6px 0 0; padding-left: 20px; }
+.block li { margin: 2px 0; }
+
+/* ---- ls-style grid ---- */
+.ls {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 4px 24px;
+  margin: 4px 0 0;
+}
+.ls__item {
+  color: var(--fg);
+  text-decoration: none;
+  padding: 3px 6px;
+  border-radius: 4px;
+  transition: background 80ms ease, color 80ms ease;
+}
+.ls__item:hover,
+.ls__item:focus-visible {
+  background: var(--accent);
+  color: var(--bg);
+  outline: none;
+}
+.ls__item--dir {
+  color: var(--accent);
+  font-weight: 600;
+}
+.ls__item--dir:hover,
+.ls__item--dir:focus-visible {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ---- tip block ---- */
+.tip {
+  margin: 4px 0 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--accent-2);
+  background: color-mix(in oklab, var(--accent-2) 10%, transparent);
+  color: var(--fg);
+}
+.tip a { color: var(--accent-2); }
+.tip kbd {
+  font: inherit;
+  background: var(--chrome);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* ---- blinking cursor ---- */
+.cursor {
+  display: inline-block;
+  color: var(--accent);
+  animation: blink 1.05s steps(1, end) infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cursor { animation: none; }
+}
+
+/* ---- CRT scanlines overlay ---- */
+.scanlines {
+  pointer-events: none;
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.02) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: .6;
+}
+:root[data-theme="light"] .scanlines { opacity: .25; }
+
+/* ---- mobile ---- */
+@media (max-width: 560px) {
+  body { padding: 12px; }
+  .term__title { font-size: 12px; }
+  .ls { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>iker@lissarrague:~ — demo (static)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="term" aria-label="terminal window">
+    <header class="term__chrome">
+      <div class="term__dots" aria-hidden="true">
+        <span class="dot dot--r"></span>
+        <span class="dot dot--y"></span>
+        <span class="dot dot--g"></span>
+      </div>
+      <div class="term__title">iker@lissarrague: ~</div>
+      <div class="term__tools">
+        <button class="toggle" id="themeToggle" aria-label="toggle theme">
+          <span class="toggle__sun">☀</span><span class="toggle__moon">☾</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="term__body" id="body">
+      <p class="line"><span class="prompt">iker@lissarrague</span><span class="sep">:</span><span class="cwd">~</span><span class="sep">$</span> <span class="cmd">whoami</span></p>
+      <div class="block" id="whoami">
+        <p>iker lissarrague — software engineer.</p>
+        <ul>
+          <li>constantly looking for ways to make people's lives better with software.</li>
+          <li>lately focused on the backend; comfortable doing fullstack.</li>
+          <li>loves trying novel programming languages.</li>
+          <li>feel free to reach out.</li>
+        </ul>
+      </div>
+
+      <p class="line"><span class="prompt">iker@lissarrague</span><span class="sep">:</span><span class="cwd">~</span><span class="sep">$</span> <span class="cmd">ls ~/</span></p>
+      <nav class="ls" aria-label="site sections">
+        <a class="ls__item ls__item--dir" href="/projects/">projects/</a>
+        <a class="ls__item ls__item--dir" href="/reading_log/">reading_log/</a>
+        <a class="ls__item" href="/about/">about.md</a>
+        <a class="ls__item" href="mailto:iker@lissarrague.xyz">contact.txt</a>
+        <a class="ls__item" href="https://github.com/Ikerlb/">github.link</a>
+        <a class="ls__item" href="https://www.linkedin.com/in/iker-lissarrague/">linkedin.link</a>
+      </nav>
+
+      <p class="line"><span class="prompt">iker@lissarrague</span><span class="sep">:</span><span class="cwd">~</span><span class="sep">$</span> <span class="cmd">ls projects/</span></p>
+      <nav class="ls" aria-label="projects">
+        <a class="ls__item ls__item--dir" href="/projects/advent-of-code-2021/">advent-of-code-2021/</a>
+        <a class="ls__item" href="/projects/mandelrust/">mandelrust.md</a>
+        <a class="ls__item" href="/projects/rust-ray-tracer/">rust-ray-tracer.md</a>
+        <a class="ls__item" href="/projects/go-ray-tracer/">go-ray-tracer.md</a>
+        <a class="ls__item" href="/projects/toy-totp/">toy-totp.md</a>
+      </nav>
+
+      <p class="line"><span class="prompt">iker@lissarrague</span><span class="sep">:</span><span class="cwd">~</span><span class="sep">$</span> <span class="cmd">cat tip.txt</span></p>
+      <blockquote class="tip">
+        This is the <b>static</b> terminal view — everything is clickable, no typing required.
+        Tech-savvy visitors can press <kbd>/</kbd> or click <a href="../terminal-shell/">launch shell</a> to drop into an interactive prompt.
+      </blockquote>
+
+      <p class="line line--last">
+        <span class="prompt">iker@lissarrague</span><span class="sep">:</span><span class="cwd">~</span><span class="sep">$</span>
+        <span class="cursor" aria-hidden="true">▋</span>
+      </p>
+    </section>
+
+    <div class="scanlines" aria-hidden="true"></div>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>iker@lissarrague:~ — shell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="term" aria-label="terminal window">
+    <header class="term__chrome">
+      <div class="term__dots" aria-hidden="true">
+        <span class="dot dot--r"></span>
+        <span class="dot dot--y"></span>
+        <span class="dot dot--g"></span>
+      </div>
+      <div class="term__title" id="title">iker@lissarrague: ~</div>
+      <nav class="term__menu" aria-label="quick nav">
+        <a href="#" data-cmd="about">about</a>
+        <a href="#" data-cmd="ls reading_log">reading log</a>
+        <a href="#" data-cmd="ls projects">projects</a>
+        <a href="#" data-cmd="contact">contact</a>
+        <button class="toggle" id="themeToggle" aria-label="toggle theme">
+          <span class="toggle__sun">☀</span><span class="toggle__moon">☾</span>
+        </button>
+      </nav>
+    </header>
+
+    <section class="term__body" id="body" tabindex="0">
+      <div id="output"></div>
+      <div class="prompt-line" id="promptLine">
+        <span class="prompt">iker@lissarrague</span><span class="sep">:</span><span class="cwd" id="cwd">~</span><span class="sep">$</span>
+        <span class="input-wrap">
+          <span class="input-text" id="inputText"></span><span class="cursor" aria-hidden="true">▋</span>
+        </span>
+        <input id="input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="command prompt" />
+      </div>
+    </section>
+
+    <div class="scanlines" aria-hidden="true"></div>
+  </main>
+
+  <script src="./fs.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
