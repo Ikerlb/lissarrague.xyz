@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iker lissarrague — terminal</title>
+<style>
+  :root {
+    --bg: #1a1b26;
+    --fg: #c0caf5;
+    --dim: #565f89;
+    --accent: #7aa2f7;
+    --green: #9ece6a;
+    --yellow: #e0af68;
+    --red: #f7768e;
+    --cyan: #7dcfff;
+    --magenta: #bb9af7;
+    --surface: #24283b;
+    --border: #3b4261;
+    --prompt-user: #9ece6a;
+    --prompt-host: #7aa2f7;
+    --prompt-path: #bb9af7;
+    --selection: rgba(122, 162, 247, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'SF Mono', 'Consolas', 'Liberation Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .terminal-window {
+    width: 100%;
+    max-width: 860px;
+    margin: 24px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+  }
+
+  .title-bar .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .title-bar .dot.red { background: #f7768e; }
+  .title-bar .dot.yellow { background: #e0af68; }
+  .title-bar .dot.green { background: #9ece6a; }
+
+  .title-bar .title {
+    flex: 1;
+    text-align: center;
+    color: var(--dim);
+    font-size: 12px;
+  }
+
+  .terminal-body {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 20px 24px 32px;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  /* Prompt */
+  .prompt {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0;
+    margin-bottom: 4px;
+  }
+
+  .prompt-user { color: var(--prompt-user); font-weight: 600; }
+  .prompt-at { color: var(--dim); }
+  .prompt-host { color: var(--prompt-host); font-weight: 600; }
+  .prompt-colon { color: var(--dim); }
+  .prompt-path { color: var(--prompt-path); }
+  .prompt-dollar { color: var(--dim); margin-right: 8px; }
+
+  .prompt-cmd {
+    color: var(--fg);
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .prompt-cmd:hover {
+    color: var(--accent);
+  }
+
+  /* Navigation */
+  nav.term-nav {
+    margin-bottom: 24px;
+  }
+
+  nav.term-nav .nav-output {
+    padding-left: 2ch;
+    color: var(--dim);
+    margin-bottom: 16px;
+  }
+
+  nav.term-nav .nav-links {
+    display: flex;
+    gap: 24px;
+    padding-left: 2ch;
+    flex-wrap: wrap;
+  }
+
+  nav.term-nav .nav-links a {
+    color: var(--accent);
+    text-decoration: none;
+    padding: 4px 0;
+    position: relative;
+    cursor: pointer;
+  }
+  nav.term-nav .nav-links a::before {
+    content: '> ';
+    color: var(--dim);
+  }
+  nav.term-nav .nav-links a:hover {
+    color: var(--cyan);
+  }
+  nav.term-nav .nav-links a.active {
+    color: var(--green);
+  }
+
+  /* Content blocks */
+  .cmd-block {
+    margin-bottom: 28px;
+  }
+
+  .cmd-block .output {
+    padding-left: 2ch;
+    margin-top: 4px;
+  }
+
+  .cmd-block .output p {
+    margin-bottom: 8px;
+  }
+
+  /* Section headings as comments */
+  .section-comment {
+    color: var(--dim);
+    font-style: italic;
+    margin-bottom: 12px;
+    padding-left: 2ch;
+  }
+  .section-comment::before {
+    content: '# ';
+    color: var(--border);
+  }
+
+  /* About section */
+  .about-line {
+    padding-left: 2ch;
+    margin-bottom: 6px;
+  }
+
+  .name-highlight {
+    color: var(--green);
+    font-weight: 700;
+    font-size: 1.3em;
+    display: block;
+    margin-bottom: 12px;
+    padding-left: 2ch;
+  }
+
+  /* Project cards */
+  .project-list {
+    padding-left: 2ch;
+  }
+
+  .project-item {
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    border-left: 2px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .project-item:hover {
+    border-left-color: var(--accent);
+  }
+
+  .project-name {
+    color: var(--green);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .project-name a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .project-name a:hover {
+    text-decoration: underline;
+  }
+
+  .project-desc {
+    color: var(--dim);
+    font-size: 0.9em;
+    margin-bottom: 6px;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.78em;
+    color: var(--magenta);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 8px;
+  }
+
+  /* Reading log */
+  .reading-year {
+    color: var(--yellow);
+    font-weight: 600;
+    margin-bottom: 8px;
+    padding-left: 2ch;
+  }
+
+  .book-list {
+    padding-left: 4ch;
+    margin-bottom: 20px;
+    list-style: none;
+  }
+
+  .book-list li {
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .book-list li::before {
+    content: '- ';
+    color: var(--dim);
+  }
+
+  .book-title {
+    color: var(--cyan);
+  }
+  .book-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .book-title a:hover {
+    text-decoration: underline;
+  }
+
+  .book-note {
+    color: var(--dim);
+    font-size: 0.9em;
+  }
+
+  /* Links */
+  a.inline-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  a.inline-link:hover {
+    color: var(--cyan);
+  }
+
+  /* Socials */
+  .social-links {
+    padding-left: 2ch;
+    margin-top: 8px;
+  }
+  .social-links a {
+    color: var(--accent);
+    text-decoration: none;
+    margin-right: 20px;
+  }
+  .social-links a::before {
+    content: '→ ';
+    color: var(--dim);
+  }
+  .social-links a:hover {
+    color: var(--cyan);
+  }
+
+  /* Cursor blink */
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1.2em;
+    background: var(--fg);
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* AoC blog listing */
+  .blog-list {
+    padding-left: 2ch;
+  }
+
+  .blog-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 6px;
+    align-items: baseline;
+  }
+
+  .blog-date {
+    color: var(--dim);
+    font-size: 0.85em;
+    min-width: 10ch;
+  }
+
+  .blog-title-link {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .blog-title-link:hover {
+    color: var(--cyan);
+    text-decoration: underline;
+  }
+
+  /* Page sections */
+  .page-section {
+    display: none;
+  }
+  .page-section.active {
+    display: block;
+  }
+
+  /* Typing animation */
+  .typed {
+    overflow: hidden;
+    border-right: 2px solid var(--fg);
+    white-space: nowrap;
+    animation: typing 0.6s steps(20) forwards, blink-caret 0.75s step-end 3;
+    width: 0;
+  }
+
+  @keyframes typing {
+    to { width: 100%; }
+  }
+  @keyframes blink-caret {
+    50% { border-color: transparent; }
+  }
+
+  /* Separator line */
+  .term-hr {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 20px 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    body { font-size: 13px; }
+    .terminal-window { margin: 8px; }
+    .terminal-body { padding: 16px 12px 24px; }
+    .title-bar { padding: 10px 12px; }
+    nav.term-nav .nav-links { gap: 16px; }
+    .blog-item { flex-direction: column; gap: 2px; }
+    .blog-date { min-width: auto; }
+    .social-links a { display: block; margin-bottom: 6px; }
+  }
+
+  /* Scrollbar */
+  .terminal-body::-webkit-scrollbar {
+    width: 6px;
+  }
+  .terminal-body::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  .terminal-body::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+  }
+
+  /* Theme switcher */
+  .theme-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--dim);
+    font: inherit;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .theme-toggle:hover {
+    color: var(--fg);
+    background: var(--selection);
+  }
+
+  .title-bar { position: relative; }
+
+  /* Light theme */
+  body.light {
+    --bg: #f5f5f0;
+    --fg: #2e3440;
+    --dim: #7a7f8a;
+    --accent: #2563eb;
+    --green: #16a34a;
+    --yellow: #b45309;
+    --red: #dc2626;
+    --cyan: #0891b2;
+    --magenta: #7c3aed;
+    --surface: #e8e8e3;
+    --border: #c5c8ce;
+    --prompt-user: #16a34a;
+    --prompt-host: #2563eb;
+    --prompt-path: #7c3aed;
+    --selection: rgba(37, 99, 235, 0.1);
+  }
+
+  /* Color scheme options */
+  body.green-phosphor {
+    --bg: #0a0f0a;
+    --fg: #33ff33;
+    --dim: #1a8c1a;
+    --accent: #66ff66;
+    --green: #33ff33;
+    --yellow: #ccff33;
+    --red: #ff3333;
+    --cyan: #33ffcc;
+    --magenta: #cc66ff;
+    --surface: #0d140d;
+    --border: #1a3a1a;
+    --prompt-user: #33ff33;
+    --prompt-host: #66ff66;
+    --prompt-path: #ccff33;
+    --selection: rgba(51, 255, 51, 0.1);
+  }
+
+  body.amber {
+    --bg: #1a1200;
+    --fg: #ffb300;
+    --dim: #8c6200;
+    --accent: #ffc933;
+    --green: #ffb300;
+    --yellow: #ffe066;
+    --red: #ff6633;
+    --cyan: #ffd966;
+    --magenta: #ff9933;
+    --surface: #1f1600;
+    --border: #3d2e00;
+    --prompt-user: #ffb300;
+    --prompt-host: #ffc933;
+    --prompt-path: #ffe066;
+    --selection: rgba(255, 179, 0, 0.1);
+  }
+
+  /* Scheme selector */
+  .scheme-selector {
+    padding-left: 2ch;
+    margin-top: 8px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .scheme-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--dim);
+    font: inherit;
+    font-size: 0.8em;
+    padding: 2px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .scheme-btn:hover,
+  .scheme-btn.active {
+    color: var(--fg);
+    border-color: var(--accent);
+  }
+
+  .help-table {
+    padding-left: 2ch;
+  }
+  .help-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 4px;
+  }
+  .help-cmd {
+    color: var(--green);
+    min-width: 18ch;
+  }
+  .help-desc {
+    color: var(--dim);
+  }
+</style>
+</head>
+<body>
+
+<div class="terminal-window">
+  <div class="title-bar">
+    <span class="dot red"></span>
+    <span class="dot yellow"></span>
+    <span class="dot green"></span>
+    <span class="title">iker@lissarrague.xyz</span>
+    <button class="theme-toggle" onclick="toggleLight()" title="Toggle light/dark mode">◐ theme</button>
+  </div>
+
+  <div class="terminal-body" id="terminal">
+
+    <!-- Navigation prompt -->
+    <nav class="term-nav">
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague</span><span class="prompt-colon">:</span><span class="prompt-path" id="nav-path">~</span><span class="prompt-dollar">$</span>
+        <span class="prompt-cmd" id="nav-cmd">ls</span>
+      </div>
+      <div class="nav-links">
+        <a href="#about" onclick="navigate('about')" class="active" id="nav-about">about</a>
+        <a href="#projects" onclick="navigate('projects')" id="nav-projects">projects</a>
+        <a href="#reading" onclick="navigate('reading')" id="nav-reading">reading_log</a>
+        <a href="#blog" onclick="navigate('blog')" id="nav-blog">blog</a>
+        <a href="#help" onclick="navigate('help')" id="nav-help">help</a>
+      </div>
+    </nav>
+
+    <hr class="term-hr">
+
+    <!-- ===================== ABOUT ===================== -->
+    <section class="page-section active" id="section-about">
+      <div class="cmd-block">
+        <div class="prompt">
+          <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+          <span class="prompt-cmd">cat about.md</span>
+        </div>
+        <div class="output">
+          <span class="name-highlight">iker lissarrague</span>
+          <p class="about-line">i'm a software engineer constantly looking for ways to make people's lives better with software.</p>
+          <p class="about-line">as of late, i've been focusing more and more on the backend of the stack but i've had some experience as a fullstack developer.</p>
+          <p class="about-line">i love trying out new technologies, specially programming languages that feel very novel from what i'm used to.</p>
+          <p class="about-line">feel free to reach out!</p>
+        </div>
+      </div>
+
+      <div class="cmd-block">
+        <div class="prompt">
+          <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+          <span class="prompt-cmd">cat .socials</span>
+        </div>
+        <div class="social-links">
+          <a href="mailto:iker@lissarrague.xyz">email</a>
+          <a href="https://github.com/Ikerlb/" target="_blank" rel="noopener">github</a>
+          <a href="https://www.linkedin.com/in/iker-lissarrague/" target="_blank" rel="noopener">linkedin</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROJECTS ===================== -->
+    <section class="page-section" id="section-projects">
+      <div class="cmd-block">
+        <div class="prompt">
+          <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague</span><span class="prompt-colon">:</span><span class="prompt-path">~/projects</span><span class="prompt-dollar">$</span>
+          <span class="prompt-cmd">ls -la</span>
+        </div>
+        <div class="project-list">
+          <div class="project-item">
+            <div class="project-name"><a href="#">toy-totp</a></div>
+            <div class="project-desc">interactive visualizer for TOTP (time-based one-time password) generation — cryptography education tool</div>
+            <div class="project-tags">
+              <span class="tag">javascript</span>
+              <span class="tag">cryptography</span>
+              <span class="tag">security</span>
+              <span class="tag">wasm</span>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-name"><a href="#">rust-ray-tracer</a></div>
+            <div class="project-desc">ray tracer built in rust using rayon for parallelism — significantly faster than the go version</div>
+            <div class="project-tags">
+              <span class="tag">rust</span>
+              <span class="tag">graphics</span>
+              <span class="tag">parallelism</span>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-name"><a href="#">go-ray-tracer</a></div>
+            <div class="project-desc">ray tracer in go using goroutines and channels — based on "ray tracing in one weekend"</div>
+            <div class="project-tags">
+              <span class="tag">go</span>
+              <span class="tag">graphics</span>
+              <span class="tag">concurrency</span>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-name"><a href="#">mandelrust</a></div>
+            <div class="project-desc">interactive mandelbrot set explorer — aws lambda + rust backend, infinite zoom with random points of interest</div>
+            <div class="project-tags">
+              <span class="tag">rust</span>
+              <span class="tag">aws-lambda</span>
+              <span class="tag">terraform</span>
+              <span class="tag">wasm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== READING LOG ===================== -->
+    <section class="page-section" id="section-reading">
+      <div class="cmd-block">
+        <div class="prompt">
+          <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+          <span class="prompt-cmd">cat reading_log.md</span>
+        </div>
+        <div class="output">
+          <div class="reading-year">## 2022</div>
+          <ul class="book-list">
+            <li><span class="book-title">Terraform: Up & Running</span> <span class="book-note">— terraform is really cool. good book!</span></li>
+            <li><span class="book-title">Building Event-Driven Microservices</span> <span class="book-note">— currently reading it.</span></li>
+            <li><span class="book-title">The Man from the Future</span> <span class="book-note">— currently reading it.</span></li>
+            <li><span class="book-title">Deep Learning with Python</span> <span class="book-note">— currently reading it.</span></li>
+          </ul>
+
+          <div class="reading-year">## 2021</div>
+          <ul class="book-list">
+            <li><span class="book-title">Designing Data Intensive Applications</span> <span class="book-note">— can't recommend it enough.</span></li>
+            <li><span class="book-title">Programming Rust</span> <span class="book-note">— i love rust and this is a great book.</span></li>
+            <li><span class="book-title">Learning Go</span> <span class="book-note">— the book is ok but i can't seem to get really excited about go.</span></li>
+            <li><span class="book-title">The Joy of Clojure</span> <span class="book-note">— had a really really good time both reading this book and learning clojure.</span></li>
+            <li><span class="book-title">Purely Functional Data Structures</span> <span class="book-note">— if only the book was based on haskell...</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BLOG ===================== -->
+    <section class="page-section" id="section-blog">
+      <div class="cmd-block">
+        <div class="prompt">
+          <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague</span><span class="prompt-colon">:</span><span class="prompt-path">~/blog</span><span class="prompt-dollar">$</span>
+          <span class="prompt-cmd">ls -t posts/</span>
+        </div>
+        <div class="section-comment">advent of code 2021</div>
+        <div class="blog-list">
+          <div class="blog-item">
+            <span class="blog-date">2023-08-08</span>
+            <a class="blog-title-link" href="#">day 12 — passage pathing</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2023-08-08</span>
+            <a class="blog-title-link" href="#">day 11 — dumbo octopus</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2022-06-14</span>
+            <a class="blog-title-link" href="#">day 10 — syntax scoring</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2022-06-13</span>
+            <a class="blog-title-link" href="#">day 09 — smoke basin</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2022-06-12</span>
+            <a class="blog-title-link" href="#">day 08 — seven segment search</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2022-02-22</span>
+            <a class="blog-title-link" href="#">day 07 — the treachery of whales</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2022-02-20</span>
+            <a class="blog-title-link" href="#">day 06 — lanternfish</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2022-01-30</span>
+            <a class="blog-title-link" href="#">day 05 — hydrothermal venture</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2022-01-24</span>
+            <a class="blog-title-link" href="#">day 04 — giant squid</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2022-01-24</span>
+            <a class="blog-title-link" href="#">day 03 — binary diagnostic</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2022-01-23</span>
+            <a class="blog-title-link" href="#">day 02 — dive!</a>
+          </div>
+          <div class="blog-item">
+            <span class="blog-date">2022-01-23</span>
+            <a class="blog-title-link" href="#">day 01 — sonar sweep</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== HELP ===================== -->
+    <section class="page-section" id="section-help">
+      <div class="cmd-block">
+        <div class="prompt">
+          <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-dollar">$</span>
+          <span class="prompt-cmd">help</span>
+        </div>
+        <div class="output">
+          <p style="margin-bottom: 16px; color: var(--dim);">welcome! this site is styled like a terminal but works like any other website.</p>
+          <div class="section-comment">navigation</div>
+          <div class="help-table">
+            <div class="help-row">
+              <span class="help-cmd">click any tab above</span>
+              <span class="help-desc">switch between sections</span>
+            </div>
+            <div class="help-row">
+              <span class="help-cmd">about</span>
+              <span class="help-desc">who i am and how to reach me</span>
+            </div>
+            <div class="help-row">
+              <span class="help-cmd">projects</span>
+              <span class="help-desc">things i've built</span>
+            </div>
+            <div class="help-row">
+              <span class="help-cmd">reading_log</span>
+              <span class="help-desc">books i've read or am reading</span>
+            </div>
+            <div class="help-row">
+              <span class="help-cmd">blog</span>
+              <span class="help-desc">writeups, mostly advent of code</span>
+            </div>
+          </div>
+
+          <hr class="term-hr">
+          <div class="section-comment">color schemes</div>
+          <div class="scheme-selector">
+            <button class="scheme-btn active" onclick="setScheme('default')">tokyo night</button>
+            <button class="scheme-btn" onclick="setScheme('green-phosphor')">phosphor</button>
+            <button class="scheme-btn" onclick="setScheme('amber')">amber</button>
+            <button class="scheme-btn" onclick="setScheme('light')">light</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom cursor -->
+    <div class="prompt" style="margin-top: 16px;" id="bottom-prompt">
+      <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague</span><span class="prompt-colon">:</span><span class="prompt-path" id="bottom-path">~</span><span class="prompt-dollar">$</span>
+      <span class="cursor"></span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const sections = ['about', 'projects', 'reading', 'blog', 'help'];
+  const paths = {
+    about: '~',
+    projects: '~/projects',
+    reading: '~',
+    blog: '~/blog',
+    help: '~'
+  };
+  const cmds = {
+    about: 'cat about.md',
+    projects: 'ls -la',
+    reading: 'cat reading_log.md',
+    blog: 'ls -t posts/',
+    help: 'help'
+  };
+
+  function navigate(section) {
+    sections.forEach(s => {
+      document.getElementById('section-' + s).classList.remove('active');
+      document.getElementById('nav-' + s).classList.remove('active');
+    });
+    document.getElementById('section-' + section).classList.add('active');
+    document.getElementById('nav-' + section).classList.add('active');
+
+    document.getElementById('nav-path').textContent = paths[section];
+    document.getElementById('nav-cmd').textContent = cmds[section];
+    document.getElementById('bottom-path').textContent = paths[section];
+
+    document.getElementById('terminal').scrollTop = 0;
+  }
+
+  function setScheme(scheme) {
+    document.body.className = scheme === 'default' ? '' : scheme;
+    document.querySelectorAll('.scheme-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  function toggleLight() {
+    if (document.body.classList.contains('light')) {
+      document.body.className = '';
+    } else {
+      document.body.className = 'light';
+    }
+    document.querySelectorAll('.scheme-btn').forEach(btn => btn.classList.remove('active'));
+  }
+
+  // Handle hash navigation
+  if (window.location.hash) {
+    const section = window.location.hash.slice(1);
+    if (sections.includes(section)) {
+      navigate(section);
+    }
+  }
+</script>
+
+</body>
+</html>
