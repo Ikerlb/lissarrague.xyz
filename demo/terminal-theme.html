@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lissarrague.xyz - Terminal Theme Demo</title>
+<style>
+  :root {
+    --bg: #1e1e2e;
+    --surface: #181825;
+    --overlay: #313244;
+    --muted: #585b70;
+    --subtle: #6c7086;
+    --text: #cdd6f4;
+    --subtext: #a6adc8;
+    --green: #a6e3a1;
+    --blue: #89b4fa;
+    --pink: #f5c2e7;
+    --mauve: #cba6f7;
+    --red: #f38ba8;
+    --peach: #fab387;
+    --yellow: #f9e2af;
+    --teal: #94e2d5;
+    --sky: #89dceb;
+    --titlebar: #11111b;
+    --border: #45475a;
+    --prompt-user: #a6e3a1;
+    --prompt-host: #89b4fa;
+    --prompt-path: #cba6f7;
+    --prompt-symbol: #f5c2e7;
+    --cursor-color: #f5c2e7;
+    --selection: rgba(137, 180, 250, 0.2);
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  ::selection {
+    background: var(--selection);
+    color: var(--text);
+  }
+
+  html {
+    font-size: 15px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .terminal-window {
+    max-width: 900px;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.3),
+      0 12px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .titlebar {
+    background: var(--titlebar);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    user-select: none;
+  }
+
+  .titlebar-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .titlebar-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    cursor: default;
+  }
+
+  .titlebar-btn.close { background: var(--red); }
+  .titlebar-btn.minimize { background: var(--yellow); }
+  .titlebar-btn.maximize { background: var(--green); }
+
+  .titlebar-title {
+    flex: 1;
+    text-align: center;
+    color: var(--subtle);
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+  }
+
+  .titlebar-spacer {
+    width: 52px;
+  }
+
+  .terminal-body {
+    background: var(--bg);
+    padding: 24px 28px;
+    min-height: 70vh;
+  }
+
+  /* ── Prompt ── */
+  .prompt {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+  }
+
+  .prompt-user { color: var(--prompt-user); font-weight: 600; }
+  .prompt-at { color: var(--subtle); }
+  .prompt-host { color: var(--prompt-host); font-weight: 600; }
+  .prompt-colon { color: var(--subtle); }
+  .prompt-path { color: var(--prompt-path); }
+  .prompt-symbol { color: var(--prompt-symbol); margin-left: 4px; }
+
+  .prompt-cmd {
+    color: var(--text);
+    margin-left: 8px;
+    font-weight: 400;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1.15em;
+    background: var(--cursor-color);
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* ── Output blocks ── */
+  .output {
+    margin-bottom: 28px;
+    padding-left: 0;
+  }
+
+  .output p {
+    margin-bottom: 0.6em;
+    color: var(--subtext);
+  }
+
+  .output a {
+    color: var(--blue);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--blue);
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .output a:hover {
+    color: var(--sky);
+    border-bottom-color: var(--sky);
+  }
+
+  .output a:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* ── ASCII Art ── */
+  .ascii-art {
+    color: var(--green);
+    font-size: 0.65rem;
+    line-height: 1.2;
+    margin: 8px 0 20px 0;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  /* ── Section headers ── */
+  .section-header {
+    color: var(--yellow);
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--overlay);
+  }
+
+  /* ── Navigation / Menu ── */
+  .nav-list {
+    list-style: none;
+    margin-bottom: 6px;
+  }
+
+  .nav-item {
+    padding: 4px 0;
+    display: flex;
+    align-items: baseline;
+  }
+
+  .nav-prefix {
+    color: var(--muted);
+    margin-right: 10px;
+    min-width: 24px;
+    text-align: right;
+    font-size: 0.85rem;
+  }
+
+  .nav-link {
+    color: var(--blue);
+    text-decoration: none;
+    transition: color 0.15s;
+    font-size: 0.95rem;
+  }
+
+  .nav-link:hover {
+    color: var(--sky);
+  }
+
+  .nav-link:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .nav-description {
+    color: var(--subtle);
+    margin-left: 10px;
+    font-size: 0.85rem;
+  }
+
+  /* ── Project listing (ls -la style) ── */
+  .file-listing {
+    font-size: 0.85rem;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+  }
+
+  .file-listing th {
+    text-align: left;
+    color: var(--subtle);
+    font-weight: 400;
+    padding: 2px 16px 2px 0;
+    border-bottom: 1px solid var(--overlay);
+    font-size: 0.8rem;
+  }
+
+  .file-listing td {
+    padding: 6px 16px 6px 0;
+    white-space: nowrap;
+  }
+
+  .file-listing tr {
+    transition: background 0.1s;
+    cursor: pointer;
+  }
+
+  .file-listing tbody tr:hover {
+    background: var(--overlay);
+  }
+
+  .file-type { color: var(--muted); }
+  .file-date { color: var(--subtle); }
+  .file-name a {
+    color: var(--teal);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .file-name a:hover { color: var(--sky); }
+  .file-desc { color: var(--subtext); font-weight: 400; }
+
+  /* ── Tags ── */
+  .tag {
+    display: inline-block;
+    color: var(--peach);
+    font-size: 0.75rem;
+    padding: 1px 6px;
+    border: 1px solid var(--overlay);
+    border-radius: 4px;
+    margin-right: 4px;
+  }
+
+  /* ── Reading log ── */
+  .book-entry {
+    margin-bottom: 14px;
+    padding-left: 16px;
+    border-left: 2px solid var(--overlay);
+    transition: border-color 0.15s;
+  }
+
+  .book-entry:hover {
+    border-left-color: var(--mauve);
+  }
+
+  .book-title {
+    color: var(--mauve);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .book-title a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--mauve);
+  }
+
+  .book-title a:hover {
+    color: var(--pink);
+    border-color: var(--pink);
+  }
+
+  .book-comment {
+    color: var(--subtle);
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+
+  .year-marker {
+    color: var(--yellow);
+    font-weight: 700;
+    margin: 20px 0 10px;
+    font-size: 0.85rem;
+  }
+
+  /* ── Social links ── */
+  .social-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .social-link {
+    color: var(--teal);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border: 1px solid var(--overlay);
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+
+  .social-link:hover {
+    background: var(--overlay);
+    border-color: var(--teal);
+    color: var(--sky);
+  }
+
+  /* ── Demo page navigation (tabs) ── */
+  .demo-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 6px;
+    display: flex;
+    gap: 4px;
+    z-index: 100;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .demo-nav button {
+    background: transparent;
+    color: var(--subtle);
+    border: none;
+    padding: 8px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+
+  .demo-nav button:hover {
+    background: var(--overlay);
+    color: var(--text);
+  }
+
+  .demo-nav button.active {
+    background: var(--overlay);
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* ── Page sections ── */
+  .page {
+    display: none;
+  }
+
+  .page.active {
+    display: block;
+  }
+
+  /* ── Separator ── */
+  .sep {
+    border: none;
+    border-top: 1px solid var(--overlay);
+    margin: 20px 0;
+  }
+
+  /* ── Comment (dimmed lines) ── */
+  .comment {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.85rem;
+  }
+
+  /* ── Typing animation ── */
+  .typed-text {
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 0;
+    animation: typing 0.8s steps(30) forwards;
+  }
+
+  @keyframes typing {
+    to { max-width: 100%; }
+  }
+
+  .type-delay-1 { animation-delay: 0.2s; }
+  .type-delay-2 { animation-delay: 0.5s; }
+  .type-delay-3 { animation-delay: 0.8s; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    body { padding: 0; }
+
+    .terminal-window {
+      border-radius: 0;
+      border: none;
+      min-height: 100vh;
+    }
+
+    .terminal-body {
+      padding: 16px;
+    }
+
+    .ascii-art {
+      font-size: 0.42rem;
+    }
+
+    .file-listing td,
+    .file-listing th {
+      padding-right: 10px;
+    }
+
+    .file-desc {
+      display: none;
+    }
+
+    .demo-nav {
+      bottom: 10px;
+      width: calc(100% - 20px);
+      justify-content: center;
+    }
+
+    .demo-nav button {
+      padding: 8px 10px;
+      font-size: 0.7rem;
+    }
+
+    .prompt {
+      font-size: 0.8rem;
+    }
+  }
+
+  /* ── Code block (for project detail) ── */
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--overlay);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 12px 0;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .code-block .kw { color: var(--mauve); }
+  .code-block .fn { color: var(--blue); }
+  .code-block .str { color: var(--green); }
+  .code-block .num { color: var(--peach); }
+  .code-block .cmt { color: var(--muted); font-style: italic; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--surface);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--overlay);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="terminal-window">
+  <div class="titlebar">
+    <div class="titlebar-buttons">
+      <span class="titlebar-btn close"></span>
+      <span class="titlebar-btn minimize"></span>
+      <span class="titlebar-btn maximize"></span>
+    </div>
+    <div class="titlebar-title" id="titlebar-text">iker@lissarrague.xyz: ~</div>
+    <div class="titlebar-spacer"></div>
+  </div>
+
+  <div class="terminal-body">
+
+    <!-- ═══════════ HOME / ABOUT ═══════════ -->
+    <div class="page active" id="page-home">
+
+      <div class="ascii-art">
+ _  _                _  _
+(_)| | __ ___  _ __ | |(_) ___  ___   __ _  _ __  _ __   __ _   __ _  _   _   ___
+| || |/ // _ \| '__|| || |/ __|/ __| / _` || '__|| '__| / _` | / _` || | | | / _ \
+| ||   &lt;|  __/| |   | || |\__ \\__ \| (_| || |   | |   | (_| || (_| || |_| ||  __/ _
+|_||_|\_\\___||_|   |_||_||___/|___/ \__,_||_|   |_|    \__,_| \__, | \__,_| \___|(_)
+                                                                |___/
+      </div>
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+        <span class="prompt-cmd">whoami</span>
+      </div>
+      <div class="output">
+        <p>i'm a software engineer constantly looking for ways to make people's lives better with software.</p>
+        <p>as of late, i've been focusing more and more on the backend of the stack but i've had some experience as a fullstack developer.</p>
+        <p>i love trying out new technologies, specially programming languages that feel very novel from what i'm used to.</p>
+      </div>
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+        <span class="prompt-cmd">ls ~/</span>
+      </div>
+
+      <div class="output">
+        <div class="section-header">directories</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <span class="nav-prefix">d</span>
+            <a href="#" class="nav-link" onclick="showPage('projects'); return false;">projects/</a>
+            <span class="nav-description">-- things i've built</span>
+          </li>
+          <li class="nav-item">
+            <span class="nav-prefix">d</span>
+            <a href="#" class="nav-link" onclick="showPage('reading'); return false;">reading_log/</a>
+            <span class="nav-description">-- books i've read</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+        <span class="prompt-cmd">cat contact.txt</span>
+      </div>
+      <div class="output">
+        <p>feel free to reach out!</p>
+        <div class="social-links">
+          <a href="mailto:iker@lissarrague.xyz" class="social-link">iker@lissarrague.xyz</a>
+          <a href="https://github.com/Ikerlb/" class="social-link">github/Ikerlb</a>
+          <a href="https://www.linkedin.com/in/iker-lissarrague/" class="social-link">linkedin</a>
+        </div>
+      </div>
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+        <span class="cursor"></span>
+      </div>
+    </div>
+
+    <!-- ═══════════ PROJECTS ═══════════ -->
+    <div class="page" id="page-projects">
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~/projects</span><span class="prompt-symbol">$</span>
+        <span class="prompt-cmd">ls -la</span>
+      </div>
+
+      <div class="output">
+        <table class="file-listing">
+          <thead>
+            <tr>
+              <th>type</th>
+              <th>date</th>
+              <th>name</th>
+              <th>description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="showPage('project-detail')">
+              <td class="file-type">-rw-</td>
+              <td class="file-date">2023-08-08</td>
+              <td class="file-name"><a href="#" onclick="showPage('project-detail'); return false;">rust-ray-tracer</a></td>
+              <td class="file-desc">ray tracing in rust with rayon</td>
+            </tr>
+            <tr>
+              <td class="file-type">-rw-</td>
+              <td class="file-date">2022-05-10</td>
+              <td class="file-name"><a href="#">mandelrust</a></td>
+              <td class="file-desc">mandelbrot via aws lambda + cdk</td>
+            </tr>
+            <tr>
+              <td class="file-type">-rw-</td>
+              <td class="file-date">2022-02-21</td>
+              <td class="file-name"><a href="#">go-ray-tracer</a></td>
+              <td class="file-desc">ray tracing with goroutines</td>
+            </tr>
+            <tr>
+              <td class="file-type">-rw-</td>
+              <td class="file-date">2026-03-14</td>
+              <td class="file-name"><a href="#">toy-totp</a></td>
+              <td class="file-desc">interactive totp visualizer</td>
+            </tr>
+            <tr>
+              <td class="file-type">drwx</td>
+              <td class="file-date">2021-12-01</td>
+              <td class="file-name"><a href="#">advent-of-code-2021/</a></td>
+              <td class="file-desc">12 days in python &amp; clojure</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="comment"># click on a project to read more</p>
+      </div>
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~/projects</span><span class="prompt-symbol">$</span>
+        <span class="cursor"></span>
+      </div>
+    </div>
+
+    <!-- ═══════════ PROJECT DETAIL ═══════════ -->
+    <div class="page" id="page-project-detail">
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~/projects</span><span class="prompt-symbol">$</span>
+        <span class="prompt-cmd">cat rust-ray-tracer.md</span>
+      </div>
+
+      <div class="output">
+        <div class="section-header">rust-ray-tracer</div>
+
+        <p>
+          <span class="tag">rust</span>
+          <span class="tag">graphics</span>
+          <span class="tag">rayon</span>
+        </p>
+
+        <p style="margin-top: 12px;">
+          a ray tracer implementation following
+          <a href="#">"Ray Tracing in One Weekend"</a> by Peter Shirley,
+          written in Rust. uses Rayon for data parallelism to render
+          scenes across all available CPU cores.
+        </p>
+
+        <div class="code-block"><span class="cmt">// the core render loop</span>
+<span class="kw">fn</span> <span class="fn">render</span>(scene: &amp;Scene, width: <span class="num">u32</span>, height: <span class="num">u32</span>) -&gt; Image {
+    (<span class="num">0</span>..height).<span class="fn">into_par_iter</span>().<span class="fn">map</span>(|y| {
+        (<span class="num">0</span>..width).<span class="fn">map</span>(|x| {
+            <span class="kw">let</span> ray = camera.<span class="fn">get_ray</span>(x, y);
+            <span class="fn">trace</span>(&amp;ray, scene, <span class="num">0</span>)
+        }).<span class="fn">collect</span>()
+    }).<span class="fn">collect</span>()
+}</div>
+
+        <p>
+          the final scene renders ~500 spheres with diffuse, metal, and
+          dielectric materials. on a modern CPU it finishes in about 8 seconds
+          at 1200x800.
+        </p>
+
+        <p style="margin-top: 12px;">
+          <a href="https://github.com/Ikerlb/">view source on github</a>
+        </p>
+      </div>
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~/projects</span><span class="prompt-symbol">$</span>
+        <span class="prompt-cmd">cd ..</span>
+      </div>
+
+      <div class="output">
+        <p><a href="#" onclick="showPage('projects'); return false;" style="color: var(--green);">&larr; back to projects</a></p>
+      </div>
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~</span><span class="prompt-symbol">$</span>
+        <span class="cursor"></span>
+      </div>
+    </div>
+
+    <!-- ═══════════ READING LOG ═══════════ -->
+    <div class="page" id="page-reading">
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~/reading_log</span><span class="prompt-symbol">$</span>
+        <span class="prompt-cmd">cat books.log</span>
+      </div>
+
+      <div class="output">
+        <div class="year-marker">## 2022</div>
+
+        <div class="book-entry">
+          <div class="book-title"><a href="#">Terraform: Up & Running</a></div>
+          <div class="book-comment">terraform is really cool. good book!</div>
+        </div>
+
+        <div class="book-entry">
+          <div class="book-title"><a href="#">Building Event-Driven Microservices</a></div>
+          <div class="book-comment">currently reading it.</div>
+        </div>
+
+        <div class="book-entry">
+          <div class="book-title"><a href="#">The Man from the Future</a></div>
+          <div class="book-comment">currently reading it.</div>
+        </div>
+
+        <div class="book-entry">
+          <div class="book-title"><a href="#">Deep Learning with Python</a></div>
+          <div class="book-comment">currently reading it.</div>
+        </div>
+
+        <div class="year-marker">## 2021</div>
+
+        <div class="book-entry">
+          <div class="book-title"><a href="#">Designing Data-Intensive Applications</a></div>
+          <div class="book-comment">can't recommend it enough.</div>
+        </div>
+
+        <div class="book-entry">
+          <div class="book-title"><a href="#">Programming Rust</a></div>
+          <div class="book-comment">i love rust and this is a great book. outside of all the cli tooling being built in rust, i see more interesting projects being built with go.</div>
+        </div>
+
+        <div class="book-entry">
+          <div class="book-title"><a href="#">Learning Go</a></div>
+          <div class="book-comment">the book is ok but as much as i try i can't seem to get really excited about go.</div>
+        </div>
+
+        <div class="book-entry">
+          <div class="book-title"><a href="#">The Joy of Clojure</a></div>
+          <div class="book-comment">i had a really good time both reading this book and learning clojure overall. very interesting concepts.</div>
+        </div>
+
+        <div class="book-entry">
+          <div class="book-title"><a href="#">Purely Functional Data Structures</a></div>
+          <div class="book-comment">if only the book was based on haskell...</div>
+        </div>
+      </div>
+
+      <div class="prompt">
+        <span class="prompt-user">iker</span><span class="prompt-at">@</span><span class="prompt-host">lissarrague.xyz</span><span class="prompt-colon">:</span><span class="prompt-path">~/reading_log</span><span class="prompt-symbol">$</span>
+        <span class="cursor"></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════ DEMO NAVIGATION ═══════════ -->
+<nav class="demo-nav" aria-label="Demo page navigation">
+  <button class="active" onclick="showPage('home')">~/</button>
+  <button onclick="showPage('projects')">~/projects</button>
+  <button onclick="showPage('project-detail')">project detail</button>
+  <button onclick="showPage('reading')">~/reading_log</button>
+</nav>
+
+<script>
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+
+  document.querySelectorAll('.demo-nav button').forEach(b => b.classList.remove('active'));
+  const labels = {
+    'home': '~/',
+    'projects': '~/projects',
+    'project-detail': 'project detail',
+    'reading': '~/reading_log'
+  };
+  document.querySelectorAll('.demo-nav button').forEach(b => {
+    if (b.textContent === labels[pageId]) b.classList.add('active');
+  });
+
+  const paths = {
+    'home': '~',
+    'projects': '~/projects',
+    'project-detail': '~/projects',
+    'reading': '~/reading_log'
+  };
+  document.getElementById('titlebar-text').textContent =
+    'iker@lissarrague.xyz: ' + paths[pageId];
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
